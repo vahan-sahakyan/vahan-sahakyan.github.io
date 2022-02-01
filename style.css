@@ -1,13 +1,16 @@
 body {
-  background-color: #222;
+  background-color: #161616;
   display: flex;
-  height: 70vh;
+  height: 84vh;
   justify-content: center;
   align-items: center;
+  margin: 0;
 }
 
 h1 {
   font-size: 2rem;
-  color: #eee;
-  flex: 0;
+  color: #41a300;
+  padding: 0 20px;
+  border-right: 2px solid #222;
+  border-left: 2px solid #333;
 }
