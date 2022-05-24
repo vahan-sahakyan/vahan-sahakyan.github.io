@@ -1,14 +1,15 @@
 a {
   text-decoration: none;
-  color: #333;
+  color: #555;
 }
-h2:hover {
-  background-color: rgba(0, 0, 0, 0.04);
+.grid-item:hover {
+  background-color: rgb(25, 57, 56);
+  color: #222;
 }
 
 body {
-  font-family: 'Kumbh Sans', sans-serif;
-  background-color: #eee;
+  font-family: 'Outfit', sans-serif;
+  background-color: #ddd;
   display: flex;
   height: 84vh;
   flex-direction: column;
@@ -18,17 +19,54 @@ body {
   gap: 30px;
 }
 
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  height: 100vh;
+  width: 90vw;
+  gap: 0.5em;
+  /* align-items: center; */
+}
+.grid-item {
+  font-weight: bold;
+  border: 2px solid #333;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  background-color: #222;
+}
+
+.grid-item_1 {
+  grid-row: span 2;
+  grid-column: span 2;
+}
+.grid-item_2 {
+  grid-column: span 3;
+}
+.grid-item_3 {
+  grid-row: span 2;
+  grid-column: span 2;
+}
+.grid-item_4 {
+}
+.grid-item_5 {
+  grid-column: -1 / -2;
+}
+.grid-item_6 {
+  grid-column: span 2;
+  grid-row: -1 / -2;
+}
+
 h1 {
-  flex: 0;
+  color: #333;
   text-align: center;
 }
 
 h2 {
   font-size: 1.5rem;
-  color: #333;
   margin: 0;
-  width: 60vw;
-  padding: 10px 30px;
-  border-left: 2px solid #333;
+  line-height: 10;
   background-color: rgba(0, 0, 0, 0.08);
 }
