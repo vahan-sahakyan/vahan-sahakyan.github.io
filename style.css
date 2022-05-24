@@ -11,19 +11,19 @@ body {
   font-family: 'Outfit', sans-serif;
   background-color: #ddd;
   display: flex;
-  height: 84vh;
-  flex-direction: column;
+  height: 90vh;
   justify-content: center;
   align-items: center;
-  margin: 0;
-  gap: 30px;
+
+  /* gap: 30px; */
 }
 
 .grid-container {
+  margin: auto 0;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   grid-template-rows: repeat(3, 1fr);
-  height: 100vh;
+  height: 75vh;
   width: 90vw;
   gap: 0.5em;
   /* align-items: center; */
