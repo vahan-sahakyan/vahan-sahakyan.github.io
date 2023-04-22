@@ -37,7 +37,8 @@ html {
 
   background-color: #bde;
   background-color: #2f2f2f33;
-  background-image: radial-gradient(#bbb 10%, transparent 11%), radial-gradient(#bbb 10%, transparent 11%);
+  background-image: radial-gradient(#bbb 10%, transparent 11%),
+    radial-gradient(#bbb 10%, transparent 11%);
   background-size: 10px 10px;
   background-position: 0 0, 5px 5px;
   background-repeat: repeat;
@@ -502,4 +503,8 @@ footer {
 }
 #download:active {
   opacity: 0.7;
+}
+
+section.pdf-mode-contacts {
+  display: none;
 }
