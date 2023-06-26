@@ -106,7 +106,6 @@ html {
   left: -80px;
   top: 5rem;
   background-color: #ccc1;
-  border-radius: 10px;
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
   box-shadow: 10px 10px 25px #0002;
