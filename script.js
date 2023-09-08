@@ -75,9 +75,10 @@ function onThemeChange(handler) {
 }
 /** @param {[string, string]} linkEntryTuple */
 function attachOnClickUrlOpener([element, url]) {
-  document
-    .querySelector(element)
-    .addEventListener('click', _e => window.open(url));
+  document.querySelector(element).addEventListener('click', e => {
+    e.preventDefault();
+    window.open(url);
+  });
 }
 /** @param {string} str @returns {string} */
 function classToWord(str) {
