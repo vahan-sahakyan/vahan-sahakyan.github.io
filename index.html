@@ -1,332 +1,928 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="background: #090909">
   <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=0.5, maximum-scale=0.5"
-    />
-    <link rel="stylesheet" href="style.css" />
-    <link id="dark-css" rel="stylesheet" href="dark.css" />
-    <link id="pdf-mode-css" rel="stylesheet" href="pdf-mode.css" disabled />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Raleway"
-      rel="stylesheet"
-    />
-
-    <link
-      href="https://fonts.googleapis.com/css?family=Old+Standard+TT:400i|Rubik"
-      rel="stylesheet"
-    />
-    <link rel="icon" type="image/png" href="./favicon_blue.png" />
-    <script defer src="./script.js"></script>
     <title>Vahan Sahakyan | Software Engineer</title>
+    <meta name="description" content="Vahan Sahakyan | Software Engineer" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Favicon -->
+    <link rel="icon" href="images/favicon.svg" type="image/svg+xml" />
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/style-responsive.css" />
+    <link rel="stylesheet" href="css/vertical-rhythm.min.css" />
+    <link rel="stylesheet" href="css/magnific-popup.css" />
+    <link rel="stylesheet" href="css/owl.carousel.css" />
+    <link rel="stylesheet" href="css/main.css" />
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
   </head>
-  <body>
-    <div class="cover">
-      <!--  -->
-      <div class="a4-grid">
-        <div class="left"></div>
-        <div class="middle">
-          <!-- The A4 CV Paper -->
-          <a
-            id="download"
-            href="./download/WEB_DEV_Vahan_Sahakyan.pdf"
-            download="WEB_DEV_Vahan_Sahakyan"
-            ><svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth="{2}"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
-              /></svg
-            ><span>Download PDF</span></a
+  <body class="appear-animate dark-mode">
+    <!-- Page Loader -->
+    <div class="page-loader dark">
+      <div class="loader">Loading...</div>
+    </div>
+    <!-- End Page Loader -->
+
+    <!-- Page Wrap -->
+    <div class="page bg-dark-1" id="top">
+      <!-- Navigation Panel -->
+      <nav class="main-nav dark dark-mode transparent stick-fixed wow-menubar">
+        <div class="main-nav-sub full-wrapper">
+          <!-- Logo  (* Add your text or image to the link tag. Use SVG or PNG image format. 
+                    If you use a PNG logo image, the image resolution must be equal 200% of the visible logo
+                    image size for support of retina screens. See details in the template documentation. *) -->
+          <div class="nav-logo-wrap local-scroll">
+            <a href="#top" class="logo">
+              <img
+                src="images/logo-white.svg"
+                alt="vahan-sahakyan"
+                width="200"
+                height="40"
+              />
+            </a>
+          </div>
+
+          <!-- Mobile Menu Button -->
+          <div class="mobile-nav" role="button" tabindex="0">
+            <i class="mobile-nav-icon"></i>
+            <span class="visually-hidden">Menu</span>
+          </div>
+
+          <!-- Main Menu -->
+          <div class="inner-nav desktop-nav">
+            <ul class="clearlist scroll-nav local-scroll justify-content-end">
+              <li>
+                <a href="#home" class="active" data-btn-animate="y">Home</a>
+              </li>
+              <li>
+                <a href="#about" data-btn-animate="y">About</a>
+              </li>
+              <li>
+                <a href="#services" data-btn-animate="y">Services</a>
+              </li>
+              <li>
+                <a href="#portfolio" data-btn-animate="y">Portfolio</a>
+              </li>
+
+              <li>
+                <a href="#contact" data-btn-animate="y">Contact</a>
+              </li>
+
+              <li class="desktop-nav-display">
+                <div class="vr"></div>
+              </li>
+
+              <li>
+                <a href="#contact" class="opacity-1 no-hover"
+                  ><span
+                    class="btn btn-mod btn-border-w btn-small btn-circle"
+                    data-btn-animate="y"
+                    >Let's Talk</span
+                  ></a
+                >
+              </li>
+            </ul>
+          </div>
+          <!-- End Main Menu -->
+        </div>
+      </nav>
+      <!-- End Navigation Panel -->
+
+      <main id="main">
+        <!-- Home Section -->
+        <section
+          class="home-section bg-dark-1 light-content parallax-mousemove-scene"
+          id="home"
+        >
+          <div
+            class="container min-height-100vh d-flex align-items-center pt-100 pb-100 pt-sm-120 pb-sm-120"
           >
-          <div class="a4">
-            <div class="glass">
-              <a href="">
-                <svg
-                  class="ln-svg"
-                  xmlns="http://www.w3.org/2000/svg"
-                  xmlns:xlink="http://www.w3.org/1999/xlink"
-                  x="0px"
-                  y="0px"
-                  width="48px"
-                  height="48px"
-                  viewBox="0 0 48 48"
+            <!-- Home Section Content -->
+            <div class="home-content pb-sm-60 text-start position-relative">
+              <h1 class="hs-title-5 font-alt overflow-hidden mb-30 mb-sm-20">
+                <span
+                  style="z-index: 999 !important"
+                  class="d-block text-center wow fadeRotateIn"
                 >
-                  <g>
-                    <path
-                      d="M46,0H2C0.9,0,0,0.9,0,2v44c0,1.1,0.9,2,2,2h44c1.1,0,2-0.9,2-2V2C48,0.9,47.1,0,46,0z M14.2,40.9H7.1V18
-                    h7.1V40.9z M10.7,14.9c-2.3,0-4.1-1.8-4.1-4.1c0-2.3,1.8-4.1,4.1-4.1c2.3,0,4.1,1.8,4.1,4.1C14.8,13,13,14.9,10.7,14.9z M40.9,40.9
-                    h-7.1V29.8c0-2.7,0-6.1-3.7-6.1c-3.7,0-4.3,2.9-4.3,5.9v11.3h-7.1V18h6.8v3.1h0.1c0.9-1.8,3.3-3.7,6.7-3.7c7.2,0,8.5,4.7,8.5,10.9
-                    V40.9z"
-                    />
-                  </g>
-                </svg>
-              </a>
-              <a href="">
-                <svg
-                  class="gh-svg"
-                  xmlns="http://www.w3.org/2000/svg"
-                  xmlns:xlink="http://www.w3.org/1999/xlink"
-                  x="0px"
-                  y="0px"
-                  width="48px"
-                  height="48px"
-                  viewBox="0 0 48 48"
+                  <img
+                    onclick="window.open(`https://vahan-sahakyan.github.io/cv/`)"
+                    class="hs-image-2 wow fadeInRight"
+                    data-wow-delay="0.8s"
+                    data-wow-offset="0"
+                    src="images/hs-image-2.png"
+                    alt="Image Description"
+                    style="cursor: pointer"
+                  />
+                  Vahan
+                  <br />
+                  Sahakyan
+                </span>
+                <span
+                  class="d-block wow fadeRotateIn"
+                  data-wow-delay="0.2s"
+                  data-wow-offset="0"
                 >
-                  <g>
-                    <path
-                      d="M24,0.6c-13.3,0-24,10.7-24,24c0,10.6,6.9,19.6,16.4,22.8
-                    c1.2,0.2,1.6-0.5,1.6-1.2c0-0.6,0-2.1,0-4.1c-6.7,1.5-8.1-3.2-8.1-3.2c-1.1-2.8-2.7-3.5-2.7-3.5c-2.2-1.5,0.2-1.5,0.2-1.5
-                    c2.4,0.2,3.7,2.5,3.7,2.5c2.1,3.7,5.6,2.6,7,2c0.2-1.6,0.8-2.6,1.5-3.2c-5.3-0.6-10.9-2.7-10.9-11.9c0-2.6,0.9-4.8,2.5-6.4
-                    c-0.2-0.6-1.1-3,0.2-6.4c0,0,2-0.6,6.6,2.5c1.9-0.5,4-0.8,6-0.8c2,0,4.1,0.3,6,0.8c4.6-3.1,6.6-2.5,6.6-2.5c1.3,3.3,0.5,5.7,0.2,6.4
-                    c1.5,1.7,2.5,3.8,2.5,6.4c0,9.2-5.6,11.2-11,11.8c0.9,0.7,1.6,2.2,1.6,4.4c0,3.2,0,5.8,0,6.6c0,0.6,0.4,1.4,1.7,1.2
-                    C41.1,44.2,48,35.2,48,24.6C48,11.3,37.3,0.6,24,0.6z"
+                  <span class="hue-color"> Software </span>
+                </span>
+                <span
+                  class="d-block text-center wow fadeRotateIn"
+                  data-wow-delay="0.4s"
+                  data-wow-offset="0"
+                >
+                  <span class="hue-color"> Engineer </span>
+                  <a target="_blank" href="https://github.com/vahan-sahakyan">
+                    <img
+                      class="hs-image-3 wow fadeInLeft"
+                      data-wow-delay="0.8s"
+                      data-wow-offset="0"
+                      src="images/hs-image-3.jpg"
+                      alt="Image Description"
                     />
-                  </g>
-                </svg>
-              </a>
+                  </a>
+                </span>
+              </h1>
+
+              <h2
+                class="hs-title-6 font-alt text-center mb-sm-20 wow fadeInUp"
+                data-wow-delay="0.6s"
+                data-wow-offset="0"
+              >
+                Specialized in Frontend Development
+              </h2>
+
+              <p class="hs-paragraph-2 wow clipRightIn" data-wow-delay="0.8s">
+                with a passion for React.js, TypeScript, Node.js, Java, Bash
+                Scripting, exploring the world of Microservices, API Design,
+                RDBMS and System Architecture.
+              </p>
+
+              <div
+                class="hs-line d-none d-sm-block wow fadeIn parallax-mousemove"
+                data-offset="60"
+                data-wow-delay="0.8s"
+                style="opacity: 1 !important; z-index: 0 !important"
+              ></div>
             </div>
-            <div class="clipboard-message hidden">
-              Email Copied Successfully
-            </div>
-            <div class="sticker">
-              <div title="Copy to Clipboard" class="phone">
-                +374 95 27 68 27
+            <!-- End Home Section Content -->
+
+            <!-- Scroll Down -->
+            <div
+              class="local-scroll scroll-down-wrap-2 wow fadeInUp"
+              data-wow-offset="0"
+            >
+              <div class="full-wrapper text-end">
+                <a href="#about" class="scroll-down-2">
+                  <img
+                    style="filter: brightness(8)"
+                    src="images/arrow-down.svg"
+                    alt="Scroll Down"
+                  />
+                </a>
               </div>
-              <div title="Copy to Clipboard" class="email">
-                vahan.sahakyan1996@gmail.com
-              </div>
             </div>
-            <div class="wrapper">
-              <header>
-                <div class="title">
-                  <h1 class="full-name">
-                    VAHAN <br />
-                    <span>SAHAKYAN</span>
-                  </h1>
-                  <h4 class="profession">Software Engineer</h4>
+            <!-- End Scroll Down -->
+
+            <!-- Social Media Links -->
+            <div class="hs-social left wow fadeInUp" data-wow-offset="0">
+              <a
+                target="_blank"
+                href="https://www.linkedin.com/in/vahan-sahakyan"
+                class="hs-social-link"
+                ><span class="visually-hidden">LinkedIn</span
+                ><i class="fa-linkedin"></i
+              ></a>
+              <a
+                target="_blank"
+                href="https://www.facebook.com/vahan.percussion"
+                class="hs-social-link"
+                ><span class="visually-hidden">Facebook</span
+                ><i class="fa-facebook-f"></i
+              ></a>
+              <a
+                target="_blank"
+                href="https://twitter.com/_vahan_sahakyan"
+                class="hs-social-link"
+                ><span class="visually-hidden">Twitter</span
+                ><i class="fa-twitter"></i
+              ></a>
+              <a
+                target="_blank"
+                href="https://www.instagram.com/vahan.percussion"
+                class="hs-social-link"
+                ><span class="visually-hidden">Instagram</span
+                ><i class="fa-instagram"></i
+              ></a>
+            </div>
+            <!-- End Social Media Links -->
+          </div>
+        </section>
+        <!-- End Home Section -->
+
+        <!-- About Section -->
+        <section class="page-section bg-dark-2 light-content" id="about">
+          <!-- Round Edge -->
+          <div class="edge-top-figure-2"></div>
+          <!-- Env Round Edge -->
+
+          <div class="container position-relative">
+            <div class="row">
+              <div class="col-lg-10 offset-lg-1">
+                <div
+                  class="section-descr-extralarge mb-100 mb-md-60 wow linesAnimIn"
+                  data-splitting="lines"
+                >
+                  <h2 class="section-title-inline-1">About Me</h2>
+                  I am an always-learning engineer with experience in developing
+                  enterprise-level applications for about 2 years. <br />•
+                  Skilled in Javascript and related technologies <br />•
+                  Familiar with Java Core, Spring, Hibernate, JPA <br />
+                  • English level - Upper Intermediate (B2) <br />• Strong
+                  interpersonal communication skills <br />• Ability and
+                  openness to learn, fail, reflect and apply learnings moving
+                  forward
                 </div>
-                <div class="avatar"></div>
-              </header>
-              <section class="pdf-mode-contacts">
-                <div>vahan.sahakyan1996@gmail.com</div>
-                <div>+374 95 27 68 27</div>
-              </section>
-              <div class="content-wrapper">
-                <aside>
-                  <div class="skills">
-                    <h2>SKILLS</h2>
-                    <h3>PROFESSIONAL</h3>
 
-                    <ul>
-                      <li>JavaScript / TypeScript</li>
-                      <li>React / Node / Express</li>
-                      <li>Redux / Saga / Toolkit</li>
-                      <li>APIs / Postman / Swagger</li>
-                      <li>Version Control / Git</li>
-                      <li>Java / Spring / SQL / JPA</li>
-                      <li>Shell-Scripting / RegExp</li>
-                    </ul>
-                  </div>
-                  <div class="education">
-                    <h3>EDUCATION</h3>
-                    <br />
-                    <h4>BOOTCAMP</h4>
-                    <h5>BPC Armenia</h5>
-                    <p>[c++, python, linux, bash]</p>
-                    <p>2018-2019</p>
-                    <br />
-                    <h4>COURSES</h4>
-                    <h5>UDEMY: Jonas Schmedtmann</h5>
-                    <p>- The Complete JS Course</p>
-                    <p>- Node/Express Bootcamp</p>
-                    <p>2021-2022</p>
-                    <br />
-                    <h5>ZTM: Andrei Neagoie</h5>
-                    <p>- React/Redux Course</p>
-                    <p>2021-2022</p>
-                    <br />
-                    <h5>John Purcell: Derby, UK</h5>
-                    <p>- Java Core 11 Course</p>
-                    <p>2022-2023</p>
-                  </div>
-                </aside>
-                <div class="content">
-                  <div class="experience">
-                    <!-- ABOUT START -->
-                    <h2>ABOUT</h2>
-                    <p>
-                      Always-learning engineer with experience in developing
-                      enterprise-level applications for about 2 years.
-                      <br />
-                      &bull;&nbsp; Skilled in Javascript and related
-                      technologies
-                      <br />
-                      &bull;&nbsp; Familiar with Java Core, Spring, Hibernate,
-                      JPA
-                      <br />
-                      &bull;&nbsp; English level - Upper Intermediate (B2)
-                      <br />
-                      &bull;&nbsp; Strong interpersonal communication skills
-                      <br />
-                      &bull;&nbsp; Ability and openness to learn, fail, reflect
-                      and apply learnings moving forward
-                    </p>
-                    <br />
-                    <!-- ABOUT END -->
+                <!-- Accordion -->
+                <dl class="accordion-1 accordion-1-slick mb-100 mb-md-60">
+                  <dt>
+                    <a href="#"
+                      ><span>EXPERIENCE</span> <i class="icon-plus"></i
+                    ></a>
+                  </dt>
+                  <dd>
+                    <div class="row">
+                      <div class="col-lg-9">
+                        <br />
 
-                    <!-- EXPERIENCE START -->
-                    <!-- 1 -->
-                    <h2>EXPERIENCE</h2>
-                    <h3 class="experience-name">DATAFOUNDRY LABS</h3>
-                    <div class="job-info">
-                      <h4>
-                        React
-                        <span> | </span>
-                        Saga
-                        <span> | </span>
-                        Ant Design
-                        <span> | </span>
-                        Chart.js
-                      </h4>
-                    </div>
-                    <ul style="margin-top: 4px">
-                      <li>
-                        <strong>Clinical Risks & Signals</strong>
-                        Monitoring solution
-                      </li>
-                    </ul>
-
-                    <!-- 2 -->
-                    <h3 class="experience-name">NWSLAB</h3>
-                    <div class="job-info">
-                      <h4>
-                        React
-                        <span> | </span>
-                        TypeScript
-                        <span> | </span>
-                        Material UI
-                        <span> | </span>
-                        React Hook Form
-                      </h4>
-                    </div>
-                    <ul style="margin-top: 4px">
-                      <li>
-                        <strong>Music Rights & Distribution</strong> Management
-                        platform
-                      </li>
-                    </ul>
-                    <!-- EXPERIENCE END -->
-
-                    <hr />
-                    <br />
-
-                    <!-- PROJECTS START -->
-                    <h2>PROJECTS</h2>
-                    <h3 class="experience-name">CRWN CLOTHING</h3>
-                    <div class="job-info">
-                      <h4>
-                        React
-                        <span> | </span>
-                        Saga
-                        <span> | </span>
-                        Stripe
-                        <span> | </span>
-                        Firebase
-                        <span> | </span>
-                        Styled-Components
-                      </h4>
-                    </div>
-                    <ul style="margin-top: 4px">
-                      <li><strong>E-Commerce</strong> web application</li>
-                    </ul>
-                    <ul style="margin-top: 4px">
-                      <li class="project-cta">
-                        <a
-                          target="_blank"
-                          href="https://vahan-sahakyan.github.io/crwn-clothing"
-                          >CRWN Clothing</a
-                        >
-                        <a
-                          target="_blank"
-                          href="https://github.com/vahan-sahakyan/crwn-clothing/"
-                        >
-                          <span>
+                        <h6>
+                          <section class="d-flex gap-3 align-items-center">
                             <img
-                              alt="expand code"
-                              src="https://gw.alipayobjects.com/zos/antfincdn/Z5c7kzvi30/expand.svg"
-                              class="code-expand-icon-hide"
+                              onclick="window.open(`https://www.datafoundry.ai/`)"
+                              src="images/df-logo.png"
+                              alt="df-logo"
+                              class="exp-logo cursor-pointer"
                             />
+                            <div>
+                              <div class="text-light">
+                                Frontend Software Engineer <br />
+                                Datafoundry · Full-time <br />
+                              </div>
+                              <div class="font-weight-light">
+                                Mar 2022 - Present ·
+                                <span id="current-exp-time"></span><br />
+                                Yerevan, Armenia · Hybrid <br />
+                              </div>
+                            </div>
+                          </section>
+                        </h6>
+                        <br />
+                        <hr />
+                        <br />
+
+                        <h6>
+                          <section class="d-flex gap-3 align-items-center">
                             <img
-                              alt="expand code"
-                              src="https://gw.alipayobjects.com/zos/antfincdn/4zAaozCvUH/unexpand.svg"
-                              class="code-expand-icon-show"
+                              onclick="window.open(`https://www.nwslab.com/`)"
+                              src="images/nwslab-logo.png"
+                              alt="nwslab-logo"
+                              class="exp-logo nws-logo cursor-pointer"
                             />
-                            Browse Code
-                          </span></a
-                        >
-                      </li>
-                    </ul>
-                    <h3 class="experience-name">E-PIANO</h3>
-                    <div class="job-info">
-                      <h4>
-                        JavaScript <span> | </span> Audio API
-                        <span> | </span> OOP
-                      </h4>
+                            <div>
+                              <div class="text-light">
+                                Frontend Software Engineer <br />
+                                NWSLAB · Full-time <br />
+                              </div>
+                              <div class="font-weight-light">
+                                Nov 2022 - Jul 2023 · 9 mos <br />
+                                Yerevan, Armenia · Hybrid <br />
+                              </div>
+                            </div>
+                          </section>
+                          <h6>
+                            Providing top-notch Web Services in a team full of
+                            detail oriented professionals, with a deep expertise
+                            specifically in front-end technology best practices
+                            and a routine of strict code reviews for each pull
+                            request. <br /><br />Taking a journey with NWSLAB
+                            feels like a pilgrimage of becoming a TypeScript
+                            "Wizard". <br /><br />
+                            Skills: React.js · JavaScript · Redux.js · ESLint ·
+                            TypeScript · Material-UI · Business Analysis ·
+                            Regular
+                          </h6>
+                        </h6>
+                        <br />
+                        <hr />
+                        <br />
+
+                        <h6>
+                          <section class="d-flex gap-3 align-items-center">
+                            <img
+                              onclick="window.open(`https://www.datafoundry.ai/`)"
+                              src="images/df-logo.png"
+                              alt="df-logo"
+                              class="exp-logo cursor-pointer"
+                            />
+                            <div>
+                              <div class="text-light">
+                                Frontend Software Engineer <br />
+                                Datafoundry · Full-time <br />
+                              </div>
+                              <div class="font-weight-light">
+                                Mar 2022 - Nov 2022 · 9 mos <br />
+                                Yerevan, Armenia · Hybrid <br />
+                              </div>
+                            </div>
+                          </section>
+                          <br />
+
+                          • Developed a complex UI from scratch, based on new
+                          requirement specifications. <br />
+                          • Integrated and reused the legacy code functionality.
+                          <br />
+                          • Optimized the performance by modifying the state
+                          flow (Thunks -> Sagas). <br />
+                          • Refactored the codebase following the SOC concept.
+                          <br />
+                          • Designed tech solutions by collaborating with the
+                          back-end engineers. <br />
+                          DF mSignal AI - SaaS Application.
+                          <br />
+                          TOOLS: React, Axios, Redux-Saga, Lodash
+                          <br />
+                          VISUALS: Ant Design, SCSS, Bootstrap,
+                          Styled-Components, Chart.js
+                          <br />
+                          OTHER: Postman, RESTful API Integration [CRUD]
+                          <br />
+                          <br />
+                          Skills: React.js · JavaScript · Redux.js · Saga · Ant
+                          Design
+                        </h6>
+
+                        <br />
+                      </div>
                     </div>
-                    <ul style="margin-top: 4px">
-                      <li>
-                        <strong>Music-Keyboard</strong> in-browser emulator
-                      </li>
-                    </ul>
-                    <ul style="margin-top: 4px">
-                      <li class="project-cta">
-                        <a
-                          target="_blank"
-                          href="https://vahan-sahakyan.github.io/e-piano"
-                          >E-Piano</a
+                  </dd>
+                  <dt>
+                    <a href="#"
+                      ><span>EDUCATION</span> <i class="icon-plus"></i
+                    ></a>
+                  </dt>
+                  <dd>
+                    <div class="row">
+                      <div class="col-lg-9">
+                        <br />
+                        <h6>
+                          <div class="text-light">
+                            Bootcamp - "BPC Armenia" [C++, Python, Linux, Bash]
+                          </div>
+                          Artak Yenokyan - Engineering Manager at Siemens EDA
+                          <p class="font-weight-light">2018-2019</p>
+                        </h6>
+
+                        <hr />
+
+                        <h6>
+                          <div class="text-light">
+                            Course - The Complete JS Course
+                          </div>
+                          UDEMY: Jonas Schmedtmann
+                          <p class="font-weight-light">2021-2022</p>
+                        </h6>
+
+                        <hr />
+
+                        <h6>
+                          <div class="text-light">
+                            Course - Node/Express Bootcamp
+                          </div>
+                          UDEMY: Jonas Schmedtmann
+                          <p class="font-weight-light">2021-2022</p>
+                        </h6>
+
+                        <hr />
+
+                        <h6>
+                          <div class="text-light">
+                            Course - React/Redux Course
+                          </div>
+                          ZTM: Andrei Neagoie
+                          <p class="font-weight-light">2021-2022</p>
+                        </h6>
+
+                        <hr />
+
+                        <h6>
+                          <div class="text-light">
+                            Course - Java Core 11 Course
+                          </div>
+                          John Purcell: Derby, UK
+                          <p class="font-weight-light">2022-2023</p>
+                        </h6>
+                      </div>
+                    </div>
+                  </dd>
+                </dl>
+                <!-- End Accordion -->
+
+                <div class="local-scroll text-center">
+                  <a
+                    href="#established"
+                    class="btn btn-mod btn-w btn-ellipse"
+                    data-btn-animate="ellipse"
+                    >Learn more <span class="visually-hidden">about us</span></a
+                  >
+                </div>
+
+                <div class="page-section pb-0" id="established">
+                  <div
+                    class="position-relative text-center pt-140 pt-sm-100 pb-140 pb-sm-100"
+                  >
+                    <div class="position-relative z-index-1">
+                      <h2
+                        class="hs-title-5 font-alt overflow-hidden mb-60 mb-sm-40"
+                      >
+                        <span class="d-inline-block wow fadeRotateIn"
+                          >starting from</span
                         >
-                        <a
-                          target="_blank"
-                          href="https://github.com/vahan-sahakyan/e-piano/"
+                        <span class="d-inline-block wow fadeRotateIn"
+                          >2018</span
                         >
-                          <span>
-                            <img
-                              alt="expand code"
-                              src="https://gw.alipayobjects.com/zos/antfincdn/Z5c7kzvi30/expand.svg"
-                              class="code-expand-icon-hide"
-                            />
-                            <img
-                              alt="expand code"
-                              src="https://gw.alipayobjects.com/zos/antfincdn/4zAaozCvUH/unexpand.svg"
-                              class="code-expand-icon-show"
-                            />
-                            Browse Code</span
-                          >
-                        </a>
-                      </li>
-                    </ul>
-                    <!-- PROJECTS END -->
+                      </h2>
+                      <div class="row">
+                        <div class="col-md-6 offset-md-3 col-lg-4 offset-lg-4">
+                          <p class="section-descr mb-0">
+                            I have been convinced that every product should be
+                            useful yet beautiful.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="section-image-behind">
+                      <img
+                        src="images/section-image-1.jpg"
+                        loading="lazy"
+                        width="820"
+                        height="1270"
+                        alt="Image Description"
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <!--  -->
+        </section>
+        <!-- End About Section -->
+
+        <!-- Services Section -->
+        <section class="page-section bg-dark-1 light-content" id="services">
+          <div class="container">
+            <div class="mb-100 mb-md-40">
+              <div class="row">
+                <div class="col-sm-6">
+                  <h2 class="section-caption mb-0 mb-xs-10 black">Services</h2>
+                </div>
+                <div class="col-sm-6 local-scroll mt-n10 mb-n10 text-sm-end">
+                  <a
+                    href="#portfolio"
+                    class="link-hover-anim align-middle"
+                    data-link-animate="y"
+                    >See projects <i class="icon-arrow-right2 size-14"></i
+                  ></a>
+                </div>
+              </div>
+              <hr class="white opacity-1 mt-3 mb-0" />
+            </div>
+
+            <!-- Services Grid -->
+            <div class="mb-100 mb-md-40">
+              <!-- Services Item -->
+              <h3
+                class="services-4-item text-center parallax-mousemove-scene wow fadeInUp"
+              >
+                <span
+                  class="services-4-title hs-title-5 font-alt overflow-hidden"
+                  >Engineering <b>01</b></span
+                >
+              </h3>
+              <!-- End Services Item -->
+
+              <!-- Services Item -->
+              <h3
+                class="services-4-item text-end parallax-mousemove-scene wow fadeInUp"
+              >
+                <span
+                  class="services-4-title hs-title-5 font-alt overflow-hidden"
+                  >Web Design <b>02</b></span
+                >
+              </h3>
+              <!-- End Services Item -->
+
+              <!-- Services Item -->
+              <h3
+                class="services-4-item text-start parallax-mousemove-scene wow fadeInUp"
+              >
+                <span
+                  class="services-4-title hs-title-5 font-alt overflow-hidden"
+                  >Best Practices <b>03</b></span
+                >
+              </h3>
+              <!-- End Services Item -->
+
+              <!-- Services Item -->
+              <h3
+                class="services-4-item text-end parallax-mousemove-scene wow fadeInUp"
+              >
+                <span
+                  class="services-4-title hs-title-5 font-alt overflow-hidden"
+                  >Development <b>04</b></span
+                >
+              </h3>
+              <!-- End Services Item -->
+
+              <!-- Services Item -->
+              <h3
+                class="services-4-item text-center parallax-mousemove-scene wow fadeInUp"
+              >
+                <span
+                  class="services-4-title hs-title-5 font-alt overflow-hidden"
+                  >Collaboration <b>05</b></span
+                >
+              </h3>
+              <!-- End Services Item -->
+            </div>
+            <!-- End Services Grid -->
+
+            <div class="row">
+              <div class="col-md-10 offset-md-1 col-lg-8 offset-lg-2">
+                <hr class="white opacity-1 mt-0 mb-20" />
+                <div class="row">
+                  <div
+                    class="col-sm-6 col-md-8 text-center text-sm-start mb-xs-20"
+                  >
+                    <p class="section-descr mb-0 black">
+                      I leverage the power of research and development to make
+                      products not only user-friendly, but also maintainable for
+                      other developers.
+                    </p>
+                  </div>
+                  <div
+                    class="col-sm-6 col-md-4 text-center text-sm-end local-scroll"
+                  >
+                    <a
+                      href="#contact"
+                      class="btn btn-mod btn-border-w btn-medium btn-circle"
+                      data-btn-animate="y"
+                      >Get In Touch</a
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <!-- End Services Section -->
+
+        <!-- Portfolio Section -->
+        <section
+          class="page-section bg-dark-1 light-content pt-0 pb-0"
+          id="portfolio"
+        >
+          <div class="container">
+            <div class="mb-100 mb-md-40">
+              <div class="row">
+                <div class="col-sm-6">
+                  <h2 class="section-caption mb-0 mb-xs-10 black">Portfolio</h2>
+                </div>
+                <div class="col-sm-6 local-scroll mt-n10 mb-n10 text-sm-end">
+                  <a
+                    href="#contact"
+                    class="link-hover-anim align-middle"
+                    data-link-animate="y"
+                    >Start a project <i class="icon-arrow-right2 size-14"></i
+                  ></a>
+                </div>
+              </div>
+              <hr class="white opacity-1 mt-3 mb-0" />
+            </div>
+
+            <div class="row">
+              <div class="col-10 col-sm-9">
+                <h3 class="hs-title-5 font-alt overflow-hidden mb-100 mb-md-40">
+                  <span class="d-block wow fadeRotateIn"> Selected </span>
+                  <span class="d-block text-end wow fadeRotateIn"> Works </span>
+                </h3>
+              </div>
+            </div>
+
+            <!-- Portfolio Grid -->
+            <div class="mb-n100 mb-md-n60 mb-sm-n40">
+              <!-- Portfolio Item -->
+              <div class="mb-100 mb-md-60 mb-sm-40">
+                <div class="row">
+                  <div class="col-md-7 col-lg-8 mb-sm-30 mb-xs-20">
+                    <div class="portfolio-3-image">
+                      <a
+                        target="_blank"
+                        href="https://github.com/vahan-sahakyan/ci-composed"
+                        ><img
+                          src="images/portfolio/1.jpg"
+                          alt="Image Description"
+                      /></a>
+                    </div>
+                  </div>
+                  <div class="col-md-5 col-lg-4 d-md-flex align-items-end">
+                    <div class="text-center text-md-start">
+                      <h3 class="portfolio-3-title font-alt mb-md-10">
+                        <a
+                          target="_blank"
+                          href="https://github.com/vahan-sahakyan/ci-composed"
+                        >
+                          <span
+                            class="wow charsAnimInLong"
+                            data-splitting="chars"
+                          >
+                            Code Inspect</span
+                          >
+                        </a>
+                      </h3>
+                      <div class="portfolio-3-descr">
+                        <a
+                          target="_blank"
+                          href="https://github.com/vahan-sahakyan/code-inspect-frontend"
+                          ><span class="wow" data-splitting="chars">
+                            React</span
+                          ></a
+                        >,
+                        <a
+                          target="_blank"
+                          href="https://github.com/vahan-sahakyan/code-inspect-backend"
+                          ><span class="wow" data-splitting="chars">
+                            Spring-Boot</span
+                          ></a
+                        >
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- End Portfolio Item -->
+
+              <!-- Portfolio Item -->
+              <div class="mb-100 mb-md-60 mb-sm-40">
+                <div class="row">
+                  <div class="col-md-5 col-lg-4 d-md-flex align-items-end">
+                    <div class="text-center text-md-end">
+                      <h3 class="portfolio-3-title font-alt mb-md-10">
+                        <a
+                          target="_blank"
+                          href="https://github.com/vahan-sahakyan/crwn-clothing"
+                        >
+                          <span
+                            class="wow charsAnimInLong"
+                            data-splitting="chars"
+                          >
+                            CRWN CLOTHING
+                          </span>
+                        </a>
+                      </h3>
+                      <div class="portfolio-3-descr">React + Firebase</div>
+                    </div>
+                  </div>
+                  <div
+                    class="col-md-7 col-lg-8 mb-sm-30 mb-xs-20 order-first order-md-last"
+                  >
+                    <div class="portfolio-3-image">
+                      <a
+                        target="_blank"
+                        href="https://github.com/vahan-sahakyan/crwn-clothing"
+                        ><img
+                          src="images/portfolio/5.jpg"
+                          alt="Image Description"
+                      /></a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- End Portfolio Item -->
+
+              <!-- Portfolio Item -->
+              <div class="mb-100 mb-md-60 mb-sm-40">
+                <div class="row">
+                  <div class="col-md-7 col-lg-8 mb-sm-30 mb-xs-20">
+                    <div class="portfolio-3-image">
+                      <a
+                        target="_blank"
+                        href="https://github.com/vahan-sahakyan/e-piano"
+                        ><img
+                          src="images/portfolio/2.jpg"
+                          alt="Image Description"
+                      /></a>
+                    </div>
+                  </div>
+                  <div class="col-md-5 col-lg-4 d-md-flex align-items-end">
+                    <div class="text-center text-md-start">
+                      <h3 class="portfolio-3-title font-alt mb-md-10">
+                        <a
+                          target="_blank"
+                          href="https://github.com/vahan-sahakyan/e-piano"
+                        >
+                          <span
+                            class="wow charsAnimInLong"
+                            data-splitting="chars"
+                          >
+                            Piano Emulator
+                          </span>
+                        </a>
+                      </h3>
+                      <div class="portfolio-3-descr">
+                        Javascript + Audio API
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- End Portfolio Item -->
+            </div>
+            <!-- End Portfolio Grid -->
+          </div>
+        </section>
+        <!-- End Portfolio Section -->
+
+        <!-- Marquee Section -->
+        <div class="page-section light-content overflow-hidden">
+          <div class="pt-40 pb-40 pt-md-0 pb-md-0">
+            <!-- Marquee Text Line -->
+            <div class="marquee marquee-style-3 mb-30 mb-md-0 z-index-1">
+              <div class="marquee-track marquee-animation-1a">
+                <div>Quality</div>
+                <div aria-hidden="true">Quality</div>
+                <div aria-hidden="true">Quality</div>
+                <div aria-hidden="true">Quality</div>
+                <div aria-hidden="true">Quality</div>
+                <div aria-hidden="true">Quality</div>
+                <div aria-hidden="true">Quality</div>
+                <div aria-hidden="true">Quality</div>
+                <div aria-hidden="true">Quality</div>
+                <div aria-hidden="true">Quality</div>
+              </div>
+            </div>
+            <!-- End Marquee Text Line -->
+
+            <!-- Marquee Text Line -->
+            <div class="marquee marquee-style-4 clearfix">
+              <div class="marquee-track marquee-animation-2a float-end">
+                <div>Problem Solving</div>
+                <div>Decision Making</div>
+                <div aria-hidden="true">Problem Solving</div>
+                <div aria-hidden="true">Decision Making</div>
+                <div aria-hidden="true">Problem Solving</div>
+                <div aria-hidden="true">Decision Making</div>
+                <div aria-hidden="true">Problem Solving</div>
+                <div aria-hidden="true">Decision Making</div>
+                <div aria-hidden="true">Problem Solving</div>
+                <div aria-hidden="true">Decision Making</div>
+                <div aria-hidden="true">Problem Solving</div>
+                <div aria-hidden="true">Decision Making</div>
+              </div>
+            </div>
+            <!-- End Marquee Text Line -->
+          </div>
         </div>
-        <div class="right"></div>
-      </div>
-      <!--  -->
-      <footer></footer>
+        <!-- End Marquee Section -->
+
+        <!-- Contact Section -->
+        <section class="page-section bg-dark-1 light-content" id="contact">
+          <div class="container">
+            <div class="mb-100 mb-md-40">
+              <div class="row">
+                <div class="col-sm-6">
+                  <h2 class="section-caption mb-0 mb-xs-10 black">Contact</h2>
+                </div>
+                <div class="col-sm-6 local-scroll mt-n10 mb-n10 text-sm-end">
+                  <!-- Change the email address in the href attribute -->
+                  <a
+                    href="mailto:vahan.sahakyan1996@gmail.com"
+                    class="link-hover-anim align-middle"
+                    data-link-animate="y"
+                    >Say hi <i class="icon-arrow-right2 size-14"></i
+                  ></a>
+                </div>
+              </div>
+              <hr class="white opacity-1 mt-3 mb-0" />
+            </div>
+
+            <div class="row">
+              <div class="col-11 col-sm-10">
+                <h3 class="hs-title-5 font-alt overflow-hidden mb-100 mb-md-40">
+                  <span class="d-block wow fadeRotateIn"> Let’s Work </span>
+                  <span class="d-block text-end wow fadeRotateIn">
+                    Together
+                  </span>
+                </h3>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6 mb-sm-60">
+                <div class="section-descr black">
+                  <p>
+                    I am open to talk about new opportunities. Just say hi and
+                    we’ll start a productive cooperation.
+                  </p>
+                  <p>
+                    <!-- Change the phone number inside and link tag and href attribute -->
+                    Call me:
+                    <a href="tel:+37495276827" class="text-link"
+                      >+374 95 27 68 27</a
+                    >
+                    <br />
+                    <!-- Change the email address inside and link tag and href attribute -->
+                    Say hi:
+                    <a
+                      href="mailto:vahan.sahakyan1996@gmail.com"
+                      class="text-link"
+                      >vahan.sahakyan1996@gmail.com</a
+                    >
+                  </p>
+                  <div>
+                    <a
+                      target="_blank"
+                      href="https://www.linkedin.com/in/vahan-sahakyan"
+                      class="hs-social-link d-inline-flex me-1"
+                    >
+                      <span class="visually-hidden">LinkedIn</span>
+                      <i class="fa-linkedin"></i>
+                    </a>
+                    <a
+                      target="_blank"
+                      href="https://www.facebook.com/vahan.percussion"
+                      class="hs-social-link d-inline-flex me-1"
+                    >
+                      <span class="visually-hidden">Facebook</span>
+                      <i class="fa-facebook-f"></i>
+                    </a>
+                    <a
+                      target="_blank"
+                      href="https://twitter.com/_vahan_sahakyan"
+                      class="hs-social-link d-inline-flex me-1"
+                    >
+                      <span class="visually-hidden">Twitter</span>
+                      <i class="fa-twitter"></i>
+                    </a>
+                    <a
+                      target="_blank"
+                      href="https://www.instagram.com/vahan.percussion"
+                      class="hs-social-link d-inline-flex me-1"
+                    >
+                      <span class="visually-hidden">Instagram</span>
+                      <i class="fa-instagram"></i>
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="col-md-6 mb-sm-60 text-lg-end local-scroll position-relative"
+              >
+                <a
+                  href="#top"
+                  class="fw-top-link"
+                  style="position: absolute; right: 1rem; bottom: 0"
+                >
+                  <span class="fw-top-link-underline">Back to top</span>
+                  <span class="icon ms-1">
+                    <i class="icon-arrow-up size-17"></i>
+                  </span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
+        <!-- End Contact Section -->
+      </main>
     </div>
+    <!-- End Page Wrap -->
+
+    <!-- JS -->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/plugins.js"></script>
+    <script src="js/jquery.ajaxchimp.min.js"></script>
+    <script src="js/contact-form.js"></script>
+    <script src="js/all.js"></script>
+
+    <script src="js/experience.js"></script>
+    <!-- End JS -->
   </body>
 </html>
