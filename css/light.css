@@ -1,0 +1,90 @@
+.bg-dark-1 {
+  background: white !important;
+}
+.light-content {
+  color: #010101;
+}
+.nav-logo-wrap .logo img {
+  filter: invert(1);
+}
+.hs-image-3 {
+  filter: invert(1);
+}
+.edge-top-figure-2 {
+  background: white;
+}
+.mobile-on .desktop-nav ul {
+  background: #0a0a0a;
+}
+.mobile-nav {
+  filter: invert(1);
+}
+
+.inner-nav {
+  filter: invert(1);
+}
+.hs-line {
+  /* filter: invert(1); */
+  mix-blend-mode: difference;
+}
+
+.page-loader.dark {
+  /* background: white; */
+  filter: invert(1);
+}
+.section-descr-extralarge {
+  filter: invert(1);
+}
+.light-content .link-strong,
+.light-content .link-hover-anim {
+  color: #000;
+}
+#portfolio .text-center {
+  filter: invert(1);
+  color: #fff !important;
+}
+
+.light-content .marquee-style-4 .marquee-track > div {
+  background: #000;
+  border-color: #fff;
+  border-width: 2px;
+  color: #fff;
+  filter: invert(1);
+}
+.light-content .marquee-style-3 {
+  filter: invert(1);
+}
+#about .hs-title-5 {
+  filter: invert(1);
+}
+.scroll-down-2 img {
+  filter: unset !important;
+}
+hr {
+  border-top-color: #000000;
+}
+.hs-social-link {
+  filter: invert(1);
+}
+.fw-top-link {
+  filter: invert(1);
+}
+.col-sm-6.col-md-4.text-center.text-sm-end.local-scroll {
+  filter: invert(1);
+}
+
+.section-descr p a:hover {
+  color: #000 !important;
+  /* filter: invert(1); */
+}
+.text-link:after {
+  background-color: #000 !important;
+}
+.small-height.main-nav {
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.025), 0px 1px 1px 0px rgba(0, 0, 0, 0.01),
+    0px 0px 50px 0px rgba(0, 0, 0, 0.07);
+  background-color: white;
+}
+span.hue-color {
+  -webkit-text-fill-color: #0002;
+}

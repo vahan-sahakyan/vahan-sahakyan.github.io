@@ -3691,7 +3691,6 @@ html:not(.mobile) .wow-p {
 }
 .nav-logo-wrap .logo img {
   transform: translateX(-0.25rem) translateY(0.1rem) scale(1.25);
-  max-height: 100%;
   padding-left: 0.5rem;
 }
 .nav-logo-wrap .logo:before,
@@ -5005,6 +5004,7 @@ a.logo:hover {
   display: inline-block;
   vertical-align: middle;
   margin-right: 20px;
+  margin-bottom: 0px;
   font-size: 15px;
   font-weight: 400;
   text-transform: uppercase;
@@ -5638,6 +5638,7 @@ a.logo:hover {
 .light-content .marquee-style-4 .marquee-track > div {
   background: var(--color-dark-1);
   border-color: #fff;
+  border-width: 2px;
 }
 .marquee-style-5 {
   width: 100%;
