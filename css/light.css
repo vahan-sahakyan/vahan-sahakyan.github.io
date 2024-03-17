@@ -88,3 +88,8 @@ hr {
 span.hue-color {
   -webkit-text-fill-color: #0002;
 }
+
+html {
+  background-color: #fff;
+  -ms-overflow-style: scrollbar;
+}

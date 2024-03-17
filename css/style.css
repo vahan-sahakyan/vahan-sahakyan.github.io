@@ -261,6 +261,7 @@ Primary use: Multipurpose Template
   scroll-behavior: auto;
 }
 html {
+  background-color: #090909;
   -ms-overflow-style: scrollbar;
 }
 body {
