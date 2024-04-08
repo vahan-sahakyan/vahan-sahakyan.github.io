@@ -1,7 +1,7 @@
 // experience.js
 
 document.addEventListener("DOMContentLoaded", function () {
-  const startDate = new Date("2023-10-01");
+  const startDate = new Date("2023-09-01");
   const currentDate = new Date();
   const diffInMonths =
     (currentDate.getFullYear() - startDate.getFullYear()) * 12 + (currentDate.getMonth() - startDate.getMonth()) + 1;
