@@ -160,7 +160,6 @@ Primary use: Multipurpose Template
 
 @import url("icons.css");
 @import url("icomoon.css");
-@import url("font-awesome-brands.css");
 
 /* ==============================
    Variables
@@ -12556,4 +12555,16 @@ hr {
 
 .cursor-pointer {
   cursor: pointer !important;
+}
+
+.curved-arrow::before {
+  position: absolute;
+  content: "CV";
+  height: 1rem;
+  width: 1rem;
+}
+.curved-arrow {
+  top: -3rem;
+  right: 120px;
+  transform: scale(0.5, -0.5);
 }

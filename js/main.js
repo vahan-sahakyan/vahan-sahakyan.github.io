@@ -10,7 +10,6 @@ onThemeChange(updateTheme);
 // Updates the theme based on prefered color-scheme
 function updateTheme() {
   const { matches: isLight } = themeMatchMedia();
-  console.log(isLight);
   document.getElementById("light-css").disabled = !isLight;
 }
 function themeMatchMedia() {
