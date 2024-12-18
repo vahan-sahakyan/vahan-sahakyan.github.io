@@ -144,7 +144,7 @@ With a passion for React.js, TypeScript, Node.js, Java, Bash scripting, explorin
 I am open to talk about new opportunities. Just say hi and we’ll start a productive cooperation.
 
 Call me: [+374 95 27 68 27](tel:+37495276827)  
-Say hi: [vahan.sahakyan1996@gmail.com](mailto:vahan.sahakyan1996@gmail.com)
+Say hi: [vahan.codes@gmail.com](mailto:vahan.codes@gmail.com)
 
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-blue)](https://www.linkedin.com/in/vahan-sahakyan)
 [![Facebook](https://img.shields.io/badge/Facebook-Follow-blue)](https://www.facebook.com/vahan.percussion)
