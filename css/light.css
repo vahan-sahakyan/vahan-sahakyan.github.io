@@ -39,6 +39,12 @@
 .light-content .link-hover-anim {
   color: #000;
 }
+.light-content a {
+  color: rgba(0, 0, 0, 0.7);
+}
+.light-content a:hover {
+  color: #000;
+}
 #portfolio .text-center {
   filter: invert(1);
   color: #fff !important;
