@@ -45,9 +45,35 @@
 .light-content a:hover {
   color: #000;
 }
+.light-content .text-link {
+  color: #000;
+  opacity: 0.7;
+}
+.light-content .text-link:hover {
+  opacity: 1;
+}
+/* .bg-dark-1 turns white above, so its light-content text has to go dark.
+   Both classes must be on the *same* element: the page wrapper (#top) is also
+   .bg-dark-1, and matching it would drag in #about, which is .bg-dark-2 and
+   stays dark here. .page-section.bg-dark-1 hits only #services/#portfolio/#contact. */
+.page-section.bg-dark-1 .section-caption,
+.page-section.bg-dark-1 .section-descr {
+  color: #010101;
+}
+/* This block is inverted, so it needs the *dark-theme* colors — they flip to
+   dark on screen. Anything darkened by the .light-content rules above would
+   invert back to white and disappear, so re-assert #fff here (the id selector
+   outranks them). Same reason .portfolio-3-title a is left at its style.css #fff. */
 #portfolio .text-center {
   filter: invert(1);
   color: #fff !important;
+}
+#portfolio .text-center a {
+  color: rgba(255, 255, 255, 0.8);
+}
+#portfolio .text-center a:hover,
+#portfolio .text-center .portfolio-3-title a {
+  color: #fff;
 }
 
 .light-content .marquee-style-4 .marquee-track > div {
@@ -87,7 +113,9 @@ hr {
   background-color: #000 !important;
 }
 .small-height.main-nav {
-  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.025), 0px 1px 1px 0px rgba(0, 0, 0, 0.01),
+  box-shadow:
+    0px 0px 10px 0px rgba(0, 0, 0, 0.025),
+    0px 1px 1px 0px rgba(0, 0, 0, 0.01),
     0px 0px 50px 0px rgba(0, 0, 0, 0.07);
   background-color: white;
 }
