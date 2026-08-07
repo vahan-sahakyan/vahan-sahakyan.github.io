@@ -6047,6 +6047,9 @@ img.services-image {
   display: inline-block;
   transition: transform 0.5s var(--ease-out-short);
 }
+.services-4-title.hs-title-5 {
+  font-size: 90px;
+}
 .services-4-title > b {
   position: absolute;
   display: inline-block;
