@@ -4,11 +4,8 @@
 .light-content {
   color: #010101;
 }
-.nav-logo-wrap .logo img {
-  filter: invert(1);
-}
-.hs-image-3 {
-  filter: invert(1);
+.nav-logo-wrap .logo-text {
+  color: #000;
 }
 .edge-top-figure-2 {
   background: white;
@@ -23,16 +20,16 @@
 .inner-nav {
   filter: invert(1);
 }
+/* multiply keeps the line behind the title colors instead of inverting them */
 .hs-line {
-  /* filter: invert(1); */
-  mix-blend-mode: difference;
+  mix-blend-mode: multiply;
+}
+.hs-line:before {
+  background: #ededed;
 }
 
 .page-loader.dark {
   /* background: white; */
-  filter: invert(1);
-}
-.section-descr-extralarge {
   filter: invert(1);
 }
 .light-content .link-strong,
@@ -71,22 +68,15 @@
 #portfolio .text-center a {
   color: rgba(255, 255, 255, 0.8);
 }
+#portfolio .text-center .portfolio-3-descr a {
+  color: var(--color-accent);
+}
 #portfolio .text-center a:hover,
 #portfolio .text-center .portfolio-3-title a {
   color: #fff;
 }
 
-.light-content .marquee-style-4 .marquee-track > div {
-  background: #000;
-  border-color: #fff;
-  border-width: 2px;
-  color: #fff;
-  filter: invert(1);
-}
 .light-content .marquee-style-3 {
-  filter: invert(1);
-}
-#about .hs-title-5 {
   filter: invert(1);
 }
 .scroll-down-2 img {
@@ -126,4 +116,51 @@ span.hue-color {
 html {
   background-color: #fff;
   -ms-overflow-style: scrollbar;
+}
+
+:root {
+  --color-accent: #1a6fd6;
+}
+/* inverted blocks get the accent's inverse, so it renders as the same blue */
+.inner-nav,
+.hs-social-link,
+#portfolio .text-center,
+.col-sm-6.col-md-4.text-center.text-sm-end.local-scroll {
+  --color-accent: #e59029;
+}
+.inner-nav .btn-mod.btn-border-w:hover,
+.col-sm-6.col-md-4.text-center.text-sm-end.local-scroll .btn-mod.btn-border-w:hover,
+.hs-social-link:hover {
+  color: #000;
+}
+
+/* about */
+#about.bg-dark-2 {
+  background-color: #f3f4f6 !important;
+}
+.edge-top-figure-2:before {
+  background: #f3f4f6;
+}
+#about.light-content,
+#about .text-light,
+#about .about-point-title {
+  color: #111 !important;
+}
+#about dl dd {
+  color: rgba(0, 0, 0, 0.72);
+}
+#about .about-points {
+  color: rgba(0, 0, 0, 0.68);
+}
+#about .accordion-1 {
+  border-color: rgba(0, 0, 0, 0.85);
+}
+#about .accordion-1 > dt > a {
+  color: #111;
+  border-color: rgba(0, 0, 0, 0.85);
+}
+#about .accordion-1 > dt > a > span:before,
+#about .accordion-1 > dt > a > .icon-plus:before,
+#about .accordion-1 > dt > a > .icon-plus:after {
+  background: #111;
 }

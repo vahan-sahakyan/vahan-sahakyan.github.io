@@ -31,6 +31,7 @@
   --color-gray-light-1: #f5f5f5;
   --color-gray-light-2: #f7f7f7;
   --border-radius-default: 20px;
+  --color-accent: #4d9bff;
 }
 .dark-mode {
   --color-dark-1: #090909;
@@ -314,11 +315,10 @@ body {
   letter-spacing: 0.03em;
 }
 .section-descr {
-  font-size: 15px;
+  font-size: 18px;
   font-weight: 400;
-  line-height: 1.466;
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
+  line-height: 1.6;
+  letter-spacing: 0;
 }
 .section-descr .text-link {
   color: inherit;
@@ -516,5 +516,130 @@ body {
   .form textarea.input-lg {
     padding-left: 15px;
     padding-right: 15px;
+  }
+}
+
+/* ==============================
+   Accent
+   ============================== */
+.inner-nav ul li a:hover:before,
+.inner-nav ul li a.active:before {
+  background: var(--color-accent);
+}
+.btn-mod.btn-border-w:hover,
+.btn-mod.btn-border-w:focus {
+  color: #fff;
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+}
+.hs-social-link.d-inline-flex {
+  vertical-align: middle;
+}
+.hs-social-link:hover {
+  color: #fff;
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+}
+.link-hover-anim:hover,
+.section-descr .text-link:hover {
+  color: var(--color-accent) !important;
+}
+.section-descr .text-link:after {
+  background-color: var(--color-accent) !important;
+}
+.services-4-title > b {
+  color: var(--color-accent);
+}
+#portfolio .portfolio-3-descr,
+#portfolio .portfolio-3-descr a {
+  color: var(--color-accent);
+}
+
+/* ==============================
+   Nav logo
+   ============================== */
+.nav-logo-wrap .logo-text {
+  padding-left: 0.5rem;
+  font-size: 22px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  color: #fff;
+}
+
+/* ==============================
+   Hero
+   ============================== */
+.hs-tagline {
+  max-width: 760px;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 21px;
+  line-height: 1.5;
+  text-transform: none;
+  letter-spacing: 0;
+  opacity: 0.75;
+}
+
+/* ==============================
+   About
+   ============================== */
+.about-points {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 44px 64px;
+  font-size: 17px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.7);
+}
+.about-point-title {
+  margin: 0 0 8px;
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: #fff;
+}
+#about .about-points a {
+  color: var(--color-accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* ==============================
+   Expertise
+   ============================== */
+.services-4-descr {
+  display: block;
+  margin: 4px 0 40px;
+  font-family: var(--font-global);
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0;
+  text-transform: none;
+  opacity: 0.6;
+}
+.services-4-item:last-child .services-4-descr {
+  margin-bottom: 0;
+}
+
+/* ==============================
+   Projects
+   ============================== */
+.portfolio-3-image {
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+@media only screen and (max-width: 767px) {
+  .about-points {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  .hs-tagline {
+    font-size: 17px;
+  }
+  .services-4-descr {
+    margin-bottom: 22px;
+    font-size: 13px;
   }
 }

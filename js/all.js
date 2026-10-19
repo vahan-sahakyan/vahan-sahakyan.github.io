@@ -830,28 +830,21 @@
             var allTabs = $(this).children("dt").children("a");
             allTabs.attr("role", "button");
                         
-            $(this).children("dt").children("a").click(function(){
-                
-                if ($(this).hasClass("active")) {
-                    var current = $(this).parent().next("dd");
-                    allTabs.removeClass("active");
-                    allTabs.attr("aria-expanded", "false");
-                    allPanels.slideUp("easeInExpo");
-                    allPanels.removeClass("active");                
-                    return false;
-                } else{
-                    var current = $(this).parent().next("dd");
-                    allTabs.removeClass("active");
-                    $(this).addClass("active");
-                    allTabs.attr("aria-expanded", "false");
-                    $(this).attr("aria-expanded", "true");
-                    allPanels.not(current).slideUp("easeInExpo");
-                    $(this).parent().next().slideDown("easeOutExpo");
-                    allPanels.removeClass("active");
-                    current.addClass("active");                
-                    return false;
-                }        
-                            
+            allTabs.attr("aria-expanded", "false");
+
+            // items toggle independently, opening one leaves the others as they are
+            allTabs.click(function(){
+                var current = $(this).parent().next("dd");
+                var isOpen = $(this).hasClass("active");
+                $(this).toggleClass("active", !isOpen);
+                $(this).attr("aria-expanded", String(!isOpen));
+                current.toggleClass("active", !isOpen);
+                if (isOpen) {
+                    current.slideUp("easeInExpo");
+                } else {
+                    current.slideDown("easeOutExpo");
+                }
+                return false;
             });
             
          });   
