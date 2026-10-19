@@ -547,17 +547,24 @@ body {
 .section-descr .text-link:after {
   background-color: var(--color-accent) !important;
 }
-.services-4-title > b {
-  color: var(--color-accent);
-}
 #portfolio .portfolio-3-descr,
 #portfolio .portfolio-3-descr a {
   color: var(--color-accent);
 }
 
 /* ==============================
-   Nav logo
+   Nav
    ============================== */
+.nav-ext-icon {
+  width: 0.8em;
+  height: 0.8em;
+  margin: 0 0.3em 0.15em 0.25em;
+  vertical-align: middle;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.2;
+  opacity: 0.75;
+}
 .nav-logo-wrap .logo-text {
   padding-left: 0.5rem;
   font-size: 22px;
@@ -579,6 +586,22 @@ body {
   text-transform: none;
   letter-spacing: 0;
   opacity: 0.75;
+}
+.home-section .btn-mod.btn-w:hover,
+.home-section .btn-mod.btn-w:focus {
+  color: #fff;
+  background: var(--color-accent);
+}
+.hs-actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 36px;
+}
+@media (prefers-reduced-motion: reduce) {
+  span.hue-color {
+    animation: none;
+  }
 }
 
 /* ==============================
@@ -606,30 +629,17 @@ body {
 }
 
 /* ==============================
-   Expertise
-   ============================== */
-.services-4-descr {
-  display: block;
-  margin: 4px 0 40px;
-  font-family: var(--font-global);
-  font-size: 17px;
-  font-weight: 400;
-  line-height: 1.5;
-  letter-spacing: 0;
-  text-transform: none;
-  opacity: 0.6;
-}
-.services-4-item:last-child .services-4-descr {
-  margin-bottom: 0;
-}
-
-/* ==============================
    Projects
    ============================== */
 .portfolio-3-image {
   box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1);
 }
 
+@media only screen and (max-width: 575px) {
+  .home-section .hs-title-5 {
+    font-size: 14.5vw;
+  }
+}
 @media only screen and (max-width: 767px) {
   .about-points {
     grid-template-columns: 1fr;
@@ -638,8 +648,7 @@ body {
   .hs-tagline {
     font-size: 17px;
   }
-  .services-4-descr {
-    margin-bottom: 22px;
-    font-size: 13px;
+  .hs-actions {
+    margin-top: 28px;
   }
 }

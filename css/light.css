@@ -28,10 +28,6 @@
   background: #ededed;
 }
 
-.page-loader.dark {
-  /* background: white; */
-  filter: invert(1);
-}
 .light-content .link-strong,
 .light-content .link-hover-anim {
   color: #000;
@@ -91,9 +87,6 @@ hr {
 .fw-top-link {
   filter: invert(1);
 }
-.col-sm-6.col-md-4.text-center.text-sm-end.local-scroll {
-  filter: invert(1);
-}
 
 .section-descr p a:hover {
   color: #000 !important;
@@ -109,9 +102,6 @@ hr {
     0px 0px 50px 0px rgba(0, 0, 0, 0.07);
   background-color: white;
 }
-span.hue-color {
-  -webkit-text-fill-color: #0002;
-}
 
 html {
   background-color: #fff;
@@ -124,14 +114,28 @@ html {
 /* inverted blocks get the accent's inverse, so it renders as the same blue */
 .inner-nav,
 .hs-social-link,
-#portfolio .text-center,
-.col-sm-6.col-md-4.text-center.text-sm-end.local-scroll {
+#portfolio .text-center {
   --color-accent: #e59029;
 }
 .inner-nav .btn-mod.btn-border-w:hover,
-.col-sm-6.col-md-4.text-center.text-sm-end.local-scroll .btn-mod.btn-border-w:hover,
 .hs-social-link:hover {
   color: #000;
+}
+
+/* hero buttons */
+.home-section .btn-mod.btn-w {
+  color: #fff;
+  background: #000;
+}
+.home-section .btn-mod.btn-border-w {
+  color: #000;
+  border-color: #000;
+}
+.home-section .btn-mod.btn-w:hover,
+.home-section .btn-mod.btn-border-w:hover {
+  color: #fff;
+  background: var(--color-accent);
+  border-color: var(--color-accent);
 }
 
 /* about */

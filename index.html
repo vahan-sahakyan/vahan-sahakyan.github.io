@@ -19,6 +19,10 @@
     <!-- OG -->
     <meta property="og:title" content="Vahan Sahakyan | Senior Backend Engineer & Distributed Systems" />
     <meta property="og:url" content="https://vahan-sahakyan.github.io" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://vahan-sahakyan.github.io/images/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
     <meta
       property="og:description"
       content="Senior Backend Engineer specializing in distributed systems, microservices architecture, Kubernetes orchestration. Go, Node.js, MongoDB. Forbes."
@@ -27,6 +31,7 @@
     <!-- TWITTER -->
     <meta name="twitter:title" content="Vahan Sahakyan | Senior Backend Engineer & Distributed Systems" />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://vahan-sahakyan.github.io/images/og-image.png" />
     <meta
       name="twitter:description"
       content="Senior Backend Engineer specializing in distributed systems, microservices architecture, Kubernetes orchestration. Go, Node.js, MongoDB."
@@ -36,16 +41,12 @@
     <link rel="icon" href="images/favicon.svg" type="image/svg+xml" />
 
     <!-- CSS -->
-    <link rel="stylesheet" href="css/fa6_1_1/css/all.min.css" />
     <link rel="stylesheet" href="css/bootstrap.min.css" />
     <link rel="stylesheet" href="css/style.css" />
     <link rel="stylesheet" href="css/style-responsive.css" />
     <link rel="stylesheet" href="css/vertical-rhythm.min.css" />
-    <link rel="stylesheet" href="css/magnific-popup.css" />
-
-    <link rel="stylesheet" href="css/owl.carousel.css" />
     <link rel="stylesheet" href="css/main.css" />
-    <link id="light-css" rel="stylesheet" href="css/light.css" />
+    <link rel="stylesheet" href="css/light.css" media="(prefers-color-scheme: light)" />
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
 
@@ -54,20 +55,11 @@
   </head>
 
   <body class="appear-animate dark-mode">
-    <!-- Page Loader -->
-    <div class="page-loader dark">
-      <div class="loader"></div>
-    </div>
-    <!-- End Page Loader -->
-
     <!-- Page Wrap -->
     <div class="page bg-dark-1" id="top">
       <!-- Navigation Panel -->
       <nav class="main-nav dark dark-mode transparent stick-fixed wow-menubar">
         <div class="main-nav-sub full-wrapper">
-          <!-- Logo  (* Add your text or image to the link tag. Use SVG or PNG image format. 
-                    If you use a PNG logo image, the image resolution must be equal 200% of the visible logo
-                    image size for support of retina screens. See details in the template documentation. *) -->
           <div class="nav-logo-wrap local-scroll">
             <a href="#top" class="logo">
               <span class="logo-text font-alt">vahan sahakyan</span>
@@ -87,15 +79,15 @@
                 <a href="#about" data-btn-animate="y">About</a>
               </li>
               <li>
-                <a href="#services" data-btn-animate="y">Expertise</a>
-              </li>
-              <li>
                 <a href="#portfolio" data-btn-animate="y">Projects</a>
               </li>
 
               <li>
                 <a href="https://vahan-sahakyan.github.io/cv" target="_blank" data-btn-animate="y">
-                  <i class="fa-light fa-square-arrow-up-right fa-sm mx-1 opacity-75"></i>
+                  <svg class="nav-ext-icon" viewBox="0 0 16 16" aria-hidden="true">
+                    <rect x="1.5" y="1.5" width="13" height="13" rx="2.5" />
+                    <path d="M6 10l4-4M6.5 6H10v3.5" />
+                  </svg>
                   Resume
                 </a>
               </li>
@@ -124,7 +116,9 @@
                     class="hs-image-2 wow fadeInRight"
                     data-wow-delay="0.8s"
                     data-wow-offset="0"
-                    src="images/hs-image-2.png"
+                    src="images/hs-image-2.webp"
+                    width="240"
+                    height="240"
                     alt="Vahan Sahakyan"
                   />
                   Vahan
@@ -146,6 +140,18 @@
               >
                 Distributed systems, event-driven services, Kubernetes infrastructure
               </h2>
+
+              <div class="hs-actions wow fadeInUp" data-wow-delay="0.7s" data-wow-offset="0">
+                <a
+                  href="https://vahan-sahakyan.github.io/cv"
+                  target="_blank"
+                  class="btn btn-mod btn-w btn-medium btn-circle"
+                  >Resume</a
+                >
+                <a href="mailto:vahan.codes@gmail.com" class="btn btn-mod btn-border-w btn-medium btn-circle"
+                  >Email me</a
+                >
+              </div>
 
               <div
                 class="hs-line d-none d-sm-block wow fadeIn parallax-mousemove"
@@ -173,11 +179,11 @@
             <!-- Social Media Links -->
             <div class="hs-social left wow fadeInUp" data-wow-offset="0">
               <a target="_blank" href="https://www.linkedin.com/in/vahan-sahakyan" class="hs-social-link"
-                ><span class="visually-hidden">LinkedIn</span><i class="fa-brands fa-linkedin"></i
-              ></a>
+                ><span class="visually-hidden">LinkedIn</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zm1.78 13.02H3.56V9h3.56v11.45zM22.23 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z" /></svg></a
+              >
               <a target="_blank" href="https://github.com/vahan-sahakyan" class="hs-social-link"
-                ><span class="visually-hidden">GitHub</span><i class="fa-brands fa-github"></i
-              ></a>
+                ><span class="visually-hidden">GitHub</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .3a12 12 0 0 0-3.8 23.38c.6.12.83-.26.83-.57l-.02-2.04c-3.34.72-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.74.08-.73.08-.73 1.2.09 1.84 1.24 1.84 1.24 1.07 1.83 2.8 1.3 3.49 1 .1-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.64 1.66.24 2.88.12 3.18a4.65 4.65 0 0 1 1.23 3.22c0 4.61-2.8 5.63-5.48 5.92.42.36.81 1.1.81 2.22l-.01 3.29c0 .32.21.69.82.57A12 12 0 0 0 12 .3" /></svg></a
+              >
               <a target="_blank" href="https://x.com/_vahan_sahakyan" class="hs-social-link"
                 ><span class="visually-hidden">X</span
                 ><svg viewBox="0 0 24 24" aria-hidden="true">
@@ -594,94 +600,8 @@
         </section>
         <!-- End About Section -->
 
-        <!-- Services Section (Expertise) -->
-        <section class="page-section bg-dark-1 light-content" id="services">
-          <div class="container">
-            <div class="mb-100 mb-md-40">
-              <div class="row">
-                <div class="col-sm-6">
-                  <h2 class="section-caption mb-0 mb-xs-10">Expertise</h2>
-                </div>
-                <div class="col-sm-6 local-scroll mt-n10 mb-n10 text-sm-end">
-                  <a href="#portfolio" class="link-hover-anim align-middle" data-link-animate="y"
-                    >See projects <i class="icon-arrow-right2 size-14"></i
-                  ></a>
-                </div>
-              </div>
-              <hr class="white opacity-1 mt-3 mb-0" />
-            </div>
-
-            <!-- Services Grid -->
-            <div class="mb-100 mb-md-40">
-              <!-- Services Item -->
-              <h3 class="services-4-item text-center parallax-mousemove-scene wow fadeInUp">
-                <span class="services-4-title hs-title-5 font-alt overflow-hidden"
-                  >Distributed Systems Design <b>01</b></span
-                >
-                <span class="services-4-descr">Data consistency, fault tolerance, distributed tracing</span>
-              </h3>
-              <!-- End Services Item -->
-
-              <!-- Services Item -->
-              <h3 class="services-4-item text-end parallax-mousemove-scene wow fadeInUp">
-                <span class="services-4-title hs-title-5 font-alt overflow-hidden"
-                  >Microservices Architecture <b>02</b></span
-                >
-                <span class="services-4-descr">Go services, REST and gRPC APIs, polyglot persistence</span>
-              </h3>
-              <!-- End Services Item -->
-
-              <!-- Services Item -->
-              <h3 class="services-4-item text-start parallax-mousemove-scene wow fadeInUp">
-                <span class="services-4-title hs-title-5 font-alt overflow-hidden"
-                  >Kubernetes & Infrastructure <b>03</b></span
-                >
-                <span class="services-4-descr">Multi-tenant clusters, GitOps with ArgoCD and Argo Events</span>
-              </h3>
-              <!-- End Services Item -->
-
-              <!-- Services Item -->
-              <h3 class="services-4-item text-end parallax-mousemove-scene wow fadeInUp">
-                <span class="services-4-title hs-title-5 font-alt overflow-hidden"
-                  >Event-Driven Architecture <b>04</b></span
-                >
-                <span class="services-4-descr">Kafka/Redpanda, CQRS and event sourcing</span>
-              </h3>
-              <!-- End Services Item -->
-
-              <!-- Services Item -->
-              <h3 class="services-4-item text-center parallax-mousemove-scene wow fadeInUp">
-                <span class="services-4-title hs-title-5 font-alt overflow-hidden">Technical Leadership <b>05</b></span>
-                <span class="services-4-descr">Architecture decisions, design docs, code review and mentoring</span>
-              </h3>
-              <!-- End Services Item -->
-            </div>
-            <!-- End Services Grid -->
-
-            <div class="row">
-              <div class="col-md-10 offset-md-1 col-lg-8 offset-lg-2">
-                <hr class="white opacity-1 mt-0 mb-20" />
-                <div class="row">
-                  <div class="col-sm-6 col-md-8 text-center text-sm-start mb-xs-20">
-                    <p class="section-descr mb-0">
-                      I design and build scalable, fault-tolerant systems that solve complex operational problems. Focus
-                      on observability, reliability, and architectural clarity for teams operating at scale.
-                    </p>
-                  </div>
-                  <div class="col-sm-6 col-md-4 text-center text-sm-end local-scroll">
-                    <a href="#contact" class="btn btn-mod btn-border-w btn-medium btn-circle" data-btn-animate="y"
-                      >Get In Touch</a
-                    >
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-        <!-- End Services Section -->
-
         <!-- Portfolio Section -->
-        <section class="page-section bg-dark-1 light-content pt-0 pb-0" id="portfolio">
+        <section class="page-section bg-dark-1 light-content pb-0" id="portfolio">
           <div class="container">
             <div class="mb-100 mb-md-40">
               <div class="row">
@@ -689,21 +609,16 @@
                   <h2 class="section-caption mb-0 mb-xs-10">Projects</h2>
                 </div>
                 <div class="col-sm-6 local-scroll mt-n10 mb-n10 text-sm-end">
-                  <a href="#contact" class="link-hover-anim align-middle" data-link-animate="y"
-                    >Start a project <i class="icon-arrow-right2 size-14"></i
+                  <a
+                    target="_blank"
+                    href="https://github.com/vahan-sahakyan?tab=repositories"
+                    class="link-hover-anim align-middle"
+                    data-link-animate="y"
+                    >More on GitHub <i class="icon-arrow-right2 size-14"></i
                   ></a>
                 </div>
               </div>
               <hr class="white opacity-1 mt-3 mb-0" />
-            </div>
-
-            <div class="row">
-              <div class="col-10 col-sm-9">
-                <h3 class="hs-title-5 font-alt overflow-hidden mb-100 mb-md-40">
-                  <span class="d-block wow fadeRotateIn"> Featured </span>
-                  <span class="d-block text-end wow fadeRotateIn"> Work </span>
-                </h3>
-              </div>
             </div>
 
             <!-- Portfolio Grid -->
@@ -714,7 +629,12 @@
                   <div class="col-md-7 col-lg-8 mb-sm-30 mb-xs-20">
                     <div class="portfolio-3-image">
                       <a target="_blank" href="https://github.com/vahan-sahakyan/distributed-social-network"
-                        ><img src="images/portfolio/1.jpg" alt="Vahan Sahakyan's Distributed Social Network Project"
+                        ><img
+                          src="images/portfolio/1.webp"
+                          width="1600"
+                          height="1006"
+                          loading="lazy"
+                          alt="Vahan Sahakyan's Distributed Social Network Project"
                       /></a>
                     </div>
                   </div>
@@ -750,10 +670,10 @@
                       </h3>
                       <div class="portfolio-3-descr">
                         <a target="_blank" href="https://github.com/vahan-sahakyan/code-inspect-frontend"
-                          ><span class="wow" data-splitting="chars">React Frontend</span></a
+                          >React Frontend</a
                         >,
                         <a target="_blank" href="https://github.com/vahan-sahakyan/code-inspect-backend"
-                          ><span class="wow" data-splitting="chars">Spring Boot Backend</span></a
+                          >Spring Boot Backend</a
                         >
                       </div>
                       <p class="text-xs mt-3" style="line-height: 1.6">
@@ -765,7 +685,12 @@
                   <div class="col-md-7 col-lg-8 mb-sm-30 mb-xs-20 order-first order-md-last">
                     <div class="portfolio-3-image">
                       <a target="_blank" href="https://github.com/vahan-sahakyan/ci-composed"
-                        ><img src="images/portfolio/2.jpg" alt="Vahan Sahakyan's Code Inspect Project"
+                        ><img
+                          src="images/portfolio/2.webp"
+                          width="1080"
+                          height="720"
+                          loading="lazy"
+                          alt="Vahan Sahakyan's Code Inspect Project"
                       /></a>
                     </div>
                   </div>
@@ -778,30 +703,6 @@
         </section>
         <!-- End Portfolio Section -->
 
-        <!-- Marquee Section -->
-        <div class="page-section pt-60 pb-60 pt-md-40 pb-md-40 light-content overflow-hidden">
-          <div class="pt-40 pb-40 pt-md-0 pb-md-0">
-            <!-- Marquee Text Line -->
-            <div class="marquee marquee-style-3 mb-0 z-index-1">
-              <div class="marquee-track marquee-animation-1a">
-                <div>Scalability</div>
-                <div aria-hidden="true">Scalability</div>
-                <div aria-hidden="true">Scalability</div>
-                <div aria-hidden="true">Scalability</div>
-                <div aria-hidden="true">Scalability</div>
-                <div aria-hidden="true">Scalability</div>
-                <div aria-hidden="true">Scalability</div>
-                <div aria-hidden="true">Scalability</div>
-                <div aria-hidden="true">Scalability</div>
-                <div aria-hidden="true">Scalability</div>
-              </div>
-            </div>
-            <!-- End Marquee Text Line -->
-
-          </div>
-        </div>
-        <!-- End Marquee Section -->
-
         <!-- Contact Section -->
         <section class="page-section bg-dark-1 light-content" id="contact">
           <div class="container">
@@ -811,7 +712,6 @@
                   <h2 class="section-caption mb-0 mb-xs-10">Contact</h2>
                 </div>
                 <div class="col-sm-6 local-scroll mt-n10 mb-n10 text-sm-end">
-                  <!-- Change the email address in the href attribute -->
                   <a href="mailto:vahan.codes@gmail.com" class="link-hover-anim align-middle" data-link-animate="y"
                     >Say hi <i class="icon-arrow-right2 size-14"></i
                   ></a>
@@ -833,15 +733,12 @@
               <div class="col-md-6 mb-sm-60">
                 <div class="section-descr">
                   <p>
-                    I'm open to discussing new opportunities, technical challenges, and collaboration. Let's talk about
-                    how we can build something great.
+                    Open to new opportunities and technical collaboration in backend and distributed systems.
                   </p>
                   <p>
-                    <!-- Change the phone number inside and link tag and href attribute -->
                     Call me:
                     <a href="tel:+37495276827" class="text-link">+374 95 27 68 27</a>
                     <br />
-                    <!-- Change the email address inside and link tag and href attribute -->
                     Say hi:
                     <a href="mailto:vahan.codes@gmail.com" class="text-link">vahan.codes@gmail.com</a>
                   </p>
@@ -852,7 +749,7 @@
                       class="hs-social-link d-inline-flex me-1"
                     >
                       <span class="visually-hidden">LinkedIn</span>
-                      <i class="fa-brands fa-linkedin"></i>
+                      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zm1.78 13.02H3.56V9h3.56v11.45zM22.23 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z" /></svg>
                     </a>
                     <a
                       target="_blank"
@@ -860,7 +757,7 @@
                       class="hs-social-link d-inline-flex me-1"
                     >
                       <span class="visually-hidden">GitHub</span>
-                      <i class="fa-brands fa-github"></i>
+                      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .3a12 12 0 0 0-3.8 23.38c.6.12.83-.26.83-.57l-.02-2.04c-3.34.72-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.74.08-.73.08-.73 1.2.09 1.84 1.24 1.84 1.24 1.07 1.83 2.8 1.3 3.49 1 .1-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.64 1.66.24 2.88.12 3.18a4.65 4.65 0 0 1 1.23 3.22c0 4.61-2.8 5.63-5.48 5.92.42.36.81 1.1.81 2.22l-.01 3.29c0 .32.21.69.82.57A12 12 0 0 0 12 .3" /></svg>
                     </a>
                     <a
                       target="_blank"
@@ -897,11 +794,8 @@
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.bundle.min.js"></script>
     <script src="js/plugins.js"></script>
-    <script src="js/jquery.ajaxchimp.min.js"></script>
-    <script src="js/contact-form.js"></script>
     <script src="js/all.js"></script>
 
-    <script src="js/main.js"></script>
     <script src="js/experience.js"></script>
 
     <!-- End JS -->
