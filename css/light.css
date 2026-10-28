@@ -72,6 +72,22 @@
   color: #fff;
 }
 
+.topo {
+  --topo-fg: rgba(0, 0, 0, 0.85);
+  --topo-muted: rgba(0, 0, 0, 0.55);
+  --topo-line: rgba(0, 0, 0, 0.28);
+  --topo-border: rgba(0, 0, 0, 0.1);
+  --topo-surface: rgba(0, 0, 0, 0.02);
+  --topo-edge: #2563eb;
+  --topo-service: #059669;
+  --topo-stream: #7c3aed;
+  --topo-store: #d97706;
+  --topo-infra: #0891b2;
+}
+.topo-node text {
+  stroke: #fff;
+}
+
 .light-content .marquee-style-3 {
   filter: invert(1);
 }

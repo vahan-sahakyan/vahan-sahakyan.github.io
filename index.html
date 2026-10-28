@@ -652,15 +652,45 @@
               <div class="mb-100 mb-md-60 mb-sm-40">
                 <div class="row">
                   <div class="col-md-7 col-lg-8 mb-sm-30 mb-xs-20">
-                    <div class="portfolio-3-image">
-                      <a target="_blank" href="https://github.com/vahan-sahakyan/distributed-social-network"
-                        ><img
-                          src="images/portfolio/1.webp"
-                          width="1600"
-                          height="1006"
-                          loading="lazy"
-                          alt="Vahan Sahakyan's Distributed Social Network Project"
-                      /></a>
+                    <div class="topo" data-topo="dsn" aria-label="Service topology of the distributed social network">
+                      <div class="topo-bar">
+                        <div class="topo-filters" role="group" aria-label="Edge filter">
+                          <button type="button" data-topo-filter="all" aria-pressed="true">All</button>
+                          <button type="button" data-topo-filter="req" aria-pressed="false">Requests</button>
+                          <button type="button" data-topo-filter="event" aria-pressed="false">Event Stream</button>
+                          <button type="button" data-topo-filter="store" aria-pressed="false">Data Flow</button>
+                          <button type="button" data-topo-filter="platform" aria-pressed="false">Observability</button>
+                        </div>
+                        <div class="topo-zoom" role="group" aria-label="Zoom">
+                          <button type="button" data-topo-zoom="out" aria-label="Zoom out">-</button>
+                          <button type="button" data-topo-zoom="in" aria-label="Zoom in">+</button>
+                          <button type="button" data-topo-zoom="reset">Reset</button>
+                        </div>
+                      </div>
+                      <div class="topo-stage">
+                        <a target="_blank" href="https://github.com/vahan-sahakyan/distributed-social-network"
+                          ><img
+                            src="images/portfolio/1.webp"
+                            width="1600"
+                            height="1006"
+                            loading="lazy"
+                            alt="Vahan Sahakyan's Distributed Social Network Project"
+                        /></a>
+                      </div>
+                      <div class="topo-card" aria-live="polite">
+                        <p class="topo-card-title">11 Go services, one event backbone</p>
+                        <p>
+                          <span class="topo-hint-mouse">Hover a node to trace its edges. Drag to pan, Ctrl/Cmd + scroll to zoom.</span>
+                          <span class="topo-hint-touch">Tap a node to trace its edges. Pinch with two fingers to zoom.</span>
+                        </p>
+                      </div>
+                      <ul class="topo-legend clearlist">
+                        <li class="topo-node-edge">Edge</li>
+                        <li class="topo-node-service">Go service</li>
+                        <li class="topo-node-stream">Streaming</li>
+                        <li class="topo-node-store">Data store</li>
+                        <li class="topo-node-infra">Platform</li>
+                      </ul>
                     </div>
                   </div>
                   <div class="col-md-5 col-lg-4 d-md-flex align-items-end">
@@ -674,8 +704,9 @@
                         Go · Microservices · Kafka · CQRS · PostgreSQL · ClickHouse · Kubernetes
                       </div>
                       <p class="text-xs mt-3" style="line-height: 1.6">
-                        10+ Go services communicating over Kafka, with CQRS and event sourcing on ScyllaDB, PostgreSQL
-                        and ClickHouse. Prometheus, Grafana, Jaeger and Loki for observability; Helm charts for Kubernetes.
+                        11 Go services over gRPC and Redpanda, with a transactional outbox, a CQRS feed and a ClickHouse
+                        event store. OpenTelemetry, Tempo, Loki and Prometheus for observability; deployed to Kubernetes
+                        with Helm and Argo CD.
                       </p>
                     </div>
                   </div>
@@ -703,20 +734,51 @@
                       </div>
                       <p class="text-xs mt-3" style="line-height: 1.6">
                         Code review platform: assignments are submitted as GitHub branches and tracked through review
-                        states. React frontend, Spring Boot backend.
+                        states. Spring Boot API on MySQL; changes stream through Kafka to a WebSocket server for live
+                        updates. Runs on Kubernetes behind an NGINX Ingress.
                       </p>
                     </div>
                   </div>
                   <div class="col-md-7 col-lg-8 mb-sm-30 mb-xs-20 order-first order-md-last">
-                    <div class="portfolio-3-image">
-                      <a target="_blank" href="https://github.com/vahan-sahakyan/ci-composed"
-                        ><img
-                          src="images/portfolio/2.webp"
-                          width="1080"
-                          height="720"
-                          loading="lazy"
-                          alt="Vahan Sahakyan's Code Inspect Project"
-                      /></a>
+                    <div class="topo" data-topo="code-inspect" aria-label="Service topology of Code Inspect">
+                      <div class="topo-bar">
+                        <div class="topo-filters" role="group" aria-label="Edge filter">
+                          <button type="button" data-topo-filter="all" aria-pressed="true">All</button>
+                          <button type="button" data-topo-filter="req" aria-pressed="false">Requests</button>
+                          <button type="button" data-topo-filter="event" aria-pressed="false">Event Stream</button>
+                          <button type="button" data-topo-filter="store" aria-pressed="false">Data Flow</button>
+                          <button type="button" data-topo-filter="platform" aria-pressed="false">Platform</button>
+                        </div>
+                        <div class="topo-zoom" role="group" aria-label="Zoom">
+                          <button type="button" data-topo-zoom="out" aria-label="Zoom out">-</button>
+                          <button type="button" data-topo-zoom="in" aria-label="Zoom in">+</button>
+                          <button type="button" data-topo-zoom="reset">Reset</button>
+                        </div>
+                      </div>
+                      <div class="topo-stage">
+                        <a target="_blank" href="https://github.com/vahan-sahakyan/ci-composed"
+                          ><img
+                            src="images/portfolio/2.webp"
+                            width="1080"
+                            height="720"
+                            loading="lazy"
+                            alt="Vahan Sahakyan's Code Inspect Project"
+                        /></a>
+                      </div>
+                      <div class="topo-card" aria-live="polite">
+                        <p class="topo-card-title">Spring Boot API, live updates over Kafka and WebSockets</p>
+                        <p>
+                          <span class="topo-hint-mouse">Hover a node to trace its edges. Drag to pan, Ctrl/Cmd + scroll to zoom.</span>
+                          <span class="topo-hint-touch">Tap a node to trace its edges. Pinch with two fingers to zoom.</span>
+                        </p>
+                      </div>
+                      <ul class="topo-legend clearlist">
+                        <li class="topo-node-edge">Edge</li>
+                        <li class="topo-node-service">Service</li>
+                        <li class="topo-node-stream">Streaming</li>
+                        <li class="topo-node-store">Data store</li>
+                        <li class="topo-node-infra">Platform</li>
+                      </ul>
                     </div>
                   </div>
                 </div>
@@ -825,6 +887,7 @@
     <script src="js/all.js"></script>
 
     <script src="js/experience.js"></script>
+    <script type="module" src="js/topology.js"></script>
 
     <!-- End JS -->
   </body>
