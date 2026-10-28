@@ -577,8 +577,14 @@ body {
 /* ==============================
    Hero
    ============================== */
+/* caps the four-line title by viewport height so the hero fits one screen */
+@media only screen and (min-width: 576px) {
+  .home-section .hs-title-5 {
+    font-size: min(150px, 10.98vw, 12vh);
+  }
+}
 .hs-tagline {
-  max-width: 760px;
+  max-width: 940px;
   margin-left: auto;
   margin-right: auto;
   font-size: 21px;
@@ -594,9 +600,38 @@ body {
 }
 .hs-actions {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   gap: 12px;
-  margin-top: 36px;
+  margin-top: 28px;
+}
+.hs-proof {
+  margin-top: 32px;
+  text-align: center;
+}
+.hs-proof-label {
+  margin: 0 0 10px;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  opacity: 0.45;
+}
+.hs-proof-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px 36px;
+}
+.hs-proof-list li {
+  font-family: var(--font-alt);
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  opacity: 0.4;
+  transition: opacity 0.2s;
+}
+.hs-proof-list li:hover {
+  opacity: 0.85;
 }
 @media (prefers-reduced-motion: reduce) {
   span.hue-color {
@@ -650,5 +685,29 @@ body {
   }
   .hs-actions {
     margin-top: 28px;
+  }
+}
+@media only screen and (max-width: 575px) {
+  .hs-actions .btn {
+    padding-left: 18px;
+    padding-right: 18px;
+    font-size: 12px;
+    white-space: nowrap;
+  }
+  .hs-tagline {
+    font-size: 16px;
+  }
+  .hs-proof {
+    margin-top: 24px;
+  }
+  .hs-proof-label {
+    font-size: 10px;
+    letter-spacing: 0.06em;
+  }
+  .hs-proof-list {
+    gap: 4px 20px;
+  }
+  .hs-proof-list li {
+    font-size: 15px;
   }
 }
