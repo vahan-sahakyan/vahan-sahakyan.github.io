@@ -4,6 +4,10 @@
 .light-content {
   color: #010101;
 }
+.main-nav .nav-logo-wrap a.nav-id,
+.main-nav .nav-logo-wrap a.nav-id:hover {
+  color: #000;
+}
 /* darker blue keeps the headline accent above 3:1 on white */
 .hs-accent {
   color: #1a6fd6;

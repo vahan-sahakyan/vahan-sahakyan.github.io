@@ -566,6 +566,54 @@ body {
   opacity: 0.75;
 }
 
+/* hidden until the hero's name label scrolls away, see js/nav-id.js */
+.main-nav .nav-logo-wrap a.nav-id,
+.main-nav .nav-logo-wrap a.nav-id:hover {
+  color: #fff;
+}
+.nav-logo-wrap .nav-id {
+  gap: 10px;
+  max-width: none;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(6px);
+  transition:
+    opacity 0.3s,
+    transform 0.3s,
+    visibility 0.3s;
+}
+.nav-logo-wrap .nav-id.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+}
+.nav-logo-wrap .nav-id img {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border-radius: 50%;
+  transform: none;
+}
+.nav-id-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.25;
+}
+.nav-id-name {
+  font-size: 15px;
+  font-weight: 500;
+}
+.nav-id-role {
+  font-size: 12px;
+  font-weight: 400;
+  opacity: 0.55;
+}
+@media (prefers-reduced-motion: reduce) {
+  .nav-logo-wrap .nav-id {
+    transition: none;
+  }
+}
+
 /* ==============================
    Hero
    ============================== */
