@@ -690,6 +690,21 @@
                         <li class="topo-node-store">Data store</li>
                         <li class="topo-node-infra">Platform</li>
                       </ul>
+                      <div class="evlog" aria-label="Simulated Redpanda topics with consumer lag and a dead-letter queue">
+                        <div class="evlog-bar">
+                          <p class="evlog-title">Event stream <span>simulated: offsets, lag, retries, DLQ</span></p>
+                          <div class="evlog-actions">
+                            <button type="button" data-evlog="spike">Spike traffic</button>
+                            <button type="button" data-evlog="pause" aria-pressed="false">Pause consumers</button>
+                          </div>
+                        </div>
+                        <canvas
+                          class="evlog-canvas"
+                          role="img"
+                          aria-label="post, comment, like and user topics with consumer offsets trailing the head"
+                        ></canvas>
+                        <p class="evlog-stat"></p>
+                      </div>
                     </div>
                   </div>
                   <div class="col-md-5 col-lg-4 d-md-flex align-items-end">
@@ -890,6 +905,7 @@
     <script src="js/nav-id.js"></script>
     <script type="module" src="js/topology.js"></script>
     <script type="module" src="js/contour.js"></script>
+    <script type="module" src="js/event-log.js"></script>
 
     <!-- End JS -->
   </body>

@@ -764,6 +764,7 @@ body {
   --topo-stream: #a78bfa;
   --topo-store: #f59e0b;
   --topo-infra: #22d3ee;
+  --topo-dlq: #f87171;
   position: relative;
   padding: 14px;
   border-radius: var(--border-radius-default);
@@ -975,6 +976,48 @@ body {
   }
 }
 
+/* event stream strip under the dsn topology */
+.evlog {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--topo-border);
+}
+.evlog-bar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+.evlog-title {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--topo-fg);
+}
+.evlog-title span {
+  margin-left: 6px;
+  font-weight: 400;
+  color: var(--topo-muted);
+}
+.evlog-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.evlog-canvas {
+  display: block;
+  width: 100%;
+  height: 160px;
+  margin-top: 12px;
+}
+.evlog-stat {
+  min-height: 1.5em;
+  margin: 8px 0 0;
+  font: 400 12px/1.5 "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  font-variant-numeric: tabular-nums;
+  color: var(--topo-muted);
+}
 
 /* ==============================
    Hero contour lines

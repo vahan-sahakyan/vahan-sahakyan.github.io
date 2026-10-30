@@ -85,6 +85,7 @@
   --topo-stream: #7c3aed;
   --topo-store: #d97706;
   --topo-infra: #0891b2;
+  --topo-dlq: #dc2626;
 }
 .topo-node text {
   stroke: #fff;
