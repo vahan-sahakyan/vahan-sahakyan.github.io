@@ -175,6 +175,19 @@ html {
 #about .about-points {
   color: rgba(0, 0, 0, 0.68);
 }
+#about .about-viz {
+  --viz-fg: #111;
+  --viz-text: rgba(0, 0, 0, 0.62);
+  --viz-muted: rgba(0, 0, 0, 0.5);
+  --viz-border: rgba(0, 0, 0, 0.14);
+  --viz-bg: #f3f4f6;
+  --viz-edge: #1a6fd6;
+  --viz-service: #059669;
+  --viz-stream: #7c3aed;
+  --viz-store: #d97706;
+  --viz-infra: #0891b2;
+  --viz-obs: #db2777;
+}
 #about .accordion-1 {
   border-color: rgba(0, 0, 0, 0.85);
 }

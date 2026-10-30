@@ -1075,6 +1075,239 @@ body {
 #contact > .container {
   position: relative;
 }
+
+/* ==============================
+   About: experience graph + stack map
+   ============================== */
+/* light.css overrides these with #about's light palette */
+.about-viz {
+  --viz-fg: #fff;
+  --viz-text: rgba(255, 255, 255, 0.6);
+  --viz-muted: rgba(255, 255, 255, 0.45);
+  --viz-border: rgba(255, 255, 255, 0.1);
+  --viz-bg: var(--color-dark-2);
+  --viz-edge: #4d9bff;
+  --viz-service: #34d399;
+  --viz-stream: #a78bfa;
+  --viz-store: #f59e0b;
+  --viz-infra: #22d3ee;
+  --viz-obs: #f472b6;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 56px;
+  align-items: start;
+}
+.about-viz-cap {
+  margin: 0 0 20px;
+  font: 400 12px/1.4 "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--viz-muted);
+}
+
+.gitlog-body {
+  position: relative;
+}
+.gitlog-graph {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 56px;
+  overflow: visible;
+}
+.gitlog-graph path {
+  fill: none;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+}
+.gitlog-graph .l0 {
+  --git-c: var(--viz-edge);
+}
+.gitlog-graph .l1 {
+  --git-c: var(--viz-service);
+}
+.gitlog-graph path {
+  stroke: var(--git-c);
+}
+.gitlog-graph .tail {
+  stroke-dasharray: 2 5;
+}
+.gitlog-graph circle {
+  fill: var(--git-c);
+  stroke: var(--viz-bg);
+  stroke-width: 3;
+}
+.gitlog-graph circle.merge {
+  fill: var(--viz-bg);
+  stroke: var(--git-c);
+  stroke-width: 2.2;
+}
+/* commit-graph.js arms it below the fold and draws it oldest to newest */
+.gitlog.is-armed .gitlog-graph path:not(.tail) {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+.gitlog.is-armed .gitlog-graph .tail,
+.gitlog.is-armed .gitlog-graph circle {
+  opacity: 0;
+}
+.gitlog.is-armed .gitlog-graph circle {
+  transform: scale(0);
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.gitlog.is-drawn .gitlog-graph path:not(.tail) {
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 0.3s ease-out var(--d);
+}
+.gitlog.is-drawn .gitlog-graph .tail {
+  opacity: 1;
+  transition: opacity 0.5s var(--d);
+}
+.gitlog.is-drawn .gitlog-graph circle {
+  opacity: 1;
+  transform: scale(1);
+  transition:
+    transform 0.3s cubic-bezier(0.34, 1.8, 0.64, 1) var(--d),
+    opacity 0.15s var(--d);
+}
+.gitlog-rows {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding-left: 56px;
+}
+.gitlog-rows li {
+  display: grid;
+  grid-template-columns: 64px minmax(0, 1fr);
+  gap: 2px 14px;
+  padding: 8px 0;
+}
+.gitlog-date {
+  font: 400 13px/1.75 "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  font-variant-numeric: tabular-nums;
+  color: var(--viz-muted);
+}
+.gitlog-msg {
+  font: 400 15px/1.6 "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  color: var(--viz-fg);
+}
+.gitlog-meta {
+  grid-column: 2;
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--viz-text);
+}
+.gitlog-tag {
+  margin-right: 8px;
+  padding: 2px 8px;
+  border: 1px solid currentColor;
+  border-radius: 100px;
+  font-size: 11px;
+  white-space: nowrap;
+  vertical-align: 2px;
+}
+.gitlog-tag.l0 {
+  color: var(--viz-edge);
+}
+.gitlog-tag.l1 {
+  color: var(--viz-service);
+}
+
+.stackmap-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.stackmap:not(.is-ready) .stackmap-filters {
+  visibility: hidden;
+}
+.stackmap button {
+  padding: 4px 12px;
+  border: 1px solid var(--viz-border);
+  border-radius: 100px;
+  background: none;
+  color: var(--viz-muted);
+  font-size: 13px;
+  line-height: 1.6;
+  transition: color 0.2s, border-color 0.2s;
+}
+.stackmap button:hover,
+.stackmap button[aria-pressed="true"] {
+  color: var(--viz-fg);
+  border-color: var(--viz-muted);
+}
+.stackmap-stage {
+  display: flex;
+  justify-content: center;
+  min-height: 320px;
+  margin-top: 8px;
+}
+.stackmap-svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  overflow: visible;
+}
+.stackmap-edge {
+  --sm-c: var(--viz-edge);
+}
+.stackmap-service {
+  --sm-c: var(--viz-service);
+}
+.stackmap-stream {
+  --sm-c: var(--viz-stream);
+}
+.stackmap-store {
+  --sm-c: var(--viz-store);
+}
+.stackmap-infra {
+  --sm-c: var(--viz-infra);
+}
+.stackmap-obs {
+  --sm-c: var(--viz-obs);
+}
+.stackmap-link {
+  fill: none;
+  stroke: var(--sm-c);
+  stroke-width: 1.2;
+  stroke-opacity: 0.22;
+  transition: stroke-opacity 0.2s;
+}
+.stackmap-link.is-off {
+  stroke-opacity: 0.035;
+}
+.stackmap-link.is-on {
+  stroke-opacity: 0.9;
+  stroke-width: 1.6;
+}
+.stackmap-node {
+  cursor: pointer;
+  outline: none;
+  transition: opacity 0.2s;
+}
+.stackmap-node circle {
+  fill: var(--sm-c);
+}
+.stackmap-node text {
+  font: 400 12px "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  fill: var(--viz-fg);
+}
+.stackmap-node.is-dim {
+  opacity: 0.3;
+}
+.stackmap-node.is-on text,
+.stackmap-node:focus-visible text {
+  fill: var(--sm-c);
+}
+.stackmap-caption {
+  min-height: 1.6em;
+  margin: 8px 0 0;
+  font-size: 14px;
+  text-align: center;
+  color: var(--viz-text);
+}
+
 @media only screen and (max-width: 1199px) {
   .hs-grid {
     grid-template-columns: minmax(0, 1fr);
@@ -1082,6 +1315,10 @@ body {
   }
   .hs-spec {
     max-width: 640px;
+  }
+  .about-viz {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 64px;
   }
   /* clears the absolutely placed social rail once the panel stacks below */
   .home-section .home-content {
@@ -1120,5 +1357,15 @@ body {
   }
   .hs-spec dl {
     gap: 8px 14px;
+  }
+  .gitlog-rows {
+    padding-left: 50px;
+  }
+  .gitlog-rows li {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .gitlog-meta {
+    grid-column: 1;
+    font-size: 14px;
   }
 }

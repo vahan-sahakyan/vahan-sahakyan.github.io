@@ -264,6 +264,80 @@
                   </li>
                 </ul>
 
+                <!-- Experience graph + stack map -->
+                <div class="about-viz mb-100 mb-md-60">
+                  <div class="gitlog" aria-label="Experience as a git history">
+                    <p class="about-viz-cap">git log --graph</p>
+                    <div class="gitlog-body">
+                      <svg class="gitlog-graph" aria-hidden="true"></svg>
+                      <ol class="gitlog-rows clearlist">
+                        <li data-lane="1" data-parents="1" data-head>
+                          <span class="gitlog-date">2025-01</span>
+                          <span class="gitlog-msg"
+                            ><span class="gitlog-tag l1">HEAD -&gt; forbes</span>promote: senior backend engineer</span
+                          >
+                          <span class="gitlog-meta"
+                            >Forbes Vetted: Go and TypeScript services for search, cursor pagination, scraping and data
+                            pipelines</span
+                          >
+                        </li>
+                        <li data-lane="1" data-parents="2">
+                          <span class="gitlog-date">2024-05</span>
+                          <span class="gitlog-msg">checkout -b forbes</span>
+                          <span class="gitlog-meta"
+                            >Embedded on the Forbes Platform and Vetted teams: Bertie CMS, Zephr and Cordial
+                            integrations</span
+                          >
+                        </li>
+                        <li data-lane="0" data-parents="3" data-ongoing>
+                          <span class="gitlog-date">2024-05</span>
+                          <span class="gitlog-msg"><span class="gitlog-tag l0">optimum</span>join Optimum Partners</span>
+                          <span class="gitlog-meta">Senior Backend Engineer, Yerevan</span>
+                        </li>
+                        <li data-lane="0" data-parents="5,4" data-merge>
+                          <span class="gitlog-date">2023-09</span>
+                          <span class="gitlog-msg">merge wmg, join Datafoundry</span>
+                          <span class="gitlog-meta"
+                            >Backend and infrastructure: microservices refactor, 70% coverage floor, SonarQube gates</span
+                          >
+                        </li>
+                        <li data-lane="1" data-parents="5">
+                          <span class="gitlog-date">2022-11</span>
+                          <span class="gitlog-msg">checkout -b wmg</span>
+                          <span class="gitlog-meta"
+                            >Warner Music Group contract: royalty and publishing platform for ADA and DSPs</span
+                          >
+                        </li>
+                        <li data-lane="0" data-parents="6">
+                          <span class="gitlog-date">2022-11</span>
+                          <span class="gitlog-msg">join NWSLAB</span>
+                          <span class="gitlog-meta">Carpathia UI for WMG / ADA, architecture reviews with backend engineers</span>
+                        </li>
+                        <li data-lane="0">
+                          <span class="gitlog-date">2022-03</span>
+                          <span class="gitlog-msg"><span class="gitlog-tag l0">init</span>join Datafoundry</span>
+                          <span class="gitlog-meta">DF mSignal AI: dashboard analytics app with 4 user roles</span>
+                        </li>
+                      </ol>
+                    </div>
+                  </div>
+
+                  <div class="stackmap" aria-label="Tech stack, with links between technologies used in the same project">
+                    <p class="about-viz-cap">Stack, linked by project</p>
+                    <div class="stackmap-filters" role="group" aria-label="Project filter">
+                      <button type="button" data-stackmap-project="all" aria-pressed="true">All</button>
+                      <button type="button" data-stackmap-project="Forbes" aria-pressed="false">Forbes</button>
+                      <button type="button" data-stackmap-project="DSN" aria-pressed="false">DSN</button>
+                      <button type="button" data-stackmap-project="Code Inspect" aria-pressed="false">Code Inspect</button>
+                      <button type="button" data-stackmap-project="Datafoundry / WMG" aria-pressed="false">
+                        Datafoundry / WMG
+                      </button>
+                    </div>
+                    <div class="stackmap-stage"></div>
+                    <p class="stackmap-caption" aria-live="polite">Hover or tap a technology to see where it was used.</p>
+                  </div>
+                </div>
+
                 <!-- Accordion -->
                 <dl class="accordion-1 accordion-1-slick mb-0">
                   <dt>
@@ -905,6 +979,8 @@
     <script src="js/nav-id.js"></script>
     <script type="module" src="js/topology.js"></script>
     <script type="module" src="js/contour.js"></script>
+    <script type="module" src="js/commit-graph.js"></script>
+    <script type="module" src="js/stack-map.js"></script>
     <script type="module" src="js/event-log.js"></script>
 
     <!-- End JS -->
