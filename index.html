@@ -51,7 +51,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
 
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=IBM+Plex+Mono:wght@400&display=swap"
+      rel="stylesheet"
+    />
   </head>
 
   <body class="appear-animate dark-mode">
@@ -60,11 +63,6 @@
       <!-- Navigation Panel -->
       <nav class="main-nav dark dark-mode transparent stick-fixed wow-menubar">
         <div class="main-nav-sub full-wrapper">
-          <div class="nav-logo-wrap local-scroll">
-            <a href="#top" class="logo">
-              <span class="logo-text font-alt">vahan sahakyan</span>
-            </a>
-          </div>
 
           <!-- Mobile Menu Button -->
           <div class="mobile-nav" role="button" tabindex="0">
@@ -110,64 +108,61 @@
           <div class="container min-height-100vh d-flex align-items-center pt-100 pb-60 pt-sm-100 pb-sm-100">
             <!-- Home Section Content -->
             <div class="home-content pb-sm-60 text-start position-relative">
-              <h1 class="hs-title-5 font-alt overflow-hidden mb-30 mb-sm-20">
-                <span style="z-index: 999 !important" class="d-block text-center wow fadeRotateIn">
-                  <img
-                    class="hs-image-2 wow fadeInRight"
-                    data-wow-delay="0.8s"
-                    data-wow-offset="0"
-                    src="images/hs-image-2.webp"
-                    width="240"
-                    height="240"
-                    alt="Vahan Sahakyan"
-                  />
-                  Vahan
-                  <br />
-                  Sahakyan
-                </span>
-                <span class="d-block wow fadeRotateIn" data-wow-delay="0.2s" data-wow-offset="0">
-                  <span class="hue-color"> Backend </span>
-                </span>
-                <span class="d-block text-center wow fadeRotateIn" data-wow-delay="0.4s" data-wow-offset="0">
-                  <span class="hue-color"> Engineer </span>
-                </span>
-              </h1>
+              <div class="hs-grid">
+                <div class="hs-main">
+                  <div class="hs-id wow fadeInUp" data-wow-offset="0">
+                    <img class="hs-id-img" src="images/hs-image-2.webp" width="240" height="240" alt="" />
+                    <p class="hs-id-text">
+                      <span class="hs-id-name font-alt">Vahan Sahakyan</span>
+                      <span class="hs-id-role">Senior Backend Engineer</span>
+                    </p>
+                  </div>
 
-              <h2
-                class="hs-title-6 hs-tagline text-center mb-sm-20 wow fadeInUp"
-                data-wow-delay="0.6s"
-                data-wow-offset="0"
-              >
-                I architect and scale distributed Go backends, event-driven streaming pipelines, and Kubernetes
-                infrastructure that handle high-throughput workloads with predictable reliability.
-              </h2>
+                  <h1 class="hs-headline font-alt wow fadeInUp" data-wow-delay="0.15s" data-wow-offset="0">
+                    Backends you <span class="hs-accent">stop worrying about.</span>
+                  </h1>
 
-              <div class="hs-actions wow fadeInUp" data-wow-delay="0.7s" data-wow-offset="0">
-                <a href="mailto:vahan.codes@gmail.com?subject=Technical%20intro%20(15%20min)" class="btn btn-mod btn-w btn-medium btn-circle"
-                  >Request a 15 min Intro</a
-                >
-                <a
-                  href="https://t.me/vahan_sahakyan"
-                  target="_blank"
-                  class="btn btn-mod btn-border-w btn-medium btn-circle"
-                  >Telegram</a
-                >
-                <a
-                  href="https://vahan-sahakyan.github.io/cv"
-                  target="_blank"
-                  class="btn btn-mod btn-border-w btn-medium btn-circle"
-                  >Resume</a
-                >
-              </div>
+                  <p class="hs-tagline wow fadeInUp" data-wow-delay="0.3s" data-wow-offset="0">
+                    5+ years designing distributed systems end to end, from the data model and APIs to event streaming
+                    and the Kubernetes clusters they run on.
+                  </p>
 
-              <div class="hs-proof wow fadeInUp" data-wow-delay="0.8s" data-wow-offset="0">
-                <p class="hs-proof-label">Trusted by &amp; delivered production systems for</p>
-                <ul class="hs-proof-list clearlist">
-                  <li>Forbes</li>
-                  <li>Warner Music Group</li>
-                  <li>Optimum Partners</li>
-                  <li>Datafoundry</li>
-                </ul>
+                  <div class="hs-actions wow fadeInUp" data-wow-delay="0.45s" data-wow-offset="0">
+                    <a href="mailto:vahan.codes@gmail.com" class="btn btn-mod btn-w btn-medium btn-circle">Email me</a>
+                    <a
+                      href="https://t.me/vahan_sahakyan"
+                      target="_blank"
+                      class="btn btn-mod btn-border-w btn-medium btn-circle"
+                      >Telegram</a
+                    >
+                    <a
+                      href="https://vahan-sahakyan.github.io/cv"
+                      target="_blank"
+                      class="btn btn-mod btn-border-w btn-medium btn-circle"
+                      >Resume</a
+                    >
+                  </div>
+                </div>
+
+                <aside class="hs-spec wow fadeInUp" data-wow-delay="0.6s" data-wow-offset="0" aria-label="At a glance">
+                  <p class="hs-spec-cap">At a glance</p>
+                  <dl>
+                    <dt>experience</dt>
+                    <dd>5+ years</dd>
+                    <dt>languages</dt>
+                    <dd>Go, Python, TypeScript, Java</dd>
+                    <dt>streaming</dt>
+                    <dd>Kafka, Redpanda, Pub/Sub</dd>
+                    <dt>data</dt>
+                    <dd>PostgreSQL, ScyllaDB, ClickHouse, MongoDB</dd>
+                    <dt>infra</dt>
+                    <dd>AWS, GCP, Kubernetes, ArgoCD</dd>
+                    <dt>observability</dt>
+                    <dd>Datadog, Prometheus, Grafana</dd>
+                    <dt>shipped for</dt>
+                    <dd>Forbes, Warner Music Group, Optimum Partners, Datafoundry</dd>
+                  </dl>
+                </aside>
               </div>
 
               <div
@@ -799,8 +794,8 @@
                   <h2 class="section-caption mb-0 mb-xs-10">Contact</h2>
                 </div>
                 <div class="col-sm-6 local-scroll mt-n10 mb-n10 text-sm-end">
-                  <a href="mailto:vahan.codes@gmail.com?subject=Technical%20intro%20(15%20min)" class="link-hover-anim align-middle" data-link-animate="y"
-                    >Request a 15 min intro <i class="icon-arrow-right2 size-14"></i
+                  <a href="mailto:vahan.codes@gmail.com" class="link-hover-anim align-middle" data-link-animate="y"
+                    >Email me <i class="icon-arrow-right2 size-14"></i
                   ></a>
                 </div>
               </div>
