@@ -25,12 +25,9 @@
 .inner-nav {
   filter: invert(1);
 }
-/* multiply keeps the line behind the title colors instead of inverting them */
-.hs-line {
-  mix-blend-mode: multiply;
-}
-.hs-line:before {
-  background: #ededed;
+.hs-contour,
+.contact-contour {
+  --contour-c: #1a6fd6;
 }
 
 .light-content .link-strong,
