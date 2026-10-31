@@ -39,6 +39,8 @@
 }
 body {
   letter-spacing: 0;
+  /* overrides bootstrap's white, which safari uses for the overscroll area */
+  background-color: #090909;
 }
 .inner-nav ul {
   font-size: 15px;

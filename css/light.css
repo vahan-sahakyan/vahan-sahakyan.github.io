@@ -126,6 +126,9 @@ html {
   background-color: #fff;
   -ms-overflow-style: scrollbar;
 }
+body {
+  background-color: #fff;
+}
 
 :root {
   --color-accent: #1a6fd6;
