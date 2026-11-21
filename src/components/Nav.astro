@@ -1,0 +1,283 @@
+---
+import Icon from "./Icon.astro";
+import { nav, person } from "../data/profile";
+---
+
+<header class="nav" data-nav>
+  <div class="wrap nav-bar">
+    <a href="#top" class="nav-id" data-nav-id>
+      <img src={person.photo} width="240" height="240" alt="" />
+      <span class="nav-id-text">
+        <span class="nav-id-name">{person.name}</span>
+        <span class="nav-id-role">{person.role}</span>
+      </span>
+    </a>
+
+    <nav class="nav-primary" aria-label="Primary">
+      <ul class="nav-links" data-nav-links>
+        {
+          nav.map((l) => (
+            <li>
+              <a class="nav-link" href={l.href}>
+                {l.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <span class="nav-pill" aria-hidden="true" data-nav-pill></span>
+    </nav>
+
+    <div class="nav-actions">
+      <a class="nav-cv ulink" href={person.cv} target="_blank" rel="noopener">
+        Resume <Icon name="arrow-ne" />
+        <span class="visually-hidden">(opens in a new tab)</span>
+      </a>
+      <span data-magnetic><a class="btn btn-primary btn-sm" href="#contact">Let's talk</a></span>
+    </div>
+
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-sheet" data-nav-toggle>
+      <span class="nav-toggle-bars" aria-hidden="true"></span>
+      <span class="visually-hidden">Menu</span>
+    </button>
+  </div>
+
+  <div class="nav-sheet" id="nav-sheet" data-nav-sheet hidden>
+    <ul class="wrap">
+      {
+        nav.map((l, i) => (
+          <li>
+            <a href={l.href}>
+              <span class="mono">0{i + 1}</span>
+              {l.label}
+            </a>
+          </li>
+        ))
+      }
+      <li>
+        <a href={person.cv} target="_blank" rel="noopener">
+          <span class="mono">CV</span>Resume <Icon name="arrow-ne" />
+        </a>
+      </li>
+      <li><a class="btn btn-primary" href="#contact">Let's talk</a></li>
+    </ul>
+  </div>
+</header>
+
+<style is:global>
+  .nav {
+    position: fixed;
+    inset: 0 0 auto;
+    z-index: 50;
+    transition:
+      transform var(--dur-md) var(--ease-out),
+      background-color var(--dur-md) var(--ease-out),
+      box-shadow var(--dur-md) var(--ease-out);
+  }
+  .nav.is-scrolled {
+    background: color-mix(in srgb, var(--bg) 78%, transparent);
+    -webkit-backdrop-filter: blur(16px) saturate(1.6);
+    backdrop-filter: blur(16px) saturate(1.6);
+    box-shadow: 0 1px 0 var(--line);
+  }
+  .nav.is-hidden:not(.is-open) {
+    transform: translateY(-100%);
+  }
+  .nav-bar {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    height: var(--nav-h);
+  }
+
+  .nav-id {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-right: auto;
+    opacity: 0;
+    transform: translateY(-6px);
+    pointer-events: none;
+    transition:
+      opacity var(--dur-md) var(--ease-out),
+      transform var(--dur-md) var(--ease-out);
+  }
+  .nav-id.is-visible,
+  .nav.is-open .nav-id {
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+  }
+  .nav-id img {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  .nav-id-text {
+    display: grid;
+    line-height: 1.15;
+  }
+  .nav-id-name {
+    color: var(--ink);
+    font-weight: 600;
+    font-size: 0.9375rem;
+    letter-spacing: -0.01em;
+  }
+  .nav-id-role {
+    color: var(--muted);
+    font-size: 0.75rem;
+  }
+
+  .nav-primary {
+    position: relative;
+    padding: 4px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--surface-glass);
+  }
+  .nav-links {
+    display: flex;
+    gap: 2px;
+  }
+  .nav-link {
+    position: relative;
+    z-index: 1;
+    display: block;
+    padding: 7px 14px;
+    border-radius: 999px;
+    color: var(--ink-2);
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: color var(--dur-sm) var(--ease-out);
+  }
+  .nav-link:hover,
+  .nav-link[aria-current="true"] {
+    color: var(--ink);
+  }
+  /* slides under the active link; moved with transform by nav.ts */
+  .nav-pill {
+    position: absolute;
+    top: 4px;
+    left: 0;
+    height: calc(100% - 8px);
+    width: 1px;
+    border-radius: 999px;
+    background: var(--surface);
+    box-shadow:
+      0 0 0 1px var(--line),
+      0 4px 12px -6px rgba(10, 18, 48, 0.25);
+    opacity: 0;
+    transform-origin: left center;
+    transition: opacity var(--dur-sm) var(--ease-out);
+    pointer-events: none;
+  }
+  .nav-pill.is-on {
+    opacity: 1;
+  }
+
+  .nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .nav-cv {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+  .nav-cv svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .nav-toggle {
+    display: none;
+    width: 44px;
+    height: 44px;
+    margin-right: -10px;
+    border-radius: 50%;
+  }
+  .nav-toggle-bars,
+  .nav-toggle-bars::before {
+    display: block;
+    width: 20px;
+    height: 1.5px;
+    margin: auto;
+    background: var(--ink);
+    transition: transform var(--dur-sm) var(--ease-out);
+  }
+  .nav-toggle-bars {
+    position: relative;
+    transform: translateY(-3px);
+  }
+  .nav-toggle-bars::before {
+    content: "";
+    position: absolute;
+    top: 6px;
+  }
+  .nav.is-open .nav-toggle-bars {
+    transform: translateY(0) rotate(45deg);
+  }
+  .nav.is-open .nav-toggle-bars::before {
+    transform: translateY(-6px) rotate(-90deg);
+  }
+
+  .nav-sheet {
+    border-top: 1px solid var(--line);
+    background: var(--bg);
+    box-shadow: var(--shadow-lift);
+  }
+  .nav-sheet ul {
+    display: grid;
+    gap: 2px;
+    padding-block: 12px 24px;
+  }
+  .nav-sheet a:not(.btn) {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--line);
+    color: var(--ink);
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: -0.03em;
+  }
+  .nav-sheet a svg {
+    width: 16px;
+    height: 16px;
+    align-self: center;
+  }
+  .nav-sheet .mono {
+    min-width: 2.2em;
+    font-size: 0.75rem;
+    font-weight: 400;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+  }
+  .nav-sheet .btn {
+    justify-content: center;
+    margin-top: 16px;
+  }
+
+  @media (max-width: 960px) {
+    .nav-primary,
+    .nav-actions {
+      display: none;
+    }
+    .nav-toggle {
+      display: block;
+    }
+    .nav.is-open {
+      background: var(--bg);
+    }
+  }
+  @media (min-width: 961px) {
+    .nav-sheet {
+      display: none;
+    }
+  }
+</style>

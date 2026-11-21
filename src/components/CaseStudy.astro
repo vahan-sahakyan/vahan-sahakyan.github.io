@@ -1,0 +1,215 @@
+---
+import { Picture } from "astro:assets";
+import Icon from "./Icon.astro";
+import Topology from "./Topology.astro";
+import type { CaseStudy } from "../data/projects";
+import ribbon from "../assets/art/ribbon.png";
+import prism from "../assets/art/prism.png";
+
+type Props = { study: CaseStudy; flip?: boolean };
+const { study: s, flip } = Astro.props;
+const art = { ribbon, prism }[s.art];
+---
+
+<article class:list={["case", { "case-flip": flip }]} id={`case-${s.id}`} aria-labelledby={`case-${s.id}-title`}>
+  <div class="case-head">
+    <a class="case-cover card" href={s.repo} target="_blank" rel="noopener" data-tilt data-reveal tabindex="-1" aria-hidden="true">
+      <div class="art case-art" data-parallax-inner>
+        <Picture src={art} formats={["avif", "webp"]} fallbackFormat="webp" widths={[480, 800, 1100]} sizes="(max-width: 900px) 100vw, 45vw" alt="" />
+      </div>
+      <span class="chip chip-float case-chip-tl">{s.index}</span>
+      <span class="chip chip-float case-chip-br">Open source <Icon name="arrow-ne" /></span>
+      <span class="card-glow" aria-hidden="true"></span>
+    </a>
+
+    <div class="case-intro">
+      <p class="eyebrow" data-reveal>{s.index}</p>
+      <h3 class="case-title" id={`case-${s.id}-title`} data-reveal>
+        <a class="ulink" href={s.repo} target="_blank" rel="noopener">{s.title}</a>
+      </h3>
+      <p class="case-summary" data-reveal>{s.summary}</p>
+      <ul class="chips" aria-label="Stack" data-reveal>
+        {s.stack.map((t) => <li class="chip">{t}</li>)}
+      </ul>
+      <p class="case-links" data-reveal>
+        <a class="ulink" href={s.repo} target="_blank" rel="noopener">
+          View on GitHub <Icon name="arrow-ne" /><span class="visually-hidden">(opens in a new tab)</span>
+        </a>
+        {
+          s.links?.map((l) => (
+            <a class="ulink" href={l.href} target="_blank" rel="noopener">
+              {l.label} <Icon name="arrow-ne" />
+            </a>
+          ))
+        }
+      </p>
+    </div>
+  </div>
+
+  <dl class="case-pra">
+    <div class="case-pra-item" data-reveal>
+      <dt class="mono"><span>01</span> Problem</dt>
+      <dd>{s.problem}</dd>
+    </div>
+    <div class="case-pra-item" data-reveal>
+      <dt class="mono"><span>02</span> Architecture</dt>
+      <dd>{s.architecture}</dd>
+    </div>
+    <div class="case-pra-item" data-reveal>
+      <dt class="mono"><span>03</span> Result</dt>
+      <dd>
+        <ul class="case-result">
+          {s.result.map((r) => <li>{r}</li>)}
+        </ul>
+      </dd>
+    </div>
+  </dl>
+
+  <div class="case-topo" data-reveal>
+    <Topology id={s.id} title={s.graphTitle} label={s.graphLabel} eventLog={s.eventLog} />
+  </div>
+</article>
+
+<style is:global>
+  .case + .case {
+    margin-top: clamp(96px, 12vw, 176px);
+  }
+  .case-head {
+    display: grid;
+    grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
+    gap: clamp(28px, 5vw, 72px);
+    align-items: center;
+  }
+  .case-flip .case-cover {
+    order: 2;
+  }
+  .case-cover {
+    display: block;
+    aspect-ratio: 7 / 5;
+    border-radius: var(--radius-lg);
+  }
+  .case-art {
+    position: absolute;
+    inset: -6% 0;
+  }
+  .case-art img {
+    object-fit: contain;
+    padding: 4%;
+    transition: transform var(--dur-xl) var(--ease-out);
+  }
+  .case-cover:hover .case-art img {
+    transform: scale(1.04);
+  }
+  .case-chip-tl,
+  .case-chip-br {
+    position: absolute;
+    z-index: 1;
+  }
+  .case-chip-tl {
+    top: 18px;
+    left: 18px;
+  }
+  .case-chip-br {
+    right: 18px;
+    bottom: 18px;
+  }
+  .case-chip-br svg {
+    width: 11px;
+    height: 11px;
+  }
+
+  .case-intro {
+    display: grid;
+    gap: 20px;
+    justify-items: start;
+  }
+  .case-title {
+    font-size: clamp(2rem, 1.3rem + 2.6vw, 3.4rem);
+    line-height: 1.02;
+    letter-spacing: -0.04em;
+  }
+  .case-title .ulink::after {
+    height: 2px;
+    bottom: 0;
+  }
+  .case-summary {
+    max-width: 560px;
+  }
+  .case-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 24px;
+    font-weight: 500;
+    font-size: 0.9375rem;
+  }
+  .case-links a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .case-links svg {
+    width: 13px;
+    height: 13px;
+  }
+
+  .case-pra {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1px;
+    margin-block: clamp(40px, 6vw, 72px) clamp(20px, 3vw, 32px);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    background: var(--line);
+    overflow: hidden;
+  }
+  .case-pra-item {
+    padding: clamp(20px, 2.6vw, 32px);
+    background: var(--surface);
+  }
+  .case-pra dt {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 14px;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink);
+  }
+  .case-pra dt span {
+    color: var(--accent);
+  }
+  .case-pra dd {
+    font-size: 0.975rem;
+    line-height: 1.6;
+  }
+  .case-result {
+    display: grid;
+    gap: 8px;
+  }
+  .case-result li {
+    position: relative;
+    padding-left: 18px;
+  }
+  .case-result li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.62em;
+    width: 8px;
+    height: 2px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, var(--g-blue), var(--g-magenta));
+  }
+
+  @media (max-width: 900px) {
+    .case-head {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .case-flip .case-cover {
+      order: 0;
+    }
+    .case-pra {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>

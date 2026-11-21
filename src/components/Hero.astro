@@ -1,0 +1,434 @@
+---
+import { Picture } from "astro:assets";
+import Icon from "./Icon.astro";
+import heroArt from "../assets/art/hero.png";
+import { person, contact, glance, socials } from "../data/profile";
+---
+
+<section class="hero" id="top" data-hero>
+  <div class="hero-art" data-hero-art aria-hidden="true">
+    <div class="hero-art-inner" data-parallax="far">
+      <Picture
+        src={heroArt}
+        formats={["avif", "webp"]} fallbackFormat="webp"
+        widths={[480, 800, 1200]}
+        sizes="(max-width: 820px) 110vw, 60vw"
+        alt=""
+        loading="eager"
+        fetchpriority="high"
+        class="hero-fallback"
+      />
+      <canvas class="hero-canvas"></canvas>
+    </div>
+  </div>
+
+  <div class="wrap hero-grid">
+    <div class="hero-main">
+      <p class="hero-id" data-hero-id>
+        <img src={person.photo} width="240" height="240" alt="" />
+        <span>
+          <span class="hero-id-name">{person.name}</span>
+          <span class="hero-id-role">{person.role}</span>
+        </span>
+      </p>
+
+      <h1 class="display hero-title">
+        <span class="hl"><span>Backends you <span class="gradient-text">stop</span></span></span>
+        <span class="hl"><span class="gradient-text">worrying about.</span></span>
+      </h1>
+
+      <p class="hero-tagline body-lg">
+        5+ years designing distributed systems end to end, from the data model and APIs to event streaming and the
+        Kubernetes clusters they run on.
+      </p>
+
+      <div class="hero-actions">
+        <span data-magnetic>
+          <a class="btn btn-primary" href={`mailto:${contact.email}`}><Icon name="mail" /> Email me</a>
+        </span>
+        <span data-magnetic>
+          <a class="btn" href={contact.telegram.href} target="_blank" rel="noopener"><Icon name="telegram" /> Telegram</a>
+        </span>
+        <span data-magnetic>
+          <a class="btn" href={person.cv} target="_blank" rel="noopener">
+            Resume <Icon name="arrow-ne" /><span class="visually-hidden">(opens in a new tab)</span>
+          </a>
+        </span>
+      </div>
+    </div>
+
+    <aside class="hero-spec" aria-label="At a glance">
+      <p class="eyebrow">At a glance</p>
+      <dl>
+        {
+          glance.map(([k, v]) => (
+            <div>
+              <dt>{k}</dt>
+              <dd>{v}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </aside>
+  </div>
+
+  <div class="wrap hero-foot">
+    <ul class="hero-social" aria-label="Social profiles">
+      {
+        socials.map((s) => (
+          <li>
+            <a href={s.href} target="_blank" rel="noopener">
+              <Icon name={s.icon} />
+              <span class="visually-hidden">{s.name}</span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+    <a class="hero-scroll mono" href="#approach">
+      Scroll <span class="hero-scroll-line" aria-hidden="true"></span>
+    </a>
+  </div>
+</section>
+
+<style is:global>
+  .hero {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    min-height: 100svh;
+    padding-top: calc(var(--nav-h) + clamp(32px, 7vh, 96px));
+    overflow: clip;
+    /* own stacking context, so the art's negative z-index stays above the page background */
+    isolation: isolate;
+  }
+  /* soft color wash behind everything, so the page never reads as flat white */
+  .hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    background:
+      radial-gradient(60% 55% at 78% 38%, color-mix(in srgb, var(--g-violet) 14%, transparent), transparent 70%),
+      radial-gradient(40% 40% at 92% 80%, color-mix(in srgb, var(--g-coral) 12%, transparent), transparent 70%),
+      radial-gradient(50% 40% at 0% 0%, color-mix(in srgb, var(--g-blue) 7%, transparent), transparent 70%);
+  }
+
+  .hero-art {
+    position: absolute;
+    z-index: -1;
+    top: calc(var(--nav-h) + 2vh);
+    right: -7vw;
+    width: min(54vw, 880px);
+    aspect-ratio: 1;
+    pointer-events: none;
+  }
+  .hero-art-inner {
+    position: absolute;
+    inset: 0;
+  }
+  .hero-art picture,
+  .hero-fallback,
+  .hero-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .hero-fallback {
+    object-fit: contain;
+    transition: opacity var(--dur-lg) var(--ease-soft);
+  }
+  .hero-canvas {
+    opacity: 0;
+    transition: opacity var(--dur-xl) var(--ease-soft);
+  }
+  .hero-art.is-live .hero-canvas {
+    opacity: 1;
+  }
+  .hero-art.is-live .hero-fallback {
+    opacity: 0;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .hero-fallback {
+      animation: hero-art-in var(--dur-xl) var(--ease-out) both;
+    }
+  }
+  @keyframes hero-art-in {
+    from {
+      opacity: 0;
+      transform: scale(0.94);
+    }
+  }
+
+  .hero-grid {
+    flex: 1;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(280px, 380px);
+    align-items: end;
+    gap: 48px;
+  }
+  .hero-main {
+    max-width: 820px;
+  }
+
+  .hero-id {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: clamp(24px, 4vh, 40px);
+    padding: 6px 16px 6px 6px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--surface-glass);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+  }
+  .hero-id img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  .hero-id > span {
+    display: grid;
+    line-height: 1.2;
+  }
+  .hero-id-name {
+    color: var(--ink);
+    font-weight: 600;
+    font-size: 0.9375rem;
+  }
+  .hero-id-role {
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .hero-title .hl {
+    display: block;
+    overflow: clip;
+    padding-bottom: 0.1em;
+    margin-bottom: -0.1em;
+  }
+  .hero-title .hl > span {
+    display: block;
+  }
+  .hero-tagline {
+    max-width: 560px;
+    margin-top: clamp(20px, 3vh, 32px);
+    color: var(--ink-2);
+  }
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: clamp(28px, 4vh, 44px);
+  }
+  .hero-actions .btn:not(.btn-primary) {
+    background: var(--surface-glass);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+  }
+
+  /* intro: pure css so the headline never waits on js */
+  @media (prefers-reduced-motion: no-preference) {
+    .hero-id,
+    .hero-tagline,
+    .hero-actions,
+    .hero-spec,
+    .hero-foot {
+      animation: hero-rise var(--dur-lg) var(--ease-out) both;
+    }
+    .hero-title .hl > span {
+      animation: hero-line var(--dur-lg) var(--ease-out) both;
+    }
+    .hero-title .hl:nth-child(1) > span {
+      animation-delay: 0.08s;
+    }
+    .hero-title .hl:nth-child(2) > span {
+      animation-delay: calc(0.08s + var(--stagger-line));
+    }
+    .hero-tagline {
+      animation-delay: 0.3s;
+    }
+    .hero-actions {
+      animation-delay: 0.4s;
+    }
+    .hero-spec {
+      animation-delay: 0.5s;
+    }
+    .hero-foot {
+      animation-delay: 0.7s;
+    }
+  }
+  @keyframes hero-line {
+    from {
+      transform: translateY(105%);
+    }
+  }
+  @keyframes hero-rise {
+    from {
+      opacity: 0;
+      transform: translateY(var(--reveal-y));
+    }
+  }
+
+  .hero-spec {
+    padding: 22px 24px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--surface-glass);
+    -webkit-backdrop-filter: blur(18px) saturate(1.4);
+    backdrop-filter: blur(18px) saturate(1.4);
+    box-shadow: var(--shadow);
+  }
+  .hero-spec dl {
+    display: grid;
+    gap: 9px;
+    margin-top: 16px;
+  }
+  .hero-spec dl > div {
+    display: grid;
+    grid-template-columns: 104px minmax(0, 1fr);
+    gap: 12px;
+  }
+  .hero-spec dt {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    line-height: 1.75;
+    color: var(--muted);
+  }
+  .hero-spec dd {
+    font-size: 0.875rem;
+    line-height: 1.55;
+    color: var(--ink);
+  }
+
+  .hero-foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-block: clamp(32px, 6vh, 56px) 28px;
+  }
+  .hero-social {
+    display: flex;
+    gap: 4px;
+  }
+  .hero-social a {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    color: var(--muted);
+    transition:
+      color var(--dur-sm),
+      background-color var(--dur-sm);
+  }
+  .hero-social a:hover {
+    color: var(--ink);
+    background: var(--accent-soft);
+  }
+  .hero-social svg {
+    width: 18px;
+    height: 18px;
+  }
+  .hero-scroll {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--muted);
+    font-size: 0.6875rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .hero-scroll-line {
+    position: relative;
+    width: 56px;
+    height: 1px;
+    overflow: hidden;
+    background: var(--line-strong);
+  }
+  .hero-scroll-line::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--ink);
+    transform: translateX(-100%);
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .hero-scroll-line::after {
+      animation: scroll-cue 2.4s var(--ease-inOut) infinite 1.2s;
+    }
+  }
+  @keyframes scroll-cue {
+    50% {
+      transform: none;
+    }
+    to {
+      transform: translateX(100%);
+    }
+  }
+
+  @media (max-width: 1100px) {
+    .hero-grid {
+      grid-template-columns: minmax(0, 1fr);
+      align-items: start;
+      gap: 40px;
+    }
+    .hero-spec {
+      max-width: 620px;
+    }
+  }
+
+  /* phones: the shape becomes a cropped band above the headline instead of sitting behind it */
+  @media (max-width: 820px) {
+    .hero {
+      padding-top: calc(var(--nav-h) + min(58vw, 360px));
+    }
+    .hero-art {
+      top: calc(var(--nav-h) - 18vw);
+      right: auto;
+      left: 50%;
+      width: min(118vw, 640px);
+      margin-left: max(-59vw, -320px);
+    }
+    .hero-id {
+      margin-bottom: 20px;
+    }
+    .hero-spec {
+      padding: 18px;
+    }
+    .hero-spec dl {
+      grid-template-columns: 1fr 1fr;
+      gap: 14px 16px;
+    }
+    .hero-spec dl > div {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 2px;
+    }
+    .hero-spec dl > div:last-child {
+      grid-column: 1 / -1;
+    }
+    .hero-spec dt {
+      font-size: 0.6875rem;
+      line-height: 1.5;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .hero-scroll {
+      display: none;
+    }
+  }
+  @media (max-width: 420px) {
+    .hero-actions .btn {
+      min-height: 44px;
+      padding: 0 16px;
+      font-size: 0.875rem;
+    }
+  }
+</style>

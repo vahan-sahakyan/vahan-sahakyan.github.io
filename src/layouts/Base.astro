@@ -1,0 +1,62 @@
+---
+import "../styles/global.css";
+import { site } from "../data/profile";
+import { cssMotionVars } from "../motion/tokens";
+
+const og = `${site.url}/images/og-image.png`;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{site.title}</title>
+    <meta name="description" content={site.description} />
+    <meta name="keywords" content={site.keywords} />
+    <meta name="robots" content="index, follow" />
+    <meta name="author" content="Vahan Sahakyan" />
+    <link rel="canonical" href={`${site.url}/`} />
+    <meta name="theme-color" content="#f6f7fb" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#060a1c" media="(prefers-color-scheme: dark)" />
+
+    <meta property="og:title" content={site.title} />
+    <meta property="og:url" content={site.url} />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content={og} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content={site.ogDescription} />
+    <meta name="twitter:title" content={site.title} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={og} />
+    <meta name="twitter:description" content={site.twitterDescription} />
+
+    <link rel="icon" href="/images/favicon.svg" type="image/svg+xml" />
+    <link rel="preload" href="/fonts/geist.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/geist-mono.woff2" as="font" type="font/woff2" crossorigin />
+
+    <Fragment set:html={`<style>${cssMotionVars()}</style>`} />
+
+    <!-- set before first paint: .motion hides reveal targets until main.ts animates them,
+         and drops itself if the bundle never arrives -->
+    <script is:inline>
+      (function () {
+        var d = document.documentElement;
+        d.classList.add("js");
+        if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+        d.classList.add("motion");
+        setTimeout(function () {
+          if (!window.__motionReady) d.classList.remove("motion");
+        }, 3000);
+      })();
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <slot />
+    <script>
+      import "../scripts/main.ts";
+    </script>
+  </body>
+</html>

@@ -1,0 +1,169 @@
+---
+import SectionHead from "./SectionHead.astro";
+import StackMap from "./StackMap.astro";
+import { lede, stats, capabilities } from "../data/capabilities";
+---
+
+<section class="section caps" id="capabilities" aria-labelledby="caps-title">
+  <div class="wrap">
+    <SectionHead index="03" label="Capabilities" title="Grouped by the problems they solve." id="caps-title" />
+
+    <p class="lede caps-lede" data-split>{lede}</p>
+
+    <dl class="caps-stats">
+      {
+        stats.map((s) => (
+          <div class="caps-stat" data-reveal>
+            <dt class="visually-hidden">{s.label}</dt>
+            <dd>
+              <span class="caps-stat-num" data-count={s.value}>
+                {s.value}
+              </span>
+              <span class="caps-stat-suffix">{s.suffix}</span>
+              <span class="caps-stat-label" aria-hidden="true">
+                {s.label}
+              </span>
+            </dd>
+          </div>
+        ))
+      }
+    </dl>
+
+    <ul class="caps-grid">
+      {
+        capabilities.map((c, i) => (
+          <li class:list={["cap card", { "cap-wide": c.wide }, `cap-${c.id}`]} data-tilt data-reveal>
+            <span class="card-glow" aria-hidden="true" />
+            <p class="cap-index mono">{String(i + 1).padStart(2, "0")}</p>
+            <h3 class="h3">{c.area}</h3>
+            <p class="cap-body prose" set:html={c.body} />
+            <ul class="chips" aria-label={`${c.area} tools`}>
+              {c.tools.map((t) => (
+                <li class="chip">{t}</li>
+              ))}
+            </ul>
+          </li>
+        ))
+      }
+    </ul>
+
+    <div class="caps-map" data-reveal>
+      <StackMap />
+    </div>
+  </div>
+</section>
+
+<style is:global>
+  .caps-lede {
+    max-width: 980px;
+  }
+  .caps-stats {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 24px;
+    margin-block: clamp(48px, 7vw, 96px);
+    padding-top: 28px;
+    border-top: 1px solid var(--line);
+  }
+  .caps-stat dd {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: baseline;
+  }
+  .caps-stat-num,
+  .caps-stat-suffix {
+    color: var(--ink);
+    font-size: clamp(2.4rem, 1.6rem + 2.4vw, 4rem);
+    font-weight: 600;
+    letter-spacing: -0.045em;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+  .caps-stat-suffix {
+    background: linear-gradient(100deg, var(--g-violet), var(--g-magenta));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .caps-stat-label {
+    grid-column: 1 / -1;
+    margin-top: 10px;
+    max-width: 22ch;
+    font-size: 0.9375rem;
+    line-height: 1.45;
+    color: var(--muted);
+  }
+
+  .caps-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+  }
+  .cap {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: clamp(22px, 2.6vw, 32px);
+  }
+  .cap-wide {
+    grid-column: span 2;
+  }
+  .cap-index {
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+  }
+  .cap-body {
+    flex: 1;
+    max-width: 52ch;
+  }
+  /* soft gradient forms behind the two wide cards, docker-thumbnail style */
+  .cap-wide::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    right: -12%;
+    top: -40%;
+    width: 60%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background:
+      radial-gradient(circle at 35% 35%, color-mix(in srgb, var(--g-peach) 70%, transparent), transparent 55%),
+      radial-gradient(circle at 60% 60%, color-mix(in srgb, var(--g-magenta) 55%, transparent), transparent 60%),
+      radial-gradient(circle at 50% 50%, color-mix(in srgb, var(--g-violet) 60%, transparent), transparent 70%);
+    filter: blur(28px);
+    opacity: 0.45;
+  }
+  .cap-leadership::before {
+    right: auto;
+    left: 55%;
+    top: 10%;
+    background:
+      radial-gradient(circle at 40% 40%, color-mix(in srgb, var(--g-blue) 60%, transparent), transparent 60%),
+      radial-gradient(circle at 65% 65%, color-mix(in srgb, var(--g-coral) 55%, transparent), transparent 60%);
+  }
+  .caps-map {
+    margin-top: 16px;
+  }
+
+  @media (max-width: 960px) {
+    .caps-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .cap-leadership {
+      grid-column: auto;
+    }
+    .caps-stats {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      row-gap: 36px;
+    }
+  }
+  @media (max-width: 640px) {
+    .caps-grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .cap-wide {
+      grid-column: auto;
+    }
+  }
+</style>

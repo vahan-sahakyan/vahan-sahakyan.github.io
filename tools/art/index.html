@@ -1,0 +1,17 @@
+<!doctype html>
+<html>
+  <body style="margin: 0; background: transparent">
+    <canvas id="c"></canvas>
+    <script type="module">
+      import { createShape, PRESETS } from "/src/scripts/gl/shape.ts";
+
+      const q = new URLSearchParams(location.search);
+      const c = document.getElementById("c");
+      c.style.width = `${q.get("w")}px`;
+      c.style.height = `${q.get("h")}px`;
+      const shape = createShape(c, PRESETS[q.get("preset")], { preserve: true, maxDpr: 1 });
+      shape.render({ time: +(q.get("t") ?? 0), pointer: [0, 0], scroll: 0, morph: 1, spin: 0, tilt: 0, bulge: 0 });
+      window.__done = true;
+    </script>
+  </body>
+</html>

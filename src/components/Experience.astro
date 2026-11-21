@@ -1,0 +1,398 @@
+---
+import SectionHead from "./SectionHead.astro";
+import Icon from "./Icon.astro";
+import { commits, roles, education } from "../data/experience";
+import { formatSince } from "../scripts/durations";
+---
+
+<section class="section exp" id="experience" aria-labelledby="exp-title">
+  <div class="wrap">
+    <SectionHead index="04" label="Experience" title="A career, read as a git log." id="exp-title">
+      <p>Employer on one lane, client work on the other. Select a commit to jump to the role.</p>
+    </SectionHead>
+
+    <div class="exp-grid">
+      <nav class="gitlog" aria-label="Experience timeline" data-gitlog>
+        <p class="eyebrow">git log --graph</p>
+        <div class="gitlog-body">
+          <svg class="gitlog-graph" aria-hidden="true"></svg>
+          <ol class="gitlog-rows">
+            {
+              commits.map((c) => (
+                <li
+                  data-lane={c.lane}
+                  data-parents={c.parents.join(",")}
+                  data-head={c.head ? "" : undefined}
+                  data-merge={c.merge ? "" : undefined}
+                  data-ongoing={c.ongoing ? "" : undefined}
+                  data-role={c.role}
+                >
+                  <a class="gitlog-row" href={`#role-${c.role}`}>
+                    <span class="gitlog-date">{c.date}</span>
+                    <span class="gitlog-msg">
+                      {c.tag && <span class={`gitlog-tag l${c.lane}`}>{c.tag}</span>}
+                      {c.msg}
+                    </span>
+                    <span class="gitlog-meta">{c.meta}</span>
+                  </a>
+                </li>
+              ))
+            }
+          </ol>
+        </div>
+      </nav>
+
+      <ol class="roles">
+        {
+          roles.map((r) => (
+            <li class="role card" id={`role-${r.id}`} data-role={r.id} data-reveal>
+              <header class="role-head">
+                <a class="role-logo" href={r.link} target="_blank" rel="noopener" aria-label={`${r.company} website`}>
+                  <img class={r.logoClass} src={r.logo} alt="" width="56" height="56" loading="lazy" />
+                </a>
+                <div>
+                  <h3 class="role-title">{r.title}</h3>
+                  <p class="role-company">
+                    {r.company} · {r.type}
+                  </p>
+                </div>
+              </header>
+              <p class="role-meta mono">
+                <span>
+                  {r.period} · <span data-since={r.since}>{r.since ? formatSince(r.since) : r.duration}</span>
+                </span>
+                <span>{r.location}</span>
+              </p>
+              {r.blocks.map((b) => (
+                <div class="role-block">
+                  {b.heading && <p class="role-block-head">{b.heading}</p>}
+                  {b.lines?.map((l) => (
+                    <p class="role-line">{l}</p>
+                  ))}
+                  {b.bullets && (
+                    <ul class="role-bullets">
+                      {b.bullets.map((x) => (
+                        <li>{x}</li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              ))}
+              <ul class="chips role-skills" aria-label="Skills">
+                {r.skills.map((s) => (
+                  <li class="chip">{s}</li>
+                ))}
+              </ul>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+
+    <div class="edu">
+      <p class="eyebrow" data-reveal>Education</p>
+      <ul class="edu-list">
+        {
+          education.map((e) => (
+            <li class="edu-item" data-reveal>
+              <p class="edu-year mono">{e.year}</p>
+              <h3 class="edu-title">{e.title}</h3>
+              <p class="edu-detail">{e.detail}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+</section>
+
+<style is:global>
+  .exp-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: clamp(32px, 5vw, 80px);
+    align-items: start;
+  }
+
+  /* ---------- git log ---------- */
+  .gitlog {
+    --l0: var(--c-edge);
+    --l1: var(--c-service);
+    position: sticky;
+    top: calc(var(--nav-h) + 24px);
+  }
+  .gitlog .eyebrow {
+    margin-bottom: 20px;
+  }
+  .gitlog-body {
+    position: relative;
+  }
+  .gitlog-graph {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 56px;
+    overflow: visible;
+  }
+  .gitlog-graph path {
+    fill: none;
+    stroke: var(--git-c);
+    stroke-width: 2.2;
+    stroke-linecap: round;
+  }
+  .gitlog-graph .l0 {
+    --git-c: var(--l0);
+  }
+  .gitlog-graph .l1 {
+    --git-c: var(--l1);
+  }
+  .gitlog-graph .tail {
+    stroke-dasharray: 2 5;
+  }
+  .gitlog-graph circle {
+    fill: var(--git-c);
+    stroke: var(--bg);
+    stroke-width: 3;
+    transition: r var(--dur-sm) var(--ease-spring);
+  }
+  .gitlog-graph circle.merge {
+    fill: var(--bg);
+    stroke: var(--git-c);
+    stroke-width: 2.2;
+  }
+  .gitlog-graph circle.is-active {
+    r: 8;
+  }
+  /* commit-graph.ts arms it below the fold and draws it oldest to newest */
+  .gitlog.is-armed .gitlog-graph path:not(.tail) {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+  }
+  .gitlog.is-armed .gitlog-graph .tail,
+  .gitlog.is-armed .gitlog-graph circle {
+    opacity: 0;
+  }
+  .gitlog.is-armed .gitlog-graph circle {
+    transform: scale(0);
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+  .gitlog.is-drawn .gitlog-graph path:not(.tail) {
+    stroke-dashoffset: 0;
+    transition: stroke-dashoffset 0.3s ease-out var(--d);
+  }
+  .gitlog.is-drawn .gitlog-graph .tail {
+    opacity: 1;
+    transition: opacity 0.5s var(--d);
+  }
+  .gitlog.is-drawn .gitlog-graph circle {
+    opacity: 1;
+    transform: scale(1);
+    transition:
+      transform 0.3s var(--ease-spring) var(--d),
+      opacity 0.15s var(--d),
+      r var(--dur-sm) var(--ease-spring);
+  }
+  .gitlog-rows {
+    display: grid;
+    gap: 2px;
+    padding-left: 52px;
+  }
+  .gitlog-row {
+    display: grid;
+    grid-template-columns: 66px minmax(0, 1fr);
+    gap: 2px 14px;
+    padding: 9px 12px;
+    margin-left: -12px;
+    border-radius: var(--radius-sm);
+    transition: background-color var(--dur-sm);
+  }
+  .gitlog-row:hover,
+  .gitlog-rows li.is-active .gitlog-row {
+    background: var(--surface);
+    box-shadow: 0 0 0 1px var(--line);
+  }
+  .gitlog-date {
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    line-height: 1.75;
+    font-variant-numeric: tabular-nums;
+    color: var(--muted);
+  }
+  .gitlog-msg {
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    line-height: 1.6;
+    color: var(--ink);
+  }
+  .gitlog-meta {
+    grid-column: 2;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: var(--muted);
+  }
+  .gitlog-tag {
+    margin-right: 8px;
+    padding: 1px 8px;
+    border: 1px solid currentColor;
+    border-radius: 999px;
+    font-size: 0.6875rem;
+    white-space: nowrap;
+    vertical-align: 1px;
+  }
+  .gitlog-tag.l0 {
+    color: var(--l0);
+  }
+  .gitlog-tag.l1 {
+    color: var(--l1);
+  }
+
+  /* ---------- roles ---------- */
+  .roles {
+    display: grid;
+    gap: 16px;
+  }
+  .role {
+    padding: clamp(22px, 2.8vw, 34px);
+    scroll-margin-top: calc(var(--nav-h) + 24px);
+  }
+  .role.is-active {
+    border-color: color-mix(in srgb, var(--accent) 40%, var(--line));
+  }
+  .role-head {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .role-logo {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 56px;
+    height: 56px;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: #fff;
+    overflow: hidden;
+    transition: transform var(--dur-sm) var(--ease-spring);
+  }
+  .role-logo:hover {
+    transform: scale(1.06);
+  }
+  .role-logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .role-logo img.is-wide {
+    object-fit: contain;
+    padding: 6px;
+  }
+  .role-title {
+    font-size: 1.1875rem;
+    letter-spacing: -0.02em;
+    line-height: 1.3;
+  }
+  .role-company {
+    color: var(--ink-2);
+    font-size: 0.9375rem;
+  }
+  .role-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 20px;
+    margin: 16px 0 4px;
+    font-size: 0.75rem;
+    letter-spacing: 0.02em;
+    color: var(--muted);
+  }
+  .role-block {
+    margin-top: 18px;
+  }
+  .role-block-head {
+    color: var(--ink);
+    font-weight: 600;
+    font-size: 0.9375rem;
+  }
+  .role-line {
+    font-size: 0.9375rem;
+  }
+  .role-bullets {
+    display: grid;
+    gap: 6px;
+    margin-top: 10px;
+  }
+  .role-bullets li {
+    position: relative;
+    padding-left: 18px;
+    font-size: 0.9375rem;
+    line-height: 1.55;
+  }
+  .role-bullets li::before {
+    content: "";
+    position: absolute;
+    left: 2px;
+    top: 0.7em;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--line-strong);
+  }
+  .role-skills {
+    margin-top: 20px;
+  }
+
+  /* ---------- education ---------- */
+  .edu {
+    margin-top: clamp(64px, 9vw, 120px);
+  }
+  .edu-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    margin-top: 20px;
+  }
+  .edu-item {
+    padding: 24px 0 0;
+    border-top: 1px solid var(--line-strong);
+  }
+  .edu-year {
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+  }
+  .edu-title {
+    margin-top: 10px;
+    font-size: 1.125rem;
+    letter-spacing: -0.015em;
+    line-height: 1.35;
+  }
+  .edu-detail {
+    margin-top: 6px;
+    font-size: 0.9375rem;
+    color: var(--muted);
+  }
+
+  @media (max-width: 960px) {
+    .exp-grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .gitlog {
+      position: static;
+    }
+  }
+  @media (max-width: 640px) {
+    .gitlog-rows {
+      padding-left: 46px;
+    }
+    .gitlog-row {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .gitlog-meta {
+      grid-column: 1;
+    }
+    .edu-list {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>

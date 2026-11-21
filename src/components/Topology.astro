@@ -1,0 +1,397 @@
+---
+import { graphs, legend } from "../data/topology";
+import { layout, VARIANTS, NODE_R } from "../lib/topology-layout";
+import EventLog from "./EventLog.astro";
+
+type Props = { id: "dsn" | "code-inspect"; title: string; label: string; eventLog?: boolean };
+const { id, title, label, eventLog } = Astro.props;
+
+const graph = graphs[id];
+const variants = VARIANTS.map((v) => layout(graph, v));
+const kinds = [...new Set(graph.links.map((l) => l.kind))];
+// node details live once here, not on each layout variant's nodes
+const details = Object.fromEntries(graph.nodes.map((n) => [n.id, { name: n.name, runtime: n.runtime, data: n.data, pattern: n.pattern }]));
+const legendLabel = (g: string, text: string) => (g === "service" && id === "dsn" ? "Go service" : text);
+---
+
+<div class="topo" data-topo={id} aria-label={label} role="group">
+  <div class="topo-bar">
+    <div class="topo-filters" role="group" aria-label="Edge filter">
+      {
+        Object.entries(graph.filters).map(([key, f], i) => (
+          <button type="button" data-topo-filter={key} data-kinds={f.kinds.join(",")} aria-pressed={i === 0 ? "true" : "false"}>
+            {f.label}
+          </button>
+        ))
+      }
+    </div>
+    <div class="topo-zoom" role="group" aria-label="Zoom">
+      <button type="button" data-topo-zoom="out" aria-label="Zoom out">-</button>
+      <button type="button" data-topo-zoom="in" aria-label="Zoom in">+</button>
+      <button type="button" data-topo-zoom="reset">Reset</button>
+    </div>
+  </div>
+
+  <div class="topo-stage">
+    {
+      variants.map((v) => (
+        <svg class={`topo-svg topo-${v.id}`} viewBox={`0 0 ${v.W} ${v.H}`} role="img" aria-label={label} data-variant={v.id}>
+          <defs>
+            {kinds.map((k) => (
+              <marker
+                id={`ta-${id}-${v.id}-${k}`}
+                class={`topo-arrow topo-arrow-${k}`}
+                viewBox="0 0 10 10"
+                refX="9"
+                refY="5"
+                markerWidth="6"
+                markerHeight="6"
+                orient="auto-start-reverse"
+              >
+                <path d="M0,0L10,5L0,10z" />
+              </marker>
+            ))}
+          </defs>
+          <g data-view>
+            <g>
+              {v.links.map((l) => (
+                <path
+                  class={`topo-link topo-link-${l.kind}`}
+                  d={l.d}
+                  data-s={l.source}
+                  data-t={l.target}
+                  data-kind={l.kind}
+                  marker-end={`url(#ta-${id}-${v.id}-${l.kind})`}
+                />
+              ))}
+            </g>
+            <g>
+              {v.nodes.map((n) => (
+                <g
+                  class={`topo-node topo-node-${n.group}`}
+                  transform={`translate(${n.x},${n.y})`}
+                  tabindex="0"
+                  role="button"
+                  aria-label={`${n.name}: ${n.runtime}`}
+                  data-id={n.id}
+                >
+                  <rect class="topo-hit" x="-32" y={-NODE_R - 6} width="64" height={NODE_R * 2 + 30} rx="8" />
+                  <circle class="topo-base" r={NODE_R} />
+                  <circle r={NODE_R} />
+                  <text dy={NODE_R + 15} text-anchor="middle">
+                    {n.label}
+                  </text>
+                </g>
+              ))}
+            </g>
+          </g>
+        </svg>
+      ))
+    }
+  </div>
+
+  <div class="topo-card" aria-live="polite">
+    <p class="topo-card-title">{title}</p>
+    <p>
+      <span class="topo-hint-mouse">Hover a node to trace its edges. Drag to pan, Ctrl/Cmd + scroll to zoom.</span>
+      <span class="topo-hint-touch">Tap a node to trace its edges. Pinch with two fingers to zoom.</span>
+    </p>
+  </div>
+
+  <ul class="topo-legend">
+    {
+      legend.map(([g, text]) => (
+        <li class={`topo-node-${g}`}>
+          <span class="dot" />
+          {legendLabel(g, text)}
+        </li>
+      ))
+    }
+  </ul>
+
+  <script type="application/json" data-topo-nodes set:html={JSON.stringify(details)} />
+
+  {eventLog && <EventLog />}
+</div>
+
+<style is:global>
+  .topo {
+    --topo-fg: var(--ink);
+    --topo-muted: var(--muted);
+    --topo-line: var(--line-strong);
+    --topo-border: var(--line);
+    container-type: inline-size;
+    position: relative;
+    padding: clamp(14px, 2vw, 22px);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    background:
+      radial-gradient(circle at 1px 1px, var(--line) 1px, transparent 0) 0 0 / 22px 22px,
+      var(--surface);
+    color: var(--ink);
+  }
+  .topo-bar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 8px;
+  }
+  .topo-filters,
+  .topo-zoom {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .topo button,
+  .pill-btn {
+    min-height: 32px;
+    padding: 4px 12px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--surface);
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    transition:
+      color var(--dur-sm),
+      border-color var(--dur-sm),
+      background-color var(--dur-sm);
+  }
+  .topo button:hover,
+  .pill-btn:hover {
+    color: var(--ink);
+    border-color: var(--line-strong);
+  }
+  .topo button[aria-pressed="true"],
+  .pill-btn[aria-pressed="true"] {
+    color: var(--on-accent);
+    border-color: var(--accent);
+    background: var(--accent);
+  }
+  .topo-zoom button {
+    min-width: 32px;
+  }
+  /* the controls do nothing until topology.ts binds them */
+  .topo:not(.is-ready) .topo-bar {
+    visibility: hidden;
+  }
+
+  .topo-stage {
+    margin-top: 12px;
+    overflow: hidden;
+    border-radius: var(--radius);
+  }
+  .topo-svg {
+    display: none;
+    width: 100%;
+    height: auto;
+    touch-action: pan-y;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+  .topo.is-ready .topo-svg {
+    cursor: grab;
+  }
+  .topo-svg.is-panning {
+    cursor: grabbing;
+  }
+  .topo-narrow {
+    display: block;
+  }
+  @container (min-width: 560px) {
+    .topo-narrow {
+      display: none;
+    }
+    .topo-mid {
+      display: block;
+    }
+  }
+  @container (min-width: 860px) {
+    .topo-mid {
+      display: none;
+    }
+    .topo-wide {
+      display: block;
+    }
+  }
+
+  .topo-link {
+    fill: none;
+    stroke: var(--topo-line);
+    stroke-width: 1.2;
+    transition: opacity var(--dur-sm);
+  }
+  .topo-link-event {
+    stroke: var(--c-stream);
+    stroke-dasharray: 5 4;
+  }
+  .topo-link-store {
+    stroke: var(--c-store);
+    opacity: 0.5;
+  }
+  .topo-link-infra,
+  .topo-link-telemetry,
+  .topo-link-deploy {
+    stroke: var(--c-infra);
+    stroke-dasharray: 2 3;
+    opacity: 0.6;
+  }
+  /* telemetry and deploy edges only show through a filter or a focused node */
+  .topo-link-telemetry,
+  .topo-link-deploy {
+    opacity: 0;
+  }
+  .topo-link.is-hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+  .topo-link.is-shown {
+    opacity: 0.6;
+  }
+  .topo-arrow path {
+    fill: var(--topo-line);
+  }
+  .topo-arrow-event path {
+    fill: var(--c-stream);
+  }
+  .topo-arrow-store path {
+    fill: var(--c-store);
+  }
+  .topo-arrow-infra path,
+  .topo-arrow-telemetry path,
+  .topo-arrow-deploy path {
+    fill: var(--c-infra);
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .topo-link-event {
+      animation: topo-flow 1.2s linear infinite;
+    }
+    .topo.is-paused .topo-link-event {
+      animation-play-state: paused;
+    }
+  }
+  @keyframes topo-flow {
+    to {
+      stroke-dashoffset: -18;
+    }
+  }
+
+  .topo-node {
+    cursor: pointer;
+    outline: none;
+    transition: opacity var(--dur-sm);
+  }
+  /* covers circle and label, so the whole node is one generous target */
+  .topo-hit {
+    fill: transparent;
+  }
+  /* opaque disc under the tinted one, so edges starting at the center don't show through */
+  .topo-base {
+    fill: var(--surface);
+  }
+  .topo-node circle:not(.topo-base) {
+    fill: var(--topo-c);
+    fill-opacity: 0.16;
+    stroke: var(--topo-c);
+    stroke-width: 2;
+    transition: fill-opacity var(--dur-sm);
+  }
+  .topo-node text {
+    fill: var(--ink);
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    paint-order: stroke;
+    stroke: var(--surface);
+    stroke-width: 4px;
+    stroke-linejoin: round;
+  }
+  .topo-node:hover circle:not(.topo-base),
+  .topo-node.is-on circle:not(.topo-base) {
+    fill-opacity: 0.55;
+  }
+  .topo-node:focus-visible circle:not(.topo-base) {
+    fill-opacity: 0.55;
+    stroke-width: 3;
+  }
+  .topo-node-edge {
+    --topo-c: var(--c-edge);
+    --c: var(--c-edge);
+  }
+  .topo-node-service {
+    --topo-c: var(--c-service);
+    --c: var(--c-service);
+  }
+  .topo-node-stream {
+    --topo-c: var(--c-stream);
+    --c: var(--c-stream);
+  }
+  .topo-node-store {
+    --topo-c: var(--c-store);
+    --c: var(--c-store);
+  }
+  .topo-node-infra {
+    --topo-c: var(--c-infra);
+    --c: var(--c-infra);
+  }
+  .topo-svg.has-focus .topo-node:not(.is-on),
+  .topo-svg.has-focus .topo-link:not(.is-on):not(.is-hidden) {
+    opacity: 0.12;
+  }
+  .topo-svg.has-focus .topo-link.is-on {
+    opacity: 1;
+    stroke-width: 1.8;
+  }
+
+  .topo-card {
+    min-height: 96px;
+    margin-top: 12px;
+    padding: 14px 16px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--bg);
+    font-size: 0.875rem;
+    line-height: 1.55;
+    color: var(--muted);
+  }
+  .topo-card-title {
+    margin-bottom: 4px;
+    color: var(--ink);
+    font-weight: 600;
+  }
+  .topo-card-key {
+    display: inline-block;
+    min-width: 72px;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--ink);
+  }
+  .topo-hint-touch {
+    display: none;
+  }
+  @media (hover: none) {
+    .topo-hint-mouse {
+      display: none;
+    }
+    .topo-hint-touch {
+      display: inline;
+    }
+  }
+  .topo-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 18px;
+    margin-top: 12px;
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .topo-legend li {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+  }
+</style>

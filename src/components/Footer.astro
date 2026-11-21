@@ -1,0 +1,36 @@
+---
+import Icon from "./Icon.astro";
+import { person } from "../data/profile";
+---
+
+<footer class="footer">
+  <div class="wrap footer-bar">
+    <p class="mono">&copy; <span data-year>2026</span> {person.name}</p>
+    <a class="ulink footer-top" href="#top">Back to top <Icon name="arrow-up" /></a>
+  </div>
+</footer>
+
+<style is:global>
+  .footer {
+    border-top: 1px solid var(--line);
+  }
+  .footer-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding-block: 28px;
+    font-size: 0.8125rem;
+    color: var(--muted);
+  }
+  .footer-top {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 500;
+  }
+  .footer-top svg {
+    width: 14px;
+    height: 14px;
+  }
+</style>

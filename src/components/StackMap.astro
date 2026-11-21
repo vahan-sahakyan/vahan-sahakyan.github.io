@@ -1,0 +1,163 @@
+---
+import { stackLayout, STACK_VARIANTS, projectsOf } from "../lib/stackmap-layout";
+import { stack, stackProjects } from "../data/capabilities";
+
+const variants = STACK_VARIANTS.map((v) => ({ id: v.id, ...stackLayout(v) }));
+const techs = Object.values(stack).flatMap(([, t]) => t);
+const usage = Object.fromEntries(techs.map((t) => [t, projectsOf(t)]));
+---
+
+<div class="stackmap card" aria-label="Tech stack, with links between technologies used in the same project" role="group" data-stackmap>
+  <div class="stackmap-head">
+    <p class="eyebrow">Stack, linked by project</p>
+    <div class="stackmap-filters" role="group" aria-label="Project filter">
+      <button type="button" class="pill-btn" data-stackmap-project="all" aria-pressed="true">All</button>
+      {
+        Object.keys(stackProjects).map((p) => (
+          <button type="button" class="pill-btn" data-stackmap-project={p} aria-pressed="false">
+            {p}
+          </button>
+        ))
+      }
+    </div>
+  </div>
+
+  <div class="stackmap-stage">
+    {
+      variants.map((v) => (
+        <svg
+          class={`stackmap-svg stackmap-${v.id}`}
+          viewBox={`${-v.size / 2} ${-v.size / 2} ${v.size} ${v.size}`}
+          role="img"
+          aria-label="Radial map of technologies grouped by category"
+        >
+          <g>
+            {v.links.map((l) => (
+              <path class={`stackmap-link sm-${l.color}`} d={l.d} data-a={l.a} data-b={l.b} data-projects={l.projects.join("|")} />
+            ))}
+          </g>
+          <g>
+            {v.nodes.map((n) => (
+              <g class={`stackmap-node sm-${n.color}`} transform={n.transform} tabindex="0" role="button" aria-label={`${n.name}, used in ${usage[n.name].join(", ")}`} data-name={n.name}>
+                <circle r="3.5" />
+                <text dy="0.32em" x={n.right ? 10 : -10} text-anchor={n.right ? "start" : "end"} transform={n.right ? undefined : "rotate(180)"}>
+                  {n.name}
+                </text>
+              </g>
+            ))}
+          </g>
+        </svg>
+      ))
+    }
+  </div>
+  <p class="stackmap-caption" aria-live="polite" data-default="Hover or tap a technology to see where it was used.">
+    Hover or tap a technology to see where it was used.
+  </p>
+  <script type="application/json" data-stackmap-usage set:html={JSON.stringify(usage)} />
+</div>
+
+<style is:global>
+  .stackmap {
+    padding: clamp(18px, 2.6vw, 32px);
+  }
+  .stackmap-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+  }
+  .stackmap-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .stackmap:not(.is-ready) .stackmap-filters {
+    visibility: hidden;
+  }
+  .stackmap-stage {
+    display: flex;
+    justify-content: center;
+    margin-top: 8px;
+  }
+  .stackmap-svg {
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+    overflow: visible;
+  }
+  .stackmap-large {
+    display: none;
+  }
+  @media (min-width: 640px) {
+    .stackmap-small {
+      display: none;
+    }
+    .stackmap-large {
+      display: block;
+    }
+  }
+  .sm-edge {
+    --sm-c: var(--c-edge);
+  }
+  .sm-service {
+    --sm-c: var(--c-service);
+  }
+  .sm-stream {
+    --sm-c: var(--c-stream);
+  }
+  .sm-store {
+    --sm-c: var(--c-store);
+  }
+  .sm-infra {
+    --sm-c: var(--c-infra);
+  }
+  .sm-obs {
+    --sm-c: var(--c-obs);
+  }
+  .stackmap-link {
+    fill: none;
+    stroke: var(--sm-c);
+    stroke-width: 1.2;
+    stroke-opacity: 0.28;
+    transition: stroke-opacity var(--dur-sm);
+  }
+  .stackmap-link.is-off {
+    stroke-opacity: 0.04;
+  }
+  .stackmap-link.is-on {
+    stroke-opacity: 0.95;
+    stroke-width: 1.6;
+  }
+  .stackmap-node {
+    cursor: pointer;
+    outline: none;
+    transition: opacity var(--dur-sm);
+  }
+  .stackmap-node circle {
+    fill: var(--sm-c);
+  }
+  .stackmap-node text {
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    fill: var(--ink);
+  }
+  .stackmap-node.is-dim {
+    opacity: 0.28;
+  }
+  .stackmap-node.is-on text,
+  .stackmap-node:focus-visible text {
+    fill: var(--sm-c);
+    font-weight: 600;
+  }
+  .stackmap-node:focus-visible circle {
+    r: 5.5;
+  }
+  .stackmap-caption {
+    min-height: 1.6em;
+    margin-top: 10px;
+    text-align: center;
+    font-size: 0.9375rem;
+    color: var(--muted);
+  }
+</style>

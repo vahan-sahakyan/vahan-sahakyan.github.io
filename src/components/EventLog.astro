@@ -1,0 +1,63 @@
+---
+---
+
+<div class="evlog" data-evlog aria-label="Simulated Redpanda topics with consumer lag and a dead-letter queue" role="group">
+  <div class="evlog-bar">
+    <p class="evlog-title">Event stream <span>simulated: offsets, lag, retries, DLQ</span></p>
+    <div class="evlog-actions">
+      <button type="button" data-evlog-action="spike">Spike traffic</button>
+      <button type="button" data-evlog-action="pause" aria-pressed="false">Pause consumers</button>
+    </div>
+  </div>
+  <canvas
+    class="evlog-canvas"
+    role="img"
+    aria-label="post, comment, like and user topics with consumer offsets trailing the head"></canvas>
+  <p class="evlog-stat mono"></p>
+</div>
+
+<style is:global>
+  .evlog {
+    margin-top: 18px;
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+  }
+  .evlog-bar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+  }
+  .evlog-title {
+    color: var(--ink);
+    font-size: 0.9375rem;
+    font-weight: 600;
+  }
+  .evlog-title span {
+    margin-left: 6px;
+    color: var(--muted);
+    font-weight: 400;
+    font-size: 0.875rem;
+  }
+  .evlog-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .evlog:not(.is-ready) .evlog-actions {
+    visibility: hidden;
+  }
+  .evlog-canvas {
+    width: 100%;
+    height: 164px;
+    margin-top: 14px;
+  }
+  .evlog-stat {
+    min-height: 1.5em;
+    margin-top: 8px;
+    font-size: 0.75rem;
+    font-variant-numeric: tabular-nums;
+    color: var(--muted);
+  }
+</style>

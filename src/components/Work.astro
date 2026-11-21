@@ -1,0 +1,36 @@
+---
+import SectionHead from "./SectionHead.astro";
+import CaseStudy from "./CaseStudy.astro";
+import Icon from "./Icon.astro";
+import { caseStudies } from "../data/projects";
+---
+
+<section class="section work" id="work" aria-labelledby="work-title">
+  <div class="wrap">
+    <SectionHead index="02" label="Work" title="Case studies, drawn as the systems they are." id="work-title">
+      <p>
+        Problem, architecture, result. Each diagram is the real service topology: filter by edge type, trace a node's
+        dependencies, zoom in.
+      </p>
+    </SectionHead>
+
+    {caseStudies.map((s, i) => <CaseStudy study={s} flip={i % 2 === 1} />)}
+
+    <p class="work-more" data-reveal>
+      <a class="btn" href="https://github.com/vahan-sahakyan?tab=repositories" target="_blank" rel="noopener">
+        <Icon name="github" /> More on GitHub <Icon name="arrow" />
+      </a>
+    </p>
+  </div>
+</section>
+
+<style is:global>
+  .work {
+    background: linear-gradient(180deg, var(--bg), var(--bg-2) 30%, var(--bg-2) 70%, var(--bg));
+  }
+  .work-more {
+    display: flex;
+    justify-content: center;
+    margin-top: clamp(64px, 8vw, 112px);
+  }
+</style>
