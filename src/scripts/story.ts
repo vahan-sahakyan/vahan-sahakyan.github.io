@@ -36,6 +36,8 @@ export default function mountStory(root: HTMLElement, motion: Motion | null) {
         const len = path.getTotalLength();
         const dot = document.createElementNS(SVG_NS, "circle");
         dot.setAttribute("r", "4");
+        // hidden until its first update, or it waits out its delay at the svg origin
+        dot.setAttribute("opacity", "0");
         dot.setAttribute("class", path.getAttribute("class")!.replace("sedge", "spacket"));
         layer.append(dot);
         const s = { t: 0 };

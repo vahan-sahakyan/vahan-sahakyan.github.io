@@ -1,0 +1,216 @@
+---
+import Icon from "./Icon.astro";
+import { person } from "../data/profile";
+
+// isometric line drawing: data model -> service -> cluster, built here so the page ships plain svg
+type P = [number, number];
+const iso =
+  (ox: number, oy: number) =>
+  (x: number, y: number, z: number): P => [ox + (x - y) * 0.866, oy + (x + y) * 0.5 - z];
+const poly = (pts: P[]) => "M" + pts.map((p) => p.map((v) => +v.toFixed(1)).join(",")).join("L") + "Z";
+const line = (a: P, b: P) => `M${a.map((v) => +v.toFixed(1))}L${b.map((v) => +v.toFixed(1))}`;
+
+function cube(ox: number, oy: number, s: number, hatch: boolean) {
+  const p = iso(ox, oy);
+  const faces = [
+    poly([p(0, s, 0), p(s, s, 0), p(s, s, s), p(0, s, s)]),
+    poly([p(s, 0, 0), p(s, s, 0), p(s, s, s), p(s, 0, s)]),
+    poly([p(0, 0, s), p(s, 0, s), p(s, s, s), p(0, s, s)]),
+  ];
+  const lines: string[] = [];
+  if (hatch) {
+    // slats down the left face, fine rules across the right, like a shipping container
+    for (let k = 1; k < 7; k++) lines.push(line(p((s * k) / 7, s, 0), p((s * k) / 7, s, s)));
+    for (let k = 1; k < 16; k++) lines.push(line(p(s, 0, (s * k) / 16), p(s, s, (s * k) / 16)));
+  }
+  return { faces, lines };
+}
+
+// a database cylinder: body, top, and two rings on the front half
+function cylinder(cx: number, cy: number, r: number, h: number) {
+  const rx = +(r * 1.2247).toFixed(1);
+  const ry = +(r * 0.7071).toFixed(1);
+  const top = cy - h;
+  const front = (y: number) => `M${cx - rx},${y}A${rx},${ry} 0 0 0 ${cx + rx},${y}`;
+  return {
+    body: `M${cx - rx},${top}L${cx - rx},${cy}A${rx},${ry} 0 0 0 ${cx + rx},${cy}L${cx + rx},${top}Z`,
+    top: { cx, cy: top, rx, ry },
+    rings: [front(top + h / 3), front(top + (2 * h) / 3)],
+  };
+}
+
+// three pieces on an even diagonal: equal gaps between them, and each a step lower than the last
+const db = cylinder(80, 180, 36, 74);
+const service = cube(255, 252, 80, true);
+// a 2x2 cluster of nodes, drawn back to front
+const node = 38;
+const cluster = [
+  [0, 0],
+  [56, 0],
+  [0, 56],
+  [56, 56],
+].map(([x, y]) => {
+  const [ox, oy] = iso(470, 332)(x, y, 0);
+  return cube(ox, oy, node, false);
+});
+
+const arcs = ["M130,100Q215,24 252,162", "M334,204Q430,140 467,284"];
+const labels = [
+  { text: "Data model", x: 20, y: 40 },
+  { text: "Service", x: 282, y: 150 },
+  { text: "Cluster", x: 476, y: 258 },
+];
+---
+
+<section class="section dark lands flow" aria-labelledby="flow-title">
+  <div class="wrap flow-grid">
+    <div class="flow-copy">
+      <p class="tag" data-reveal>End to end</p>
+      <h2 class="h2" id="flow-title" data-split>
+        From the data model
+        <span class="tone">to the cluster it runs on.</span>
+      </h2>
+      <p class="body-lg flow-lede" data-reveal>
+        I take a service the whole way: model the data, build the API and the events around it, then ship it to
+        Kubernetes through GitOps and watch it in production.
+      </p>
+      <div class="flow-actions" data-reveal>
+        <a class="btn btn-primary" href="#work">See the work</a>
+        <a class="btn" href={person.cv} target="_blank" rel="noopener">
+          Resume <Icon name="arrow-ne" /><span class="visually-hidden">(opens in a new tab)</span>
+        </a>
+      </div>
+      <p class="flow-cmd mono" data-reveal><span aria-hidden="true">$</span> git push &amp;&amp; argocd app sync</p>
+    </div>
+
+    <svg class="flow-art" viewBox="0 0 560 460" role="img" aria-label="Data model, then service, then cluster" data-flow>
+      <defs>
+        <marker id="flow-head" viewBox="0 0 8 8" refX="6" refY="4" markerWidth="8" markerHeight="8" orient="auto">
+          <path d="M1,1L6,4L1,7" />
+        </marker>
+        {
+          arcs.map((d, i) => (
+            <mask id={`flow-mask-${i}`} maskUnits="userSpaceOnUse">
+              <path d={d} pathLength="1" class="flow-mask" data-flow-mask />
+            </mask>
+          ))
+        }
+      </defs>
+
+      <g data-flow-step>
+        <path class="flow-solid" d={db.body} />
+        <ellipse class="flow-solid" cx={db.top.cx} cy={db.top.cy} rx={db.top.rx} ry={db.top.ry} />
+        {db.rings.map((d) => <path class="flow-line" d={d} />)}
+      </g>
+      <g data-flow-step>
+        <path class="flow-arc" d={arcs[0]} mask="url(#flow-mask-0)" marker-end="url(#flow-head)" />
+      </g>
+      <g data-flow-step>
+        {service.faces.map((d) => <path class="flow-solid" d={d} />)}
+        {service.lines.map((d) => <path class="flow-line" d={d} />)}
+      </g>
+      <g data-flow-step>
+        <path class="flow-arc" d={arcs[1]} mask="url(#flow-mask-1)" marker-end="url(#flow-head)" />
+      </g>
+      <g data-flow-step>
+        {cluster.map((c) => c.faces.map((d) => <path class="flow-solid" d={d} />))}
+      </g>
+      {
+        labels.map((l) => (
+          <text class="flow-label" x={l.x} y={l.y} data-flow-label>
+            {l.text}
+          </text>
+        ))
+      }
+    </svg>
+  </div>
+</section>
+
+<style is:global>
+  .flow-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: center;
+    gap: 48px clamp(32px, 6vw, 96px);
+  }
+  .flow-copy {
+    display: grid;
+    justify-items: start;
+    gap: 22px;
+  }
+  .flow-copy .h2 .tone {
+    display: block;
+  }
+  .flow-lede {
+    max-width: 520px;
+  }
+  .flow-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 6px;
+  }
+  .flow-cmd {
+    padding: 8px 12px;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-xs);
+    color: var(--ink-2);
+    font-size: 0.75rem;
+  }
+  .flow-cmd span {
+    color: var(--muted);
+  }
+  .flow-art {
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+  .flow-solid {
+    fill: var(--dk-bg);
+    stroke: var(--ink);
+    stroke-width: 1.4;
+    stroke-linejoin: round;
+  }
+  .flow-line {
+    fill: none;
+    stroke: var(--ink);
+    stroke-width: 1;
+  }
+  .flow-arc {
+    fill: none;
+    stroke: var(--ink);
+    stroke-width: 1.3;
+    stroke-dasharray: 4 5;
+  }
+  #flow-head path {
+    fill: none;
+    stroke: var(--ink);
+    stroke-width: 1.3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .flow-mask {
+    fill: none;
+    stroke: #fff;
+    stroke-width: 12;
+    stroke-dasharray: 1;
+    stroke-dashoffset: 0;
+  }
+  .flow-label {
+    fill: var(--ink);
+    font-family: var(--font-mono);
+    font-size: 14px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 900px) {
+    .flow-grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .flow-art {
+      max-width: 520px;
+      justify-self: center;
+    }
+  }
+</style>

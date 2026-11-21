@@ -7,7 +7,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
 import { CustomEase } from "gsap/CustomEase";
-import { duration, ease, stagger, reveal, interaction, parallax, counter } from "../motion/tokens";
+import { duration, ease, stagger, reveal, interaction, parallax, counter, land } from "../motion/tokens";
 import { finePointer } from "./env";
 
 gsap.registerPlugin(ScrollTrigger, SplitText, CustomEase);
@@ -22,6 +22,10 @@ export function initMotion() {
   blockReveals();
   counters();
   parallaxLayers();
+  landings();
+  heroCorners();
+  footerRise();
+  flows();
   if (finePointer) {
     magnetic();
     tilt();
@@ -33,7 +37,11 @@ export function initMotion() {
   return {
     gsap,
     ScrollTrigger,
-    refresh: () => ScrollTrigger.refresh(),
+    // triggers made before the story's pin don't know its scroll length; sorting by position fixes that
+    refresh: () => {
+      ScrollTrigger.sort();
+      ScrollTrigger.refresh();
+    },
   };
 }
 
@@ -113,7 +121,119 @@ function parallaxLayers() {
     gsap.fromTo(
       el,
       { yPercent: -4 },
-      { yPercent: 4, ease: "none", scrollTrigger: { trigger: el.parentElement, start: "top bottom", end: "bottom top", scrub: true } }
+      {
+        yPercent: 4,
+        ease: "none",
+        scrollTrigger: { trigger: el.parentElement, start: "top bottom", end: "bottom top", scrub: true },
+      }
+    );
+  }
+}
+
+// sections land: each starts lower by its overlap with the section above, then rises faster than the page until
+// it sits on its landing line. the offset is set by hand and cleared once landed, because any transform left on
+// the pinned story's section would break its pin. measurements happen with the offsets cleared
+function landings() {
+  const items = [...document.querySelectorAll<HTMLElement>(".lands")].map((el) => ({
+    el,
+    d: 0,
+    st: null as ScrollTrigger | null,
+  }));
+  // as low as it can start while its rounded corners still sit over the section above, not the page behind it
+  const depth = (el: HTMLElement) => Math.max(0, (-parseFloat(getComputedStyle(el).marginTop) || 0) - land.radius);
+  const apply = (it: (typeof items)[number], p: number) => {
+    it.el.style.transform = p < 1 ? `translate3d(0, ${((1 - p) * it.d).toFixed(1)}px, 0)` : "";
+    it.el.style.setProperty("--land-r", `${((1 - p) * land.radius).toFixed(1)}px`);
+  };
+  ScrollTrigger.addEventListener("refreshInit", () => {
+    for (const it of items) {
+      it.el.style.transform = "";
+      it.d = depth(it.el);
+    }
+  });
+  for (const it of items) {
+    it.d = depth(it.el);
+    it.st = ScrollTrigger.create({
+      trigger: it.el,
+      // from when its lowered top would enter the viewport, to when its real top reaches the landing point
+      start: () => `top+=${it.d} bottom`,
+      end: `top ${Math.round(land.end * 100)}%`,
+      onUpdate: (self) => apply(it, self.progress),
+      onRefresh: (self) => apply(it, self.progress),
+    });
+    apply(it, it.st.progress);
+  }
+}
+
+// the hero's rounded bottom corners flatten as the next section comes up under them
+function heroCorners() {
+  const hero = document.querySelector<HTMLElement>("[data-hero]");
+  if (!hero) return;
+  const r = parseFloat(getComputedStyle(hero).borderBottomLeftRadius) || 0;
+  gsap.fromTo(
+    hero,
+    { "--hero-r": `${r}px` },
+    {
+      "--hero-r": "0px",
+      ease: "none",
+      scrollTrigger: {
+        trigger: hero,
+        start: "bottom bottom",
+        end: `bottom ${Math.round(land.end * 100)}%`,
+        scrub: true,
+      },
+    }
+  );
+}
+
+// the footer wordmark rises from behind the panel line, its gradient drifting as it goes. the end is capped at the
+// page's max scroll, so it always finishes
+function footerRise() {
+  const word = document.querySelector<HTMLElement>(".footer-word span");
+  const box = word?.parentElement;
+  if (!word || !box) return;
+  gsap.fromTo(
+    word,
+    { y: () => box.offsetHeight, backgroundPosition: "100% 0" },
+    {
+      y: 0,
+      backgroundPosition: "0% 0",
+      ease: "none",
+      scrollTrigger: {
+        trigger: box,
+        start: "top bottom",
+        end: () =>
+          Math.min(
+            box.getBoundingClientRect().top + scrollY - innerHeight * land.rise,
+            ScrollTrigger.maxScroll(window)
+          ),
+        scrub: true,
+        invalidateOnRefresh: true,
+      },
+    }
+  );
+}
+
+// the isometric drawing assembles in order: each piece rises in, the dashed arcs draw toward the next one
+function flows() {
+  for (const svg of document.querySelectorAll<SVGSVGElement>("[data-flow]")) {
+    const steps = svg.querySelectorAll("[data-flow-step]");
+    const masks = svg.querySelectorAll("[data-flow-mask]");
+    const tl = gsap.timeline({ scrollTrigger: { trigger: svg, start: startAt, once: true } });
+    gsap.set(masks, { attr: { "stroke-dashoffset": 1 } });
+    let arcs = 0;
+    steps.forEach((step, i) => {
+      if (step.querySelector(".flow-arc")) {
+        const mask = masks[arcs++];
+        tl.to(mask, { attr: { "stroke-dashoffset": 0 }, duration: duration.lg, ease: "inOut" }, "-=0.15");
+      } else {
+        tl.from(step, { opacity: 0, y: 18, duration: duration.md, ease: "out" }, i ? "-=0.2" : 0);
+      }
+    });
+    tl.from(
+      svg.querySelectorAll("[data-flow-label]"),
+      { opacity: 0, duration: duration.md, stagger: stagger.item },
+      0.2
     );
   }
 }

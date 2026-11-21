@@ -1,6 +1,7 @@
 ---
 import SectionHead from "./SectionHead.astro";
 import StackMap from "./StackMap.astro";
+import Marquee from "./Marquee.astro";
 import { capabilities } from "../data/capabilities";
 
 // 32px line icons, one per area
@@ -15,7 +16,7 @@ const icons: Record<string, string> = {
 };
 ---
 
-<section class="section caps" id="capabilities" aria-labelledby="caps-title">
+<section class="section blue lands caps" id="capabilities" aria-labelledby="caps-title">
   <div class="wrap">
     <SectionHead index="04" label="Capabilities" title="Grouped by" tone="the problems they solve." id="caps-title">
       <p>Seven areas, each with the tools used in production. The map below links tools used on the same project.</p>
@@ -50,6 +51,7 @@ const icons: Record<string, string> = {
       <StackMap />
     </div>
   </div>
+  <Marquee />
 </section>
 
 <style is:global>
@@ -114,6 +116,54 @@ const icons: Record<string, string> = {
   }
   .caps-map {
     margin-top: 16px;
+  }
+  /* the band closes the section; the room below it is where the next section tucks in */
+  .section.blue.caps {
+    padding-bottom: var(--land-overlap);
+  }
+  /* on blue the map drops its dark panel: a lighter blue card, drawn in white like the rest of the section */
+  .blue .stackmap.dark {
+    --ink: #ffffff;
+    --ink-2: rgba(255, 255, 255, 0.88);
+    --muted: rgba(255, 255, 255, 0.78);
+    --line: rgba(255, 255, 255, 0.24);
+    --line-strong: rgba(255, 255, 255, 0.5);
+    --accent: #ffffff;
+    --accent-hover: #e9ebff;
+    --on-accent: var(--blue);
+    border: 1px solid var(--line);
+    background:
+      radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.16) 1px, transparent 0) 0 0 / 20px 20px,
+      var(--blue-2);
+  }
+  /* categories as clear tints that read on blue: cyan, white, coral, amber, mint, pink */
+  .blue .stackmap .sm-edge {
+    --sm-c: #8fe3ff;
+  }
+  .blue .stackmap .sm-service {
+    --sm-c: #ffffff;
+  }
+  .blue .stackmap .sm-stream {
+    --sm-c: #ff9466;
+  }
+  .blue .stackmap .sm-store {
+    --sm-c: #ffd25e;
+  }
+  .blue .stackmap .sm-infra {
+    --sm-c: #5cf0bd;
+  }
+  .blue .stackmap .sm-obs {
+    --sm-c: #ff9de6;
+  }
+  .blue .stackmap .stackmap-link {
+    stroke-opacity: 0.5;
+  }
+  .blue .stackmap .stackmap-link.is-off {
+    stroke-opacity: 0.06;
+  }
+  .caps .marquee {
+    margin-top: var(--section-y);
+    border-bottom: 1px solid var(--line);
   }
 
   @media (max-width: 960px) {

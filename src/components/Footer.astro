@@ -6,11 +6,13 @@ import { person, contact, socials, nav } from "../data/profile";
 const word = "work with me";
 ---
 
-<footer class="footer dark" data-nav-dark>
+<footer class="footer dark">
   <a class="footer-word" href={`mailto:${contact.email}`} aria-label={`Work with me: email ${contact.email}`}>
     <span>{word}</span>
   </a>
 
+  <!-- the lighter panel's top edge is the line the wordmark rises from -->
+  <div class="footer-panel">
   <div class="wrap footer-cta">
     <p>Hiring for backend, platform or distributed systems? I'd like to hear about it.</p>
     <a class="act" href={`mailto:${contact.email}`}>{contact.email} <Icon name="arrow-ne" /></a>
@@ -67,13 +69,16 @@ const word = "work with me";
     <p class="mono">&copy; <span data-year>2026</span> {person.name}</p>
     <a class="act footer-top" href="#top">Back to top <Icon name="arrow-up" /></a>
   </div>
+  </div>
 </footer>
 
 <style is:global>
   .footer {
-    margin-top: clamp(8px, 1.2vw, 16px);
-    border-radius: clamp(20px, 3vw, 36px) clamp(20px, 3vw, 36px) 0 0;
+    position: relative;
     overflow: hidden;
+  }
+  .footer-panel {
+    background: var(--dk-surface);
   }
   .footer-word {
     display: flex;
@@ -82,8 +87,8 @@ const word = "work with me";
     height: calc(0.74em + clamp(24px, 3.4vw, 48px));
     overflow: hidden;
     padding-top: clamp(24px, 3.4vw, 48px);
-    /* sized to span the footer like docker's wordmark */
-    font-size: clamp(2.2rem, 10.8vw, 9.75rem);
+    /* spans nearly the full width, like docker's wordmark */
+    font-size: 12.4vw;
     font-weight: 700;
     line-height: 0.78;
     letter-spacing: -0.045em;
@@ -92,19 +97,15 @@ const word = "work with me";
     user-select: none;
   }
   /* one gradient across the whole phrase: blue to cream to coral, routed through cream so it never turns purple.
-     hover slides it a little */
+     motion.ts raises it from behind the panel and drifts the gradient as it rises */
   .footer-word span {
+    display: inline-block;
     background: linear-gradient(90deg, #5b6cff 0%, #a9b6ff 20%, #efe8dc 46%, #f6d4bb 64%, #ff7a48 86%, #ff6a3d 100%);
-    background-size: 125% 100%;
+    background-size: 160% 100%;
     background-position: 0 0;
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
-    transition: background-position var(--dur-xl) var(--ease-out);
-  }
-  .footer-word:hover span,
-  .footer-word:focus-visible span {
-    background-position: 100% 0;
   }
   .footer-word:focus-visible {
     outline-offset: -6px;

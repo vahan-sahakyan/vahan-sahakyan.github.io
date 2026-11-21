@@ -5,7 +5,7 @@ import { commits, roles, education } from "../data/experience";
 import { formatSince } from "../scripts/durations";
 ---
 
-<section class="section exp" id="experience" aria-labelledby="exp-title">
+<section class="section lands exp" id="experience" aria-labelledby="exp-title">
   <div class="wrap">
     <SectionHead index="05" label="Experience" title="A career," tone="read as a git log." id="exp-title">
       <p>Employer on one lane, client work on the other. Select a commit to jump to the role.</p>
@@ -123,11 +123,6 @@ import { formatSince } from "../scripts/durations";
   }
   .gitlog .tag {
     margin-bottom: 20px;
-  }
-  @media (prefers-color-scheme: dark) {
-    .gitlog {
-      --l1: #ff8a5c;
-    }
   }
   .gitlog-body {
     position: relative;

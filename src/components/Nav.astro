@@ -3,12 +3,13 @@ import Icon from "./Icon.astro";
 import { nav, person } from "../data/profile";
 ---
 
-<header class="nav" data-nav>
+<!-- starts dark, over the hero; nav.ts retones it from the scroll position --><header class="nav on-dark" data-nav>
   <div class="wrap">
     <div class="nav-bar">
-      <a href="#top" class="nav-id" data-nav-id>
+      <a href="#top" class="nav-id" aria-label={`${person.name}, back to top`}>
         <img src={person.photo} width="240" height="240" alt="" />
         <span class="nav-id-name">{person.name}</span>
+        <span class="nav-id-role">{person.role}</span>
       </a>
 
       <nav class="nav-primary" aria-label="Primary">
@@ -75,14 +76,12 @@ import { nav, person } from "../data/profile";
     padding: 0 8px 0 14px;
     border: 1px solid var(--line);
     border-radius: var(--radius-sm);
-    background: color-mix(in srgb, var(--bg-2) 86%, transparent);
-    -webkit-backdrop-filter: blur(14px) saturate(1.4);
-    backdrop-filter: blur(14px) saturate(1.4);
-    transition:
-      background-color var(--dur-md) var(--ease-out),
-      border-color var(--dur-md) var(--ease-out);
+    /* the color of the section under it, set by nav.ts; starts as the dark hero's */
+    background: color-mix(in srgb, var(--nav-under, var(--dk-bg)) 86%, transparent);
+    -webkit-backdrop-filter: blur(18px) saturate(1.4);
+    backdrop-filter: blur(18px) saturate(1.4);
   }
-  /* over dark sections the bar goes dark with them */
+  /* light type over dark surfaces; the markup starts with it, over the dark hero */
   .nav.on-dark .nav-bar {
     --ink: var(--dk-ink);
     --ink-2: var(--dk-ink-2);
@@ -92,7 +91,17 @@ import { nav, person } from "../data/profile";
     --accent: #6f7dff;
     --accent-hover: #8e99ff;
     --on-accent: #0c0c0c;
-    background: rgba(22, 22, 22, 0.82);
+  }
+
+  .nav.on-blue .nav-bar {
+    --ink: #ffffff;
+    --ink-2: rgba(255, 255, 255, 0.88);
+    --muted: rgba(255, 255, 255, 0.78);
+    --line: rgba(255, 255, 255, 0.28);
+    --line-strong: rgba(255, 255, 255, 0.5);
+    --accent: #ffffff;
+    --accent-hover: #e9ebff;
+    --on-accent: var(--blue);
   }
 
   .nav-id {
@@ -100,18 +109,6 @@ import { nav, person } from "../data/profile";
     align-items: center;
     gap: 10px;
     margin-right: auto;
-    opacity: 0;
-    transform: translateY(-4px);
-    pointer-events: none;
-    transition:
-      opacity var(--dur-md) var(--ease-out),
-      transform var(--dur-md) var(--ease-out);
-  }
-  .nav-id.is-visible,
-  .nav.is-open .nav-id {
-    opacity: 1;
-    transform: none;
-    pointer-events: auto;
   }
   .nav-id img {
     width: 26px;
@@ -124,6 +121,22 @@ import { nav, person } from "../data/profile";
     font-weight: 600;
     font-size: 0.9375rem;
     letter-spacing: -0.015em;
+    white-space: nowrap;
+  }
+  .nav-id-role {
+    padding-left: 10px;
+    border-left: 1px solid var(--line-strong);
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  @media (max-width: 1180px) {
+    .nav-id-role {
+      display: none;
+    }
   }
 
   .nav-links {

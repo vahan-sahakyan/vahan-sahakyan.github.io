@@ -14,7 +14,7 @@ const chips = [
 const shippedFor = ["Forbes", "Warner Music Group", "Optimum Partners", "Datafoundry"];
 ---
 
-<section class="hero dark" id="top" data-hero data-nav-dark>
+<section class="hero dark" id="top" data-hero>
   <div class="hero-stream" data-stream aria-hidden="true">
     <canvas></canvas>
     {
@@ -31,16 +31,16 @@ const shippedFor = ["Forbes", "Warner Music Group", "Optimum Partners", "Datafou
   </div>
 
   <div class="wrap hero-inner">
-    <p class="hero-id" data-hero-id>
-      <img src={person.photo} width="240" height="240" alt="" />
-      <span class="hero-id-name">{person.name}</span>
-      <span class="hero-id-role">{person.role}</span>
-    </p>
+    <a class="hero-now" href="#experience">
+      <b>Now</b>
+      <span>Building Forbes Vetted backends</span>
+      <Icon name="arrow-ne" />
+    </a>
 
     <div class="hero-grid">
       <h1 class="display hero-title">
-        <span class="hl"><span>Backends you stop</span></span>
-        <span class="hl tone"><span>worrying about.</span></span>
+        <span class="hl"><span>{person.name}</span></span>
+        <span class="hl tone"><span>{person.role}</span></span>
       </h1>
       <p class="hero-tagline body-lg">
         5+ years designing distributed systems end to end, from the data model and APIs to event streaming and the
@@ -74,6 +74,8 @@ const shippedFor = ["Forbes", "Warner Music Group", "Optimum Partners", "Datafou
       </ul>
     </div>
 
+    <p class="hero-motto mono"><span aria-hidden="true">// </span>backends you stop worrying about</p>
+
     <div class="hero-shipped">
       <p class="mono">Shipped for</p>
       <ul>
@@ -88,7 +90,9 @@ const shippedFor = ["Forbes", "Warner Music Group", "Optimum Partners", "Datafou
     position: relative;
     isolation: isolate;
     overflow: clip;
-    border-radius: 0 0 clamp(20px, 3vw, 36px) clamp(20px, 3vw, 36px);
+    /* motion.ts flattens these as the next section comes up */
+    --hero-r: clamp(20px, 3vw, 36px);
+    border-radius: 0 0 var(--hero-r) var(--hero-r);
   }
   .hero-stream {
     position: absolute;
@@ -183,39 +187,43 @@ const shippedFor = ["Forbes", "Warner Music Group", "Optimum Partners", "Datafou
     min-height: min(100svh, 920px);
     padding-top: calc(var(--nav-h) + clamp(56px, 11vh, 132px));
   }
-  .hero-id {
+  /* status chip, like a release badge */
+  .hero-now {
     display: inline-flex;
     align-self: flex-start;
     align-items: center;
     gap: 10px;
-    padding: 3px 10px 3px 3px;
+    padding: 5px 10px 5px 6px;
     border: 1px solid var(--line-strong);
     border-radius: var(--radius-xs);
+    color: var(--ink);
+    font-size: 0.8125rem;
+    transition: border-color var(--dur-sm);
+  }
+  .hero-now:hover {
+    border-color: var(--ink-2);
+  }
+  .hero-now b {
+    padding: 1px 6px;
+    border-radius: 2px;
+    background: rgba(255, 138, 92, 0.16);
+    color: #ff8a5c;
     font-family: var(--font-mono);
-    font-size: 0.6875rem;
-    letter-spacing: 0.06em;
+    font-size: 0.625rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
   }
-  .hero-id img {
-    width: 22px;
-    height: 22px;
-    border-radius: 2px;
-    object-fit: cover;
-  }
-  .hero-id-name {
-    color: var(--ink);
-  }
-  .hero-id-role {
+  .hero-now svg {
+    width: 12px;
+    height: 12px;
     color: var(--muted);
-  }
-  .hero-id-role::before {
-    content: "/ ";
   }
 
   .hero-grid {
     display: grid;
     gap: 24px;
-    max-width: 760px;
+    max-width: 1000px;
     margin-top: 24px;
   }
   .hero-title .hl {
@@ -228,8 +236,18 @@ const shippedFor = ["Forbes", "Warner Music Group", "Optimum Partners", "Datafou
     display: block;
   }
   .hero-tagline {
-    max-width: 500px;
+    max-width: 540px;
     color: var(--ink-2);
+  }
+  /* the slogan, kept quiet: a code comment under the actions */
+  .hero-motto {
+    margin-top: 28px;
+    color: var(--muted);
+    font-size: 0.8125rem;
+    letter-spacing: 0.02em;
+  }
+  .hero-motto span {
+    opacity: 0.6;
   }
 
   .hero-actions {
@@ -292,9 +310,10 @@ const shippedFor = ["Forbes", "Warner Music Group", "Optimum Partners", "Datafou
 
   /* intro: pure css so the headline never waits on js */
   @media (prefers-reduced-motion: no-preference) {
-    .hero-id,
+    .hero-now,
     .hero-tagline,
     .hero-actions,
+    .hero-motto,
     .hero-shipped {
       animation: hero-rise var(--dur-lg) var(--ease-out) both;
     }
@@ -312,6 +331,9 @@ const shippedFor = ["Forbes", "Warner Music Group", "Optimum Partners", "Datafou
     }
     .hero-actions {
       animation-delay: 0.4s;
+    }
+    .hero-motto {
+      animation-delay: 0.5s;
     }
     .hero-shipped {
       animation-delay: 0.6s;

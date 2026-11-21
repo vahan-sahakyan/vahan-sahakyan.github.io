@@ -31,7 +31,7 @@
 /* ---------- color tokens ----------
    neutral warm surfaces, one blue for actions; gradients only inside art */
 :root {
-  color-scheme: light dark;
+  color-scheme: light;
 
   --bg: #fafaf8;
   --bg-2: #f1f0ec;
@@ -58,20 +58,25 @@
   --dk-line: rgba(255, 255, 255, 0.1);
   --dk-line-strong: rgba(255, 255, 255, 0.22);
 
+  /* full-bleed blue sections */
+  --blue: #4657f2;
+  --blue-2: #5465f4;
+
   /* art palette */
   --g-blue: #3446f0;
   --g-sky: #a9b6ff;
   --g-coral: #ff6a3d;
   --g-peach: #f6d4bb;
 
-  /* diagram categories, tuned for the dark panels they live in */
-  --c-edge: #7f8cff;
-  --c-service: #e9e9e6;
-  --c-stream: #ff8a5c;
-  --c-store: #e2a970;
-  --c-infra: #8d8d8a;
-  --c-obs: #a9b6ff;
-  --c-dlq: #ff6b6b;
+  /* diagram categories on light surfaces; .dark swaps in brighter ones */
+  --c-edge: #3446f0;
+  --c-service: #2a2a2a;
+  --c-stream: #d4561f;
+  --c-store: #a06a1a;
+  --c-infra: #7a7a76;
+  --c-obs: #6a5ae0;
+  --c-dlq: #d93a3a;
+  --dots: rgba(17, 17, 17, 0.09);
 
   --radius-xs: 4px;
   --radius-sm: 8px;
@@ -84,30 +89,6 @@
 
   --font-sans: "Geist", "Geist Fallback", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "Geist Mono", "Geist Mono Fallback", ui-monospace, Menlo, monospace;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #0c0c0c;
-    --bg-2: #141414;
-    --surface: #181818;
-    --surface-glass: rgba(24, 24, 24, 0.78);
-    --ink: #f2f2f0;
-    --ink-2: #c6c6c2;
-    --muted: #919190;
-    --line: rgba(255, 255, 255, 0.1);
-    --line-strong: rgba(255, 255, 255, 0.22);
-    --accent: #6f7dff;
-    --accent-hover: #8e99ff;
-    --on-accent: #0c0c0c;
-    --accent-soft: rgba(111, 125, 255, 0.12);
-    --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 12px 30px -14px rgba(0, 0, 0, 0.7);
-    --shadow-lift: 0 2px 4px rgba(0, 0, 0, 0.4), 0 26px 56px -22px rgba(0, 0, 0, 0.85);
-
-    /* dark panels sit a step below the page so they still read as panels */
-    --dk-bg: #050505;
-    --dk-surface: #121212;
-  }
 }
 
 /* ---------- reset ---------- */
@@ -229,7 +210,31 @@ button {
   --accent: #6f7dff;
   --accent-hover: #8e99ff;
   --on-accent: #0c0c0c;
+  --c-edge: #7f8cff;
+  --c-service: #e9e9e6;
+  --c-stream: #ff8a5c;
+  --c-store: #e2a970;
+  --c-infra: #8d8d8a;
+  --c-obs: #a9b6ff;
+  --c-dlq: #ff6b6b;
+  --dots: rgba(255, 255, 255, 0.07);
   background: var(--dk-bg);
+  color: var(--ink-2);
+}
+
+/* ---------- blue scope: a full-bleed accent section with white type ---------- */
+.blue {
+  --ink: #ffffff;
+  --ink-2: rgba(255, 255, 255, 0.88);
+  --muted: rgba(255, 255, 255, 0.78);
+  --line: rgba(255, 255, 255, 0.24);
+  --line-strong: rgba(255, 255, 255, 0.5);
+  --accent: #ffffff;
+  --accent-hover: #e9ebff;
+  --on-accent: var(--blue);
+  --accent-soft: rgba(255, 255, 255, 0.14);
+  --surface: var(--blue-2);
+  background: var(--blue);
   color: var(--ink-2);
 }
 
@@ -315,6 +320,22 @@ h2 .tone {
 }
 .band {
   background: var(--bg-2);
+}
+/* sections land over the one above: they overlap its bottom padding, and motion.ts starts them that much lower
+   with rounded top corners, then slides them up onto the landing line as the page scrolls */
+:root {
+  --land-overlap: clamp(56px, 7vw, 104px);
+}
+:where(.lands) {
+  background: var(--bg);
+}
+.section.lands {
+  margin-top: calc(-1 * var(--land-overlap));
+  border-radius: var(--land-r, 0px) var(--land-r, 0px) 0 0;
+}
+/* the next section covers this much of the bottom padding, so add it back and both ends read the same */
+.section:has(+ .lands) {
+  padding-bottom: calc(var(--section-y) + var(--land-overlap));
 }
 .section-head {
   display: grid;

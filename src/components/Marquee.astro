@@ -10,13 +10,13 @@ const facts = [
 ];
 ---
 
-<div class="marquee dark" aria-hidden="true">
+<div class="marquee" aria-hidden="true">
   <div class="marquee-big">
     <div class="marquee-track">
       {
         [0, 1].map(() => (
           <span>
-            Backends you stop worrying about<i>&#9679;</i>Backends you stop worrying about<i>&#9679;</i>
+            Built to scale<i>&#9679;</i>Built to scale<i>&#9679;</i>Built to scale<i>&#9679;</i>
           </span>
         ))
       }
@@ -43,11 +43,10 @@ const facts = [
 <style is:global>
   .marquee {
     overflow: hidden;
-    border-radius: clamp(20px, 3vw, 36px);
-    margin-inline: clamp(8px, 1.2vw, 16px);
+    border-top: 1px solid var(--line);
   }
   .marquee-big {
-    padding-block: clamp(28px, 4vw, 48px) clamp(20px, 3vw, 32px);
+    padding-block: 1rem;
     border-bottom: 1px solid var(--line);
   }
   .marquee-track {
@@ -61,18 +60,23 @@ const facts = [
   }
   .marquee-big span {
     color: var(--ink);
-    font-size: clamp(3rem, 1.5rem + 7vw, 8.5rem);
-    font-weight: 600;
-    letter-spacing: -0.045em;
-    line-height: 1;
+    /* heavy and large, filling the band edge to edge like docker's "run on trust" */
+    font-size: clamp(3.5rem, 10.5vw, 14rem);
+    font-weight: 900;
+    letter-spacing: -0.04em;
+    /* line box about the caps' height, so the padding is the actual space above and below the letters */
+    line-height: 0.74;
     text-transform: uppercase;
     white-space: nowrap;
   }
+  /* the separator rides at cap height, like a registered mark */
   .marquee-big i {
-    margin-inline: 0.35em;
-    font-size: 0.28em;
+    align-self: flex-start;
+    margin-inline: 0.25em 0.45em;
+    font-size: 0.22em;
     font-style: normal;
-    color: var(--g-coral);
+    line-height: 1;
+    color: var(--ink);
   }
   .marquee-ticker {
     padding-block: 14px;
@@ -82,7 +86,7 @@ const facts = [
     font-size: 0.6875rem;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: var(--muted);
+    color: var(--ink);
     white-space: nowrap;
   }
   .marquee-ticker b {
@@ -90,18 +94,14 @@ const facts = [
     width: 6px;
     height: 6px;
     margin-inline: 28px;
-    background: var(--accent);
+    background: var(--ink);
   }
   @media (prefers-reduced-motion: no-preference) {
     .marquee-track {
-      animation: marquee 38s linear infinite;
+      animation: marquee 60s linear infinite;
     }
     .marquee-track-slow {
-      animation-duration: 60s;
-      animation-direction: reverse;
-    }
-    .marquee:hover .marquee-track {
-      animation-play-state: paused;
+      animation-duration: 80s;
     }
   }
   @keyframes marquee {

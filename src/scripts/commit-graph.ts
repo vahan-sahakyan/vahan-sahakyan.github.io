@@ -59,12 +59,13 @@ export default function mountCommitGraph(root: HTMLElement) {
     highlight(activeRole);
   }
 
-  // the role card nearest the upper third of the viewport marks its commits
+  // the role card nearest the upper third of the viewport marks its latest commit; rows run newest first
   let activeRole: string | null = null;
   function highlight(role: string | null) {
     activeRole = role;
+    const latest = items.findIndex((li) => li.dataset.role === role);
     items.forEach((li, i) => {
-      const on = li.dataset.role === role;
+      const on = i === latest;
       li.classList.toggle("is-active", on);
       svg.querySelector(`circle[data-i="${i}"]`)?.classList.toggle("is-active", on);
     });

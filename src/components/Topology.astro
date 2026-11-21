@@ -14,7 +14,7 @@ const details = Object.fromEntries(graph.nodes.map((n) => [n.id, { name: n.name,
 const legendLabel = (g: string, text: string) => (g === "service" && id === "dsn" ? "Go service" : text);
 ---
 
-<div class="topo dark" data-topo={id} aria-label={label} role="group">
+<div class="topo" data-topo={id} aria-label={label} role="group">
   <div class="topo-bar">
     <div class="topo-filters" role="group" aria-label="Edge filter">
       {
@@ -123,10 +123,11 @@ const legendLabel = (g: string, text: string) => (g === "service" && id === "dsn
     container-type: inline-size;
     position: relative;
     padding: clamp(14px, 2vw, 24px);
+    border: 1px solid var(--line);
     border-radius: var(--radius-lg);
     background:
-      radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.07) 1px, transparent 0) 0 0 / 20px 20px,
-      var(--dk-bg);
+      radial-gradient(circle at 1px 1px, var(--dots) 1px, transparent 0) 0 0 / 20px 20px,
+      var(--bg);
     color: var(--ink);
   }
   .topo-bar {

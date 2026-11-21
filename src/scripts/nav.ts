@@ -1,14 +1,24 @@
-// nav.ts - floating bar, always on screen: turns dark over dark sections, shows the name once the hero's
-// id scrolls under it, underlines the current section, and runs the mobile sheet
+// nav.ts - floating bar, always on screen: takes the color of the section under it, underlines the current section,
+// and runs the mobile sheet
 
 export function initNav() {
   const nav = document.querySelector<HTMLElement>("[data-nav]");
   if (!nav) return;
-  const navId = nav.querySelector<HTMLElement>("[data-nav-id]")!;
-  const heroId = document.querySelector<HTMLElement>("[data-hero-id]");
   const toggle = nav.querySelector<HTMLButtonElement>("[data-nav-toggle]")!;
   const sheet = nav.querySelector<HTMLElement>("[data-nav-sheet]")!;
-  const darks = [...document.querySelectorAll<HTMLElement>("[data-nav-dark]")];
+  // the page-level block under a point: a section, the footer, or the page itself. its background, not whatever
+  // card or image happens to sit there
+  const blocks = "main > section, footer";
+  const pageBg = getComputedStyle(document.body).backgroundColor;
+  const sectionAt = (x: number, y: number) => {
+    const el = document
+      .elementsFromPoint(x, y)
+      .find((e) => !nav.contains(e))
+      ?.closest<HTMLElement>(blocks);
+    const c = el ? getComputedStyle(el).backgroundColor : pageBg;
+    const m = c.match(/[\d.]+/g)!.map(Number);
+    return { el, rgb: m.length > 3 && m[3] === 0 ? pageBg.match(/[\d.]+/g)!.map(Number) : m };
+  };
   const links = [...nav.querySelectorAll<HTMLAnchorElement>(".nav-link")];
 
   let ticking = false;
@@ -16,27 +26,20 @@ export function initNav() {
     if (ticking) return;
     ticking = true;
     requestAnimationFrame(() => {
-      // dark when the bar's middle line is over a dark section
-      const line = nav.getBoundingClientRect().top + 38;
-      nav.classList.toggle("on-dark", darks.some((d) => {
-        const r = d.getBoundingClientRect();
-        return r.top <= line && r.bottom >= line;
-      }));
+      // sample just below the bar's middle
+      const r = nav.querySelector(".nav-bar")!.getBoundingClientRect();
+      const hit = sectionAt(r.left + r.width / 2, r.bottom + 2);
+      const [R, G, B] = hit.rgb;
+      nav.style.setProperty("--nav-under", `rgb(${R} ${G} ${B})`);
+      const light = (0.2126 * R + 0.7152 * G + 0.0722 * B) / 255 > 0.5;
+      const blue = !!hit.el?.classList.contains("blue");
+      nav.classList.toggle("on-blue", !light && blue);
+      nav.classList.toggle("on-dark", !light && !blue);
       ticking = false;
     });
   };
   addEventListener("scroll", onScroll, { passive: true });
   onScroll();
-
-  if (heroId) {
-    new IntersectionObserver(
-      ([e]) => {
-        const line = e.rootBounds?.top ?? 0;
-        navId.classList.toggle("is-visible", !e.isIntersecting && e.boundingClientRect.top < line);
-      },
-      { rootMargin: "-70px 0px 0px 0px" }
-    ).observe(heroId);
-  }
 
   // current section: the last one whose top has passed 40% of the viewport
   const sections = links.map((a) => document.querySelector<HTMLElement>(a.hash)).filter(Boolean) as HTMLElement[];

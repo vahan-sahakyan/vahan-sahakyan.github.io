@@ -61,7 +61,7 @@ const usage = Object.fromEntries(techs.map((t) => [t, projectsOf(t)]));
     padding: clamp(18px, 2.6vw, 32px);
     border-radius: var(--radius-lg);
     background:
-      radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.07) 1px, transparent 0) 0 0 / 20px 20px,
+      radial-gradient(circle at 1px 1px, var(--dots) 1px, transparent 0) 0 0 / 20px 20px,
       var(--dk-bg);
   }
   .stackmap-cap {
@@ -90,7 +90,10 @@ const usage = Object.fromEntries(techs.map((t) => [t, projectsOf(t)]));
     justify-content: center;
     margin-top: 8px;
   }
+  /* labels are click targets, so a click or drag shouldn't select them as text */
   .stackmap-svg {
+    -webkit-user-select: none;
+    user-select: none;
     width: 100%;
     max-width: 600px;
     height: auto;

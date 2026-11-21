@@ -2,7 +2,6 @@
 // lag in between. a poison message retries 3 times with backoff, then goes to the dlq, as in the project
 
 import { visibleLoop, fitCanvas, type Loop } from "./visible-loop";
-import { onSchemeChange } from "./env";
 
 // [name, color token, events per second]
 const TOPICS: [string, string, number][] = [
@@ -137,10 +136,6 @@ export default function mountEventLog(root: HTMLElement) {
   // warm start, so the first frame already shows traffic
   for (let i = 0; i < 360; i++) simulate(1 / 30);
   loop = visibleLoop(root, step);
-  onSchemeChange(() => {
-    readColors();
-    loop!.draw();
-  });
 
   // with motion off the loop is idle, so a button jumps the simulation 4s ahead to show its effect
   const advance = () => {

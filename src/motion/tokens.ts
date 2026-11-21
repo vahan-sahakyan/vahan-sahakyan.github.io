@@ -50,6 +50,15 @@ export const parallax = {
   far: -20,
 } as const;
 
+// sections landing as they scroll in: each starts a full overlap lower with rounded top corners and slides up
+// over the section above, flattening as it lands. end is where it lands, as a fraction of the viewport from the top
+export const land = {
+  radius: 40,
+  end: 0.58,
+  // the footer wordmark finishes rising when its line is this far from the top, or at the page end if sooner
+  rise: 0.45,
+} as const;
+
 export const counter = {
   duration: 1.6,
 } as const;
@@ -57,16 +66,27 @@ export const counter = {
 // the hero particle stream
 export const stream = {
   // particles on desktop; phones get half
-  count: 1400,
+  count: 2100,
+  // share of particles drawn as dots instead of glyphs
+  dots: 0.35,
   // px per second along the band
   speed: 46,
   // band thickness as a fraction of the hero height
-  width: 0.16,
-  // px radius the cursor pushes particles away within
-  pointerRadius: 110,
-  pointerForce: 28,
-  // extra drift of the whole band as the hero scrolls away, px
-  scrollShift: 120,
+  width: 0.34,
+  // turns of the ribbon along the band, and how fast the twist travels, rad per second
+  twists: 1.6,
+  spin: 0.45,
+  // how much the ribbon's cross-section curls, like cloth
+  curl: 0.55,
+  // px radius around the cursor where glyphs brighten
+  pointerRadius: 140,
+  pointerGlow: 0.45,
+  // fraction of the hero scrolled by which the band has fully spread over it
+  spreadAt: 1,
+  // how fast the spread catches up with scroll, per second
+  spreadFollow: 12,
+  // max drop in spread per second while gathering
+  gatherRate: 1.1,
 } as const;
 
 // the pinned approach story: viewport heights of scroll per step on desktop

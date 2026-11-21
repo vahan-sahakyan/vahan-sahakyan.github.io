@@ -1,5 +1,6 @@
 // hero-stream.ts - the hero's data stream: glyphs flowing along an s-curve band, with service chips riding it and
-// lighting up in order, like one event moving through the system. the cursor pushes particles aside.
+// lighting up in order, like one event moving through the system. scrolling away spreads the glyphs over the
+// whole hero and scrolling back gathers them into the band; the cursor brightens glyphs near it.
 // every position is a pure function of elapsed time, interpolated along an arc-length table, so motion stays
 // smooth at any frame rate. with reduced motion it draws one still frame
 
@@ -8,6 +9,8 @@ import { reducedMotion } from "./env";
 
 const GLYPHS = "abcdefghijklmnopqrstuvwxyz0123456789{}[]<>/:=._+*".split("");
 const CELL = 16;
+// the atlas cell after the glyphs holds a round dot
+const DOT = GLYPHS.length;
 // arc-length samples along the band; positions interpolate between them
 const LUT_N = 600;
 
@@ -48,16 +51,33 @@ export function mountHeroStream(host: HTMLElement) {
   let n = 0;
   let s0 = new Float32Array(0);
   let vel = new Float32Array(0);
+  // position across the ribbon (-1..1), and scatter off it, in half-band units
   let off = new Float32Array(0);
+  let sc = new Float32Array(0);
   let alpha = new Float32Array(0);
   let size = new Float32Array(0);
   let seed = new Float32Array(0);
   let glyph = new Uint8Array(0);
   let tint = new Int8Array(0);
+  // spread target in 0..1 of the hero, when each particle starts leaving the band and how long it takes
+  let hx = new Float32Array(0);
+  let hy = new Float32Array(0);
+  let lag = new Float32Array(0);
+  let ramp = new Float32Array(0);
+  // each particle's own wander across the band, jitter along it, and twinkle, so none move in lockstep
+  let wa = new Float32Array(0);
+  let wf = new Float32Array(0);
+  let ja = new Float32Array(0);
+  let tf = new Float32Array(0);
+  let td = new Float32Array(0);
+  // this frame's positions and alphas, reused by the colored-packet pass
+  let px = new Float32Array(0);
+  let py = new Float32Array(0);
+  let pa = new Float32Array(0);
 
   function buildAtlas() {
     atlas = document.createElement("canvas");
-    atlas.width = GLYPHS.length * CELL * dpr;
+    atlas.width = (GLYPHS.length + 1) * CELL * dpr;
     atlas.height = CELL * dpr;
     const a = atlas.getContext("2d")!;
     a.scale(dpr, dpr);
@@ -66,6 +86,9 @@ export function mountHeroStream(host: HTMLElement) {
     a.textAlign = "center";
     a.textBaseline = "middle";
     GLYPHS.forEach((g, i) => a.fillText(g, i * CELL + CELL / 2, CELL / 2));
+    a.beginPath();
+    a.arc(DOT * CELL + CELL / 2, CELL / 2, 1.7, 0, Math.PI * 2);
+    a.fill();
   }
 
   function controlPoints(): Pt[] {
@@ -79,12 +102,12 @@ export function mountHeroStream(host: HTMLElement) {
         { x: 1.12 * W, y: top * 0.8 },
       ];
     }
-    // desktop: an s-curve down the right side, clear of the copy column
+    // desktop: a loose s-curve down the middle, behind the copy
     return [
-      { x: 0.8 * W, y: -0.12 * H },
-      { x: 0.6 * W, y: 0.32 * H },
-      { x: 1.0 * W, y: 0.5 * H },
-      { x: 0.74 * W, y: 1.1 * H },
+      { x: 0.56 * W, y: -0.12 * H },
+      { x: 0.4 * W, y: 0.34 * H },
+      { x: 0.66 * W, y: 0.58 * H },
+      { x: 0.5 * W, y: 1.12 * H },
     ];
   }
 
@@ -93,23 +116,72 @@ export function mountHeroStream(host: HTMLElement) {
     s0 = new Float32Array(n);
     vel = new Float32Array(n);
     off = new Float32Array(n);
+    sc = new Float32Array(n);
     alpha = new Float32Array(n);
     size = new Float32Array(n);
     seed = new Float32Array(n);
     glyph = new Uint8Array(n);
     tint = new Int8Array(n);
+    hx = new Float32Array(n);
+    hy = new Float32Array(n);
+    lag = new Float32Array(n);
+    ramp = new Float32Array(n);
+    wa = new Float32Array(n);
+    wf = new Float32Array(n);
+    ja = new Float32Array(n);
+    tf = new Float32Array(n);
+    td = new Float32Array(n);
+    px = new Float32Array(n);
+    py = new Float32Array(n);
+    pa = new Float32Array(n);
     for (let i = 0; i < n; i++) {
-      const stray = Math.random() < 0.12;
+      const stray = Math.random() < 0.1;
+      const dot = Math.random() < tokens.dots;
+      // about half ride the ribbon's two edges, which read as the helix strands; the rest fill it
+      const strand = Math.random() < 0.45;
       s0[i] = Math.random();
-      vel[i] = (0.6 + Math.random() * 0.8) * tokens.speed;
-      off[i] = gauss() * (stray ? 2.6 : 1);
-      alpha[i] = stray ? 0.12 + Math.random() * 0.2 : 0.25 + Math.random() * 0.6;
-      size[i] = 0.6 + Math.random() * 0.45;
+      vel[i] = (0.35 + Math.random() * 1.3) * tokens.speed;
+      off[i] = strand ? (Math.random() < 0.5 ? -1 : 1) * (0.86 + Math.random() * 0.14) : Math.random() * 2 - 1;
+      sc[i] = gauss() * (stray ? 1.5 : 0.12);
+      alpha[i] = dot ? 0.35 + Math.random() * 0.65 : stray ? 0.12 + Math.random() * 0.2 : 0.3 + Math.random() * 0.6;
+      // dots come in many sizes, mostly small
+      size[i] = dot ? 0.3 + Math.random() ** 2 * 0.8 : 0.6 + Math.random() * 0.45;
       seed[i] = Math.random() * 100;
-      glyph[i] = Math.floor(Math.random() * GLYPHS.length);
+      glyph[i] = dot ? DOT : Math.floor(Math.random() * GLYPHS.length);
       tint[i] = Math.random() < 0.035 ? Math.floor(Math.random() * tints.length) : -1;
+      hx[i] = Math.random();
+      hy[i] = Math.random();
+      // most leave early, a few hold on; lag + ramp stays within 1 so all are out at full spread
+      lag[i] = Math.random() ** 1.6 * 0.55;
+      ramp[i] = 0.3 + Math.random() * 0.45;
+      wa[i] = 1.5 + Math.random() ** 2 * 9;
+      wf[i] = 0.3 + Math.random() * 1.4;
+      ja[i] = Math.random() * 16;
+      tf[i] = 0.5 + Math.random() * 2.5;
+      td[i] = Math.random() * 0.6;
     }
   }
+
+  type Box = { left: number; right: number; top: number; bottom: number };
+  // the copy's text boxes in canvas coordinates: ranges give the text's width rather than the full-width block,
+  // and the untransformed parent gives the height, so the intro animation doesn't skew them
+  function textBoxes(selector: string, pad: number): Box[] {
+    const origin = canvas.getBoundingClientRect();
+    const range = document.createRange();
+    return [...section.querySelectorAll<HTMLElement>(selector)].map((el) => {
+      range.selectNodeContents(el);
+      const h = range.getBoundingClientRect();
+      const v = (el.closest(".hl") ?? el).getBoundingClientRect();
+      return {
+        left: h.left - origin.left - pad,
+        right: h.right - origin.left + pad,
+        top: v.top - origin.top - pad,
+        bottom: v.bottom - origin.top + pad,
+      };
+    });
+  }
+  // glyphs passing behind the headline and tagline dim so the copy stays readable
+  let dim: Box[] = [];
 
   function layout() {
     const r = canvas.getBoundingClientRect();
@@ -125,7 +197,8 @@ export function mountHeroStream(host: HTMLElement) {
     const p = controlPoints();
     const raw: Pt[] = Array.from({ length: 2000 }, (_, i) => bez(p, i / 1999));
     const acc = [0];
-    for (let i = 1; i < raw.length; i++) acc.push(acc[i - 1] + Math.hypot(raw[i].x - raw[i - 1].x, raw[i].y - raw[i - 1].y));
+    for (let i = 1; i < raw.length; i++)
+      acc.push(acc[i - 1] + Math.hypot(raw[i].x - raw[i - 1].x, raw[i].y - raw[i - 1].y));
     length = acc[acc.length - 1];
     lut = new Float32Array((LUT_N + 1) * 4);
     let j = 0;
@@ -145,17 +218,50 @@ export function mountHeroStream(host: HTMLElement) {
     const count = Math.round(tokens.count * (W < 640 ? 0.45 : 1));
     if (count !== n) spawn(count);
 
-    // chips sit just off the band at their own points along it
-    const minX = W < 640 ? 8 : W * 0.56;
-    const maxY = W < 640 ? Math.min(W * 0.62, 280) - 10 : H * 0.8;
+    // chips sit off the band at their own points along it. each tries spots further out, on the side away from
+    // the copy first, and takes the first that covers neither the copy nor another chip; with none free it hides
+    const maxY = H * 0.8;
+    // phones have a thin band in a short strip above the copy, so their chips stay close to it
+    const reach = W < 640 ? [0.12, 0.3, 0.5] : [0.45, 0.7, 1, 1.3, 1.6];
+    const blockers = textBoxes(".hero-now, .hero-title .hl > span, .hero-tagline, .hero-actions, .hero-motto", 20);
+    dim = W < 640 ? [] : textBoxes(".hero-title .hl > span, .hero-tagline", 6);
     for (const c of chips) {
-      const i = Math.round(Number(c.dataset.t) * LUT_N) * 4;
-      const side = Number(c.dataset.side);
-      const d = band * 0.55 + 18;
-      const x = lut[i] + lut[i + 2] * d * side;
-      const y = lut[i + 1] + lut[i + 3] * d * side;
-      c.style.transform = `translate(${Math.round(x)}px, ${Math.round(y)}px)`;
-      c.style.visibility = x > minX && x < W - 120 && y > 70 && y < maxY ? "" : "hidden";
+      // the band's ends run under the nav and into the faded bottom on desktop, so chips spread over its middle
+      const t = Number(c.dataset.t);
+      const i = Math.round((W < 640 ? t : 0.16 + t * 0.62) * LUT_N) * 4;
+      const nx = lut[i + 2];
+      const ny = lut[i + 3];
+      // on desktop, the right side, away from the copy; on phones, the chip's own side
+      const first = W < 640 ? Number(c.dataset.side) : 1;
+      const w = c.offsetWidth;
+      const h = c.offsetHeight;
+      let spot: Box | null = null;
+      for (const k of reach) {
+        for (const side of [first, -first]) {
+          const d = (band * k + 18) * side;
+          // desktop shifts sideways, level with its point on the band; phones step out along the band's normal
+          const x = W < 640 ? lut[i] + nx * d : lut[i] + d - (side < 0 ? w : 0);
+          const y = W < 640 ? lut[i + 1] + ny * d : lut[i + 1] - h / 2;
+          const box = { left: x, right: x + w, top: y - 10, bottom: y + h };
+          const free =
+            x > 8 &&
+            x + w < W - 8 &&
+            y > 70 &&
+            y < maxY &&
+            !blockers.some((r) => box.left < r.right && box.right > r.left && box.top < r.bottom && box.bottom > r.top);
+          if (free) {
+            spot = box;
+            break;
+          }
+        }
+        if (spot) break;
+      }
+      if (spot) {
+        c.style.transform = `translate(${Math.round(spot.left)}px, ${Math.round(spot.top + 10)}px)`;
+        // later chips keep clear of this one
+        blockers.push({ left: spot.left - 12, right: spot.right + 12, top: spot.top - 6, bottom: spot.bottom + 6 });
+      }
+      c.style.visibility = spot ? "" : "hidden";
     }
   }
 
@@ -174,6 +280,11 @@ export function mountHeroStream(host: HTMLElement) {
     pointer.tx = pointer.ty = -9999;
   });
 
+  // 0 = gathered in the band, 1 = spread over the hero; eased toward the scroll position
+  let spread = 0;
+  let chipFade = 1;
+  let first = true;
+
   function draw(time: number, dt: number) {
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.clearRect(0, 0, W, H);
@@ -187,7 +298,24 @@ export function mountHeroStream(host: HTMLElement) {
       pointer.x += (pointer.tx - pointer.x) * follow;
       pointer.y += (pointer.ty - pointer.y) * follow;
     }
-    const shift = -tokens.scrollShift * Math.min(1, Math.max(0, scrollY / sectionH));
+    const target = reducedMotion ? 0 : Math.min(1, Math.max(0, scrollY / (sectionH * tokens.spreadAt)));
+    if (first) {
+      spread = target;
+      first = false;
+    } else {
+      // gathering is speed-capped, so jumping back to the top still settles in over a moment
+      const next = spread + (target - spread) * (1 - Math.exp(-dt * tokens.spreadFollow));
+      spread = Math.max(next, spread - dt * tokens.gatherRate);
+      if (Math.abs(spread - target) < 0.001) spread = target;
+    }
+
+    // chips belong to the band, so they fade as it comes apart
+    const fade = Math.round((1 - smooth(spread * 2.5)) * 50) / 50;
+    if (fade !== chipFade) {
+      chipFade = fade;
+      for (const c of chips) c.style.opacity = String(fade);
+    }
+
     const R = tokens.pointerRadius;
     const R2 = R * R;
     const cell = CELL * dpr;
@@ -197,8 +325,8 @@ export function mountHeroStream(host: HTMLElement) {
     let tinted = 0;
 
     for (let i = 0; i < n; i++) {
-      // where along the band this particle is now
-      let s = s0[i] + (vel[i] * time) / length;
+      // where along the band this particle is now, nudged back and forth on its own rhythm
+      let s = s0[i] + (vel[i] * time + Math.sin(time * wf[i] * 0.7 + seed[i] * 1.7) * ja[i]) / length;
       s -= Math.floor(s);
       const f = s * LUT_N;
       const k = Math.floor(f);
@@ -209,34 +337,63 @@ export function mountHeroStream(host: HTMLElement) {
       const y0 = lut[a + 1] + (lut[b + 1] - lut[a + 1]) * fr;
       const nx = lut[a + 2] + (lut[b + 2] - lut[a + 2]) * fr;
       const ny = lut[a + 3] + (lut[b + 3] - lut[a + 3]) * fr;
-      const o = off[i] * half + Math.sin(time * 0.8 + seed[i]) * 4;
+      // the ribbon turns around the band's path: edge-on it pinches, face-on it's full width, and the near
+      // side draws bigger and brighter than the far side
+      // like cloth: the twist runs at an uneven rate, the strip swells and narrows, its center ripples, and its
+      // cross-section curls, so the edges bend toward or away from the viewer
+      const phi = s * tokens.twists * Math.PI * 2 + time * tokens.spin + 1.4 * Math.sin(s * 5.3 + time * 0.23);
+      const swell = 0.7 + 0.35 * Math.sin(s * 7.2 + time * 0.31 + 1.1);
+      const ripple = Math.sin(s * 9.4 - time * 0.42) * 0.32 + Math.sin(s * 4.1 + time * 0.19) * 0.22;
+      const u = off[i] * swell;
+      const bend = tokens.curl * (off[i] * off[i] - 0.4);
+      const cos = Math.cos(phi);
+      const sin = Math.sin(phi);
+      const depth = Math.max(0, Math.min(1, 0.5 + 0.42 * (u * sin + bend * cos)));
+      const o = (u * cos - bend * sin + ripple + sc[i]) * half + Math.sin(time * wf[i] + seed[i]) * wa[i];
       let x = x0 + nx * o;
-      let y = y0 + ny * o + shift;
+      let y = y0 + ny * o;
+
+      // each particle leaves on its own schedule and pace, so the band frays instead of moving as one sheet
+      const p = spread && smooth((spread - lag[i]) / ramp[i]);
+      if (p) {
+        const sx = hx[i] * W + Math.sin(time * (0.12 + (seed[i] % 1) * 0.2) + seed[i]) * 34;
+        const sy = hy[i] * H + Math.cos(time * (0.1 + (seed[i] % 1) * 0.16) + seed[i] * 1.3) * 34;
+        x += (sx - x) * p;
+        y += (sy - y) * p;
+      }
+      // fade at the band's ends, feather its edges, twinkle, and quiet down once out so the copy stays readable
+      const ends = Math.min(1, s * 8, (1 - s) * 8);
+      const near = 1 - (1 - depth) * 0.65 * (1 - p);
+      const twinkle = 1 - td[i] * (0.5 + 0.5 * Math.sin(time * tf[i] + seed[i] * 2.3));
+      let fade = ends * near * twinkle * (1 - p * 0.45);
+      const scale = 1 + (depth - 0.5) * 0.6 * (1 - p);
+      for (let r = 0; r < dim.length; r++) {
+        const d = dim[r];
+        if (x > d.left && x < d.right && y > d.top && y < d.bottom) {
+          fade *= 0.35;
+          break;
+        }
+      }
 
       let boost = 0;
       const dx = x - pointer.x;
       const dy = y - pointer.y;
       const d2 = dx * dx + dy * dy;
-      if (d2 < R2) {
-        const dist = Math.sqrt(d2) || 1;
-        const p = (1 - dist / R) ** 2;
-        x += (dx / dist) * p * tokens.pointerForce;
-        y += (dy / dist) * p * tokens.pointerForce;
-        boost = p * 0.6;
-      }
+      if (d2 < R2) boost = (1 - Math.sqrt(d2) / R) ** 2 * tokens.pointerGlow;
 
-      // fade at the band's ends, feather its edges, and clear the row of names at the bottom
-      const ends = Math.min(1, s * 8, (1 - s) * 8);
-      const edge = 1 - smooth((Math.abs(off[i]) - 0.55) / 0.6) * 0.65;
+      // clear the row of names at the bottom
       const bottom = Math.max(0, Math.min(1, (fadeY0 - y) / fadeY1));
-      const al = Math.min(1, (alpha[i] + boost) * ends * edge * bottom);
+      const al = Math.min(1, (alpha[i] + boost) * fade * bottom);
       if (al <= 0.01) continue;
       if (tint[i] >= 0) {
+        px[i] = x;
+        py[i] = y;
+        pa[i] = al;
         tinted++;
         continue;
       }
       ctx.globalAlpha = al;
-      const sz = CELL * size[i];
+      const sz = CELL * size[i] * scale;
       ctx.drawImage(atlas, glyph[i] * cell, 0, cell, cell, x - sz / 2, y - sz / 2, sz, sz);
     }
 
@@ -245,19 +402,10 @@ export function mountHeroStream(host: HTMLElement) {
       for (let c = 0; c < tints.length; c++) {
         ctx.fillStyle = tints[c];
         for (let i = 0; i < n; i++) {
-          if (tint[i] !== c) continue;
-          let s = s0[i] + (vel[i] * time) / length;
-          s -= Math.floor(s);
-          const f = s * LUT_N;
-          const k = Math.floor(f);
-          const fr = f - k;
-          const a = k * 4;
-          const b = a + 4;
-          const o = off[i] * half + Math.sin(time * 0.8 + seed[i]) * 4;
-          const x = lut[a] + (lut[b] - lut[a]) * fr + (lut[a + 2] + (lut[b + 2] - lut[a + 2]) * fr) * o;
-          const y = lut[a + 1] + (lut[b + 1] - lut[a + 1]) * fr + (lut[a + 3] + (lut[b + 3] - lut[a + 3]) * fr) * o + shift;
-          ctx.globalAlpha = Math.min(1, s * 8, (1 - s) * 8) * Math.max(0, Math.min(1, (fadeY0 - y) / fadeY1));
-          ctx.fillRect(x - 1.5, y - 1.5, 3, 3);
+          if (tint[i] !== c || pa[i] <= 0.01) continue;
+          ctx.globalAlpha = Math.min(1, pa[i] * 1.6);
+          ctx.fillRect(px[i] - 1.5, py[i] - 1.5, 3, 3);
+          pa[i] = 0;
         }
       }
     }
@@ -280,6 +428,8 @@ export function mountHeroStream(host: HTMLElement) {
     measure();
     if (reducedMotion) draw(0, 0);
   }).observe(canvas);
+  // the copy settles after its intro animation, so place chips and dim boxes again once it does
+  section.addEventListener("animationend", () => layout());
   document.fonts?.ready.then(() => {
     buildAtlas();
     if (reducedMotion) draw(0, 0);
@@ -305,6 +455,12 @@ export function mountHeroStream(host: HTMLElement) {
   };
   new IntersectionObserver(([e]) => {
     visible = e.isIntersecting;
+    // left upward: the loop pauses fully spread, so coming back gathers from there
+    if (!visible && e.boundingClientRect.top < 0) {
+      spread = 1;
+      chipFade = 0;
+      for (const c of chips) c.style.opacity = "0";
+    }
     sync();
   }).observe(section);
   document.addEventListener("visibilitychange", sync);
