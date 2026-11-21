@@ -2,24 +2,13 @@
 import Icon from "./Icon.astro";
 import { person, contact, socials, nav } from "../data/profile";
 
-// the closing call to action, set as a wordmark. no descenders, so the bottom crop reads cleanly;
-// each letter gets its own vertical gradient
-const fills = [
-  ["#efe8dc", "#f2b9a0"],
-  ["#efe8dc", "#ff8a5c"],
-  ["#c3ccff", "#3446f0"],
-  ["#3446f0", "#8e99ff"],
-  ["#efe8dc", "#f6d4bb"],
-  ["#ff8a5c", "#3446f0"],
-  ["#a9b6ff", "#efe8dc"],
-  ["#f6d4bb", "#ff6a3d"],
-];
-const word = "work with me".split("");
+// the closing call to action, set as a wordmark. no descenders, so the bottom crop reads cleanly
+const word = "work with me";
 ---
 
 <footer class="footer dark" data-nav-dark>
   <a class="footer-word" href={`mailto:${contact.email}`} aria-label={`Work with me: email ${contact.email}`}>
-    {word.map((ch, i) => (ch === " " ? <span class="footer-gap" /> : <span style={`--a:${fills[i % fills.length][0]};--b:${fills[i % fills.length][1]}`}>{ch}</span>))}
+    <span>{word}</span>
   </a>
 
   <div class="wrap footer-cta">
@@ -94,27 +83,28 @@ const word = "work with me".split("");
     overflow: hidden;
     padding-top: clamp(24px, 3.4vw, 48px);
     /* sized to span the footer like docker's wordmark */
-    font-size: clamp(3rem, 14.5vw, 13rem);
-    font-weight: 500;
+    font-size: clamp(2.2rem, 10.8vw, 9.75rem);
+    font-weight: 700;
     line-height: 0.78;
-    letter-spacing: -0.06em;
+    letter-spacing: -0.045em;
+    text-transform: uppercase;
+    white-space: nowrap;
     user-select: none;
   }
+  /* one gradient across the whole phrase: blue to cream to coral, routed through cream so it never turns purple.
+     hover slides it a little */
   .footer-word span {
-    background: linear-gradient(180deg, var(--a), var(--b));
-    background-size: 100% 160%;
+    background: linear-gradient(90deg, #5b6cff 0%, #a9b6ff 20%, #efe8dc 46%, #f6d4bb 64%, #ff7a48 86%, #ff6a3d 100%);
+    background-size: 125% 100%;
     background-position: 0 0;
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
     transition: background-position var(--dur-xl) var(--ease-out);
   }
-  .footer-word .footer-gap {
-    width: 0.28em;
-  }
   .footer-word:hover span,
   .footer-word:focus-visible span {
-    background-position: 0 100%;
+    background-position: 100% 0;
   }
   .footer-word:focus-visible {
     outline-offset: -6px;
