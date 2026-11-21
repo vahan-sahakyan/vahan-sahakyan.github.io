@@ -49,27 +49,8 @@ const rows = [
 
       <a class="cv card" href={person.cv} target="_blank" rel="noopener" data-tilt data-reveal>
         <span class="card-glow" aria-hidden="true"></span>
-        <span class="cv-paper" aria-hidden="true">
-          <span class="cv-paper-head">
-            <span class="cv-paper-photo"></span>
-            <span>
-              <span class="cv-bar w60 ink"></span>
-              <span class="cv-bar w40"></span>
-            </span>
-          </span>
-          <span class="cv-bar w90"></span>
-          <span class="cv-bar w80"></span>
-          <span class="cv-bar w85"></span>
-          <span class="cv-rule"></span>
-          <span class="cv-bar w50 ink"></span>
-          <span class="cv-bar w90"></span>
-          <span class="cv-bar w75"></span>
-          <span class="cv-rule"></span>
-          <span class="cv-bar w45 ink"></span>
-          <span class="cv-bar w70"></span>
-        </span>
+        <span class="tag">A4 · Print-ready PDF</span>
         <span class="cv-info">
-          <span class="tag">A4 · Print-ready PDF</span>
           <span class="cv-title">Resume</span>
           <span class="cv-sub">One page, kept current. Open it or save it as a PDF.</span>
           <span class="act">Open CV <Icon name="arrow-ne" /></span>
@@ -158,93 +139,21 @@ const rows = [
     transform: translate(3px, -3px);
   }
 
-  /* ---------- cv card: a paper preview of the a4 cv ---------- */
+  /* ---------- cv card ---------- */
   .cv {
-    display: grid;
-    gap: 22px;
-    padding: 20px;
-  }
-  .cv-paper {
-    display: grid;
-    gap: 8px;
-    aspect-ratio: 210 / 140;
-    padding: 18px 20px;
-    overflow: hidden;
-    border: 1px solid rgba(17, 17, 17, 0.08);
-    border-radius: var(--radius-xs);
-    background: #fff;
-    box-shadow: 0 16px 30px -18px rgba(17, 17, 17, 0.35);
-    transform: rotate(-1.5deg) translateY(4px);
-    transition: transform var(--dur-md) var(--ease-out);
-    -webkit-mask-image: linear-gradient(#000 70%, transparent);
-    mask-image: linear-gradient(#000 70%, transparent);
-  }
-  .cv:hover .cv-paper {
-    transform: rotate(0deg) translateY(-2px);
-  }
-  .cv-paper-head {
     display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 6px;
-  }
-  .cv-paper-head > span:last-child {
-    display: grid;
-    flex: 1;
-    gap: 6px;
-  }
-  .cv-paper-photo {
-    width: 28px;
-    height: 28px;
-    border-radius: 2px;
-    background: linear-gradient(135deg, var(--g-blue), var(--g-peach));
-  }
-  .cv-bar {
-    display: block;
-    height: 5px;
-    border-radius: 2px;
-    background: #e6e5e1;
-  }
-  .cv-bar.ink {
-    height: 7px;
-    background: #1a1a1a;
-  }
-  .cv-rule {
-    height: 1px;
-    margin-block: 4px;
-    background: #e6e5e1;
-  }
-  .w40 {
-    width: 40%;
-  }
-  .w45 {
-    width: 45%;
-  }
-  .w50 {
-    width: 50%;
-  }
-  .w60 {
-    width: 60%;
-  }
-  .w70 {
-    width: 70%;
-  }
-  .w75 {
-    width: 75%;
-  }
-  .w80 {
-    width: 80%;
-  }
-  .w85 {
-    width: 85%;
-  }
-  .w90 {
-    width: 90%;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 40px;
+    padding: clamp(20px, 2.4vw, 28px);
   }
   .cv-info {
     display: grid;
     justify-items: start;
     gap: 8px;
+  }
+  .cv .tag {
+    align-self: flex-start;
   }
   .cv-title {
     margin-top: 4px;

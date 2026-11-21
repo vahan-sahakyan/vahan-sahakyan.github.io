@@ -1,5 +1,5 @@
 ---
-import { Picture } from "astro:assets";
+import { Image } from "astro:assets";
 import Icon from "./Icon.astro";
 import Topology from "./Topology.astro";
 import type { CaseStudy } from "../data/projects";
@@ -22,7 +22,15 @@ const art = {
   <div class="case-head">
     <a class="case-cover art" href={s.repo} target="_blank" rel="noopener" data-tilt data-reveal tabindex="-1" aria-hidden="true">
       <div class="case-art" data-parallax-inner>
-        <Picture src={art} formats={["avif", "webp"]} fallbackFormat="webp" quality={78} widths={[480, 800, 1100]} sizes="(max-width: 900px) 100vw, 50vw" alt="" />
+        <Image
+          src={art}
+          format="jpg"
+          quality={88}
+          widths={[640, 1200, 1600]}
+          sizes="(max-width: 900px) 100vw, 50vw"
+          alt=""
+          loading="lazy"
+        />
       </div>
       <span class="chip chip-ink case-chip">{s.index}</span>
       <Icon name="github" class="case-mark" />

@@ -2,7 +2,7 @@
 import Icon from "./Icon.astro";
 import { person, contact, socials, nav } from "../data/profile";
 
-// the full name as the wordmark; each letter gets its own vertical gradient, cycling through the palette
+// first name as the wordmark: no descenders, so the bottom crop reads cleanly. each letter gets its own gradient
 const fills = [
   ["#efe8dc", "#f2b9a0"],
   ["#efe8dc", "#ff8a5c"],
@@ -13,7 +13,7 @@ const fills = [
   ["#a9b6ff", "#efe8dc"],
   ["#f6d4bb", "#ff6a3d"],
 ];
-const word = person.name.toLowerCase().split("");
+const word = person.name.split(" ")[0].toLowerCase().split("");
 ---
 
 <footer class="footer dark" data-nav-dark>
@@ -87,7 +87,8 @@ const word = person.name.toLowerCase().split("");
     height: calc(0.74em + clamp(24px, 3.4vw, 48px));
     overflow: hidden;
     padding-top: clamp(24px, 3.4vw, 48px);
-    font-size: clamp(2.6rem, 0.4rem + 10.6vw, 10.5rem);
+    /* five letters, sized to span the footer like docker's wordmark */
+    font-size: clamp(5rem, 31vw, 28rem);
     font-weight: 500;
     line-height: 0.78;
     letter-spacing: -0.06em;
