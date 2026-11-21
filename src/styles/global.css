@@ -100,7 +100,8 @@
 html {
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
-  background: var(--bg);
+  /* mobile browsers tint the status bar and overscroll with this; the page opens and ends on dark */
+  background: var(--dk-bg);
   scroll-padding-top: calc(var(--nav-h) + 12px);
 }
 @media (prefers-reduced-motion: no-preference) {
