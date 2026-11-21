@@ -7,13 +7,13 @@ import { formatSince } from "../scripts/durations";
 
 <section class="section exp" id="experience" aria-labelledby="exp-title">
   <div class="wrap">
-    <SectionHead index="04" label="Experience" title="A career, read as a git log." id="exp-title">
+    <SectionHead index="05" label="Experience" title="A career," tone="read as a git log." id="exp-title">
       <p>Employer on one lane, client work on the other. Select a commit to jump to the role.</p>
     </SectionHead>
 
     <div class="exp-grid">
       <nav class="gitlog" aria-label="Experience timeline" data-gitlog>
-        <p class="eyebrow">git log --graph</p>
+        <p class="tag">git log --graph</p>
         <div class="gitlog-body">
           <svg class="gitlog-graph" aria-hidden="true"></svg>
           <ol class="gitlog-rows">
@@ -90,7 +90,7 @@ import { formatSince } from "../scripts/durations";
     </div>
 
     <div class="edu">
-      <p class="eyebrow" data-reveal>Education</p>
+      <p class="tag" data-reveal>Education</p>
       <ul class="edu-list">
         {
           education.map((e) => (
@@ -116,13 +116,18 @@ import { formatSince } from "../scripts/durations";
 
   /* ---------- git log ---------- */
   .gitlog {
-    --l0: var(--c-edge);
-    --l1: var(--c-service);
+    --l0: var(--accent);
+    --l1: #b8400f;
     position: sticky;
     top: calc(var(--nav-h) + 24px);
   }
-  .gitlog .eyebrow {
+  .gitlog .tag {
     margin-bottom: 20px;
+  }
+  @media (prefers-color-scheme: dark) {
+    .gitlog {
+      --l1: #ff8a5c;
+    }
   }
   .gitlog-body {
     position: relative;
@@ -233,9 +238,9 @@ import { formatSince } from "../scripts/durations";
   }
   .gitlog-tag {
     margin-right: 8px;
-    padding: 1px 8px;
+    padding: 1px 6px;
     border: 1px solid currentColor;
-    border-radius: 999px;
+    border-radius: var(--radius-xs);
     font-size: 0.6875rem;
     white-space: nowrap;
     vertical-align: 1px;
@@ -257,7 +262,7 @@ import { formatSince } from "../scripts/durations";
     scroll-margin-top: calc(var(--nav-h) + 24px);
   }
   .role.is-active {
-    border-color: color-mix(in srgb, var(--accent) 40%, var(--line));
+    border-color: var(--ink);
   }
   .role-head {
     display: flex;
@@ -271,7 +276,7 @@ import { formatSince } from "../scripts/durations";
     width: 56px;
     height: 56px;
     border: 1px solid var(--line);
-    border-radius: 14px;
+    border-radius: var(--radius-sm);
     background: #fff;
     overflow: hidden;
     transition: transform var(--dur-sm) var(--ease-spring);
@@ -359,10 +364,11 @@ import { formatSince } from "../scripts/durations";
   .edu-year {
     font-size: 0.75rem;
     letter-spacing: 0.08em;
-    color: var(--accent);
+    color: var(--muted);
   }
   .edu-title {
     margin-top: 10px;
+    font-weight: 500;
     font-size: 1.125rem;
     letter-spacing: -0.015em;
     line-height: 1.35;

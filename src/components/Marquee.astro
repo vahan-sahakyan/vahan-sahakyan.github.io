@@ -1,0 +1,112 @@
+---
+// decorative: everything here is said elsewhere on the page, so it's hidden from assistive tech
+const facts = [
+  "11 Go services over gRPC and Redpanda",
+  "Transactional outbox, no dual writes",
+  "3 retries with backoff, then DLQ",
+  "100% coverage kept while shipping",
+  "Multi-tenant Kubernetes on GCP",
+  "5+ years building backends",
+];
+---
+
+<div class="marquee dark" aria-hidden="true">
+  <div class="marquee-big">
+    <div class="marquee-track">
+      {
+        [0, 1].map(() => (
+          <span>
+            Backends you stop worrying about<i>&#9679;</i>Backends you stop worrying about<i>&#9679;</i>
+          </span>
+        ))
+      }
+    </div>
+  </div>
+  <div class="marquee-ticker">
+    <div class="marquee-track marquee-track-slow">
+      {
+        [0, 1].map(() => (
+          <span>
+            {facts.map((f) => (
+              <>
+                {f}
+                <b />
+              </>
+            ))}
+          </span>
+        ))
+      }
+    </div>
+  </div>
+</div>
+
+<style is:global>
+  .marquee {
+    overflow: hidden;
+    border-radius: clamp(20px, 3vw, 36px);
+    margin-inline: clamp(8px, 1.2vw, 16px);
+  }
+  .marquee-big {
+    padding-block: clamp(28px, 4vw, 48px) clamp(20px, 3vw, 32px);
+    border-bottom: 1px solid var(--line);
+  }
+  .marquee-track {
+    display: flex;
+    width: max-content;
+  }
+  .marquee-track > span {
+    display: flex;
+    align-items: center;
+    flex: none;
+  }
+  .marquee-big span {
+    color: var(--ink);
+    font-size: clamp(3rem, 1.5rem + 7vw, 8.5rem);
+    font-weight: 600;
+    letter-spacing: -0.045em;
+    line-height: 1;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .marquee-big i {
+    margin-inline: 0.35em;
+    font-size: 0.28em;
+    font-style: normal;
+    color: var(--g-coral);
+  }
+  .marquee-ticker {
+    padding-block: 14px;
+  }
+  .marquee-ticker span {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+  .marquee-ticker b {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    margin-inline: 28px;
+    background: var(--accent);
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .marquee-track {
+      animation: marquee 38s linear infinite;
+    }
+    .marquee-track-slow {
+      animation-duration: 60s;
+      animation-direction: reverse;
+    }
+    .marquee:hover .marquee-track {
+      animation-play-state: paused;
+    }
+  }
+  @keyframes marquee {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+</style>

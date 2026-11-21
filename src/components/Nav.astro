@@ -4,90 +4,99 @@ import { nav, person } from "../data/profile";
 ---
 
 <header class="nav" data-nav>
-  <div class="wrap nav-bar">
-    <a href="#top" class="nav-id" data-nav-id>
-      <img src={person.photo} width="240" height="240" alt="" />
-      <span class="nav-id-text">
+  <div class="wrap">
+    <div class="nav-bar">
+      <a href="#top" class="nav-id" data-nav-id>
+        <img src={person.photo} width="240" height="240" alt="" />
         <span class="nav-id-name">{person.name}</span>
-        <span class="nav-id-role">{person.role}</span>
-      </span>
-    </a>
+      </a>
 
-    <nav class="nav-primary" aria-label="Primary">
-      <ul class="nav-links" data-nav-links>
+      <nav class="nav-primary" aria-label="Primary">
+        <ul class="nav-links">
+          {
+            nav.map((l) => (
+              <li>
+                <a class="nav-link ulink" href={l.href}>
+                  {l.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <a class="btn btn-sm nav-cv" href={person.cv} target="_blank" rel="noopener">
+          Resume <Icon name="arrow-ne" /><span class="visually-hidden">(opens in a new tab)</span>
+        </a>
+        <a class="btn btn-primary btn-sm" href="#contact">Let's talk</a>
+      </div>
+
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-sheet" data-nav-toggle>
+        <span class="nav-toggle-bars" aria-hidden="true"></span>
+        <span class="visually-hidden">Menu</span>
+      </button>
+    </div>
+
+    <div class="nav-sheet" id="nav-sheet" data-nav-sheet hidden>
+      <ul>
         {
-          nav.map((l) => (
+          nav.map((l, i) => (
             <li>
-              <a class="nav-link" href={l.href}>
+              <a href={l.href}>
+                <span class="mono">0{i + 2}</span>
                 {l.label}
               </a>
             </li>
           ))
         }
+        <li>
+          <a href={person.cv} target="_blank" rel="noopener">
+            <span class="mono">CV</span>Resume <Icon name="arrow-ne" />
+          </a>
+        </li>
+        <li><a class="btn btn-primary" href="#contact">Let's talk</a></li>
       </ul>
-      <span class="nav-pill" aria-hidden="true" data-nav-pill></span>
-    </nav>
-
-    <div class="nav-actions">
-      <a class="nav-cv ulink" href={person.cv} target="_blank" rel="noopener">
-        Resume <Icon name="arrow-ne" />
-        <span class="visually-hidden">(opens in a new tab)</span>
-      </a>
-      <span data-magnetic><a class="btn btn-primary btn-sm" href="#contact">Let's talk</a></span>
     </div>
-
-    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-sheet" data-nav-toggle>
-      <span class="nav-toggle-bars" aria-hidden="true"></span>
-      <span class="visually-hidden">Menu</span>
-    </button>
-  </div>
-
-  <div class="nav-sheet" id="nav-sheet" data-nav-sheet hidden>
-    <ul class="wrap">
-      {
-        nav.map((l, i) => (
-          <li>
-            <a href={l.href}>
-              <span class="mono">0{i + 1}</span>
-              {l.label}
-            </a>
-          </li>
-        ))
-      }
-      <li>
-        <a href={person.cv} target="_blank" rel="noopener">
-          <span class="mono">CV</span>Resume <Icon name="arrow-ne" />
-        </a>
-      </li>
-      <li><a class="btn btn-primary" href="#contact">Let's talk</a></li>
-    </ul>
   </div>
 </header>
 
 <style is:global>
   .nav {
     position: fixed;
-    inset: 0 0 auto;
+    inset: 12px 0 auto;
     z-index: 50;
-    transition:
-      transform var(--dur-md) var(--ease-out),
-      background-color var(--dur-md) var(--ease-out),
-      box-shadow var(--dur-md) var(--ease-out);
-  }
-  .nav.is-scrolled {
-    background: color-mix(in srgb, var(--bg) 78%, transparent);
-    -webkit-backdrop-filter: blur(16px) saturate(1.6);
-    backdrop-filter: blur(16px) saturate(1.6);
-    box-shadow: 0 1px 0 var(--line);
+    transition: transform var(--dur-md) var(--ease-out);
   }
   .nav.is-hidden:not(.is-open) {
-    transform: translateY(-100%);
+    transform: translateY(calc(-100% - 16px));
   }
   .nav-bar {
     display: flex;
     align-items: center;
     gap: 24px;
-    height: var(--nav-h);
+    height: 52px;
+    padding: 0 8px 0 14px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    background: color-mix(in srgb, var(--bg-2) 86%, transparent);
+    -webkit-backdrop-filter: blur(14px) saturate(1.4);
+    backdrop-filter: blur(14px) saturate(1.4);
+    transition:
+      background-color var(--dur-md) var(--ease-out),
+      border-color var(--dur-md) var(--ease-out);
+  }
+  /* over dark sections the bar goes dark with them */
+  .nav.on-dark .nav-bar {
+    --ink: var(--dk-ink);
+    --ink-2: var(--dk-ink-2);
+    --muted: var(--dk-muted);
+    --line: var(--dk-line);
+    --line-strong: var(--dk-line-strong);
+    --accent: #6f7dff;
+    --accent-hover: #8e99ff;
+    --on-accent: #0c0c0c;
+    background: rgba(22, 22, 22, 0.82);
   }
 
   .nav-id {
@@ -96,7 +105,7 @@ import { nav, person } from "../data/profile";
     gap: 10px;
     margin-right: auto;
     opacity: 0;
-    transform: translateY(-6px);
+    transform: translateY(-4px);
     pointer-events: none;
     transition:
       opacity var(--dur-md) var(--ease-out),
@@ -109,101 +118,47 @@ import { nav, person } from "../data/profile";
     pointer-events: auto;
   }
   .nav-id img {
-    width: 34px;
-    height: 34px;
-    border-radius: 50%;
+    width: 26px;
+    height: 26px;
+    border-radius: var(--radius-xs);
     object-fit: cover;
-  }
-  .nav-id-text {
-    display: grid;
-    line-height: 1.15;
   }
   .nav-id-name {
     color: var(--ink);
     font-weight: 600;
     font-size: 0.9375rem;
-    letter-spacing: -0.01em;
-  }
-  .nav-id-role {
-    color: var(--muted);
-    font-size: 0.75rem;
+    letter-spacing: -0.015em;
   }
 
-  .nav-primary {
-    position: relative;
-    padding: 4px;
-    border: 1px solid var(--line);
-    border-radius: 999px;
-    background: var(--surface-glass);
-  }
   .nav-links {
     display: flex;
-    gap: 2px;
+    gap: 26px;
   }
   .nav-link {
-    position: relative;
-    z-index: 1;
-    display: block;
-    padding: 7px 14px;
-    border-radius: 999px;
-    color: var(--ink-2);
+    color: var(--ink);
     font-size: 0.875rem;
     font-weight: 500;
-    transition: color var(--dur-sm) var(--ease-out);
   }
-  .nav-link:hover,
-  .nav-link[aria-current="true"] {
-    color: var(--ink);
-  }
-  /* slides under the active link; moved with transform by nav.ts */
-  .nav-pill {
-    position: absolute;
-    top: 4px;
-    left: 0;
-    height: calc(100% - 8px);
-    width: 1px;
-    border-radius: 999px;
-    background: var(--surface);
-    box-shadow:
-      0 0 0 1px var(--line),
-      0 4px 12px -6px rgba(10, 18, 48, 0.25);
-    opacity: 0;
-    transform-origin: left center;
-    transition: opacity var(--dur-sm) var(--ease-out);
-    pointer-events: none;
-  }
-  .nav-pill.is-on {
-    opacity: 1;
-  }
-
   .nav-actions {
     display: flex;
     align-items: center;
-    gap: 20px;
-  }
-  .nav-cv {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 0.875rem;
-    font-weight: 500;
+    gap: 8px;
   }
   .nav-cv svg {
-    width: 14px;
-    height: 14px;
+    width: 13px;
+    height: 13px;
   }
 
   .nav-toggle {
     display: none;
-    width: 44px;
-    height: 44px;
-    margin-right: -10px;
-    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-xs);
   }
   .nav-toggle-bars,
   .nav-toggle-bars::before {
     display: block;
-    width: 20px;
+    width: 18px;
     height: 1.5px;
     margin: auto;
     background: var(--ink);
@@ -226,14 +181,15 @@ import { nav, person } from "../data/profile";
   }
 
   .nav-sheet {
-    border-top: 1px solid var(--line);
+    margin-top: 8px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
     background: var(--bg);
     box-shadow: var(--shadow-lift);
   }
   .nav-sheet ul {
     display: grid;
-    gap: 2px;
-    padding-block: 12px 24px;
+    padding: 8px 18px 20px;
   }
   .nav-sheet a:not(.btn) {
     display: flex;
@@ -242,18 +198,18 @@ import { nav, person } from "../data/profile";
     padding: 12px 0;
     border-bottom: 1px solid var(--line);
     color: var(--ink);
-    font-size: 1.5rem;
-    font-weight: 600;
-    letter-spacing: -0.03em;
+    font-size: 1.375rem;
+    font-weight: 500;
+    letter-spacing: -0.02em;
   }
   .nav-sheet a svg {
-    width: 16px;
-    height: 16px;
+    width: 15px;
+    height: 15px;
     align-self: center;
   }
   .nav-sheet .mono {
     min-width: 2.2em;
-    font-size: 0.75rem;
+    font-size: 0.6875rem;
     font-weight: 400;
     color: var(--muted);
     letter-spacing: 0.08em;
@@ -270,9 +226,6 @@ import { nav, person } from "../data/profile";
     }
     .nav-toggle {
       display: block;
-    }
-    .nav.is-open {
-      background: var(--bg);
     }
   }
   @media (min-width: 961px) {

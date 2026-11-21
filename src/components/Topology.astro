@@ -14,7 +14,7 @@ const details = Object.fromEntries(graph.nodes.map((n) => [n.id, { name: n.name,
 const legendLabel = (g: string, text: string) => (g === "service" && id === "dsn" ? "Go service" : text);
 ---
 
-<div class="topo" data-topo={id} aria-label={label} role="group">
+<div class="topo dark" data-topo={id} aria-label={label} role="group">
   <div class="topo-bar">
     <div class="topo-filters" role="group" aria-label="Edge filter">
       {
@@ -122,12 +122,11 @@ const legendLabel = (g: string, text: string) => (g === "service" && id === "dsn
     --topo-border: var(--line);
     container-type: inline-size;
     position: relative;
-    padding: clamp(14px, 2vw, 22px);
-    border: 1px solid var(--line);
+    padding: clamp(14px, 2vw, 24px);
     border-radius: var(--radius-lg);
     background:
-      radial-gradient(circle at 1px 1px, var(--line) 1px, transparent 0) 0 0 / 22px 22px,
-      var(--surface);
+      radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.07) 1px, transparent 0) 0 0 / 20px 20px,
+      var(--dk-bg);
     color: var(--ink);
   }
   .topo-bar {
@@ -144,11 +143,11 @@ const legendLabel = (g: string, text: string) => (g === "service" && id === "dsn
   }
   .topo button,
   .pill-btn {
-    min-height: 32px;
-    padding: 4px 12px;
+    min-height: 30px;
+    padding: 4px 10px;
     border: 1px solid var(--line);
-    border-radius: 999px;
-    background: var(--surface);
+    border-radius: var(--radius-xs);
+    background: transparent;
     color: var(--muted);
     font-family: var(--font-mono);
     font-size: 0.6875rem;
@@ -289,7 +288,7 @@ const legendLabel = (g: string, text: string) => (g === "service" && id === "dsn
   }
   /* opaque disc under the tinted one, so edges starting at the center don't show through */
   .topo-base {
-    fill: var(--surface);
+    fill: var(--bg);
   }
   .topo-node circle:not(.topo-base) {
     fill: var(--topo-c);
@@ -303,7 +302,7 @@ const legendLabel = (g: string, text: string) => (g === "service" && id === "dsn
     font-family: var(--font-mono);
     font-size: 11.5px;
     paint-order: stroke;
-    stroke: var(--surface);
+    stroke: var(--bg);
     stroke-width: 4px;
     stroke-linejoin: round;
   }
@@ -349,8 +348,8 @@ const legendLabel = (g: string, text: string) => (g === "service" && id === "dsn
     margin-top: 12px;
     padding: 14px 16px;
     border: 1px solid var(--line);
-    border-radius: var(--radius);
-    background: var(--bg);
+    border-radius: var(--radius-sm);
+    background: var(--surface);
     font-size: 0.875rem;
     line-height: 1.55;
     color: var(--muted);

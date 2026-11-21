@@ -1,5 +1,4 @@
-// shape.ts - a single morphing gradient shape on a transparent webgl2 canvas.
-// used live in the hero and offline by tools/art to render the static fallbacks and card art
+// shape.ts - a single gradient shape on a transparent webgl2 canvas, rendered offline by tools/art for the card art
 
 import { VERT, FRAG } from "./shaders";
 
@@ -21,20 +20,10 @@ export type Preset = {
 };
 
 export const PRESETS = {
-  hero: {
-    shape: "blob",
-    detail: 6,
-    palette: ["#3b63ff", "#7a55ff", "#e04fc2", "#ff7a62", "#ffbe94"],
-    amp: 0.22,
-    freq: 0.62,
-    scale: 0.84,
-    tilt: [0.35, -0.4, 0.1],
-    hue: 0.3,
-  },
   ribbon: {
     shape: "torus",
     detail: [420, 64],
-    palette: ["#2f5bff", "#5b5cff", "#8f52ff", "#e04fc2", "#ff9a7a"],
+    palette: ["#dfe4ff", "#ffffff", "#ffd9c2", "#ff8a5c", "#ff5a2a"],
     amp: 0.05,
     freq: 0.9,
     scale: 1.0,
@@ -46,23 +35,13 @@ export const PRESETS = {
   prism: {
     shape: "blob",
     detail: 1,
-    palette: ["#5b4dff", "#a24ff0", "#f052b0", "#ff7f5c", "#ffc79e"],
+    palette: ["#c9d1ff", "#ffffff", "#ffe2cf", "#ff9a6c", "#ff6a3d"],
     amp: 0.14,
     freq: 0.9,
     scale: 0.92,
     tilt: [0.5, 0.6, 0.2],
     hue: 0.36,
     flat: true,
-  },
-  dusk: {
-    shape: "blob",
-    detail: 6,
-    palette: ["#5a5cff", "#9b55f0", "#ef5fb8", "#ff8a6a", "#ffd0aa"],
-    amp: 0.22,
-    freq: 0.56,
-    scale: 0.84,
-    tilt: [0.2, 0.8, -0.2],
-    hue: 0.5,
   },
 } satisfies Record<string, Preset>;
 

@@ -1,9 +1,8 @@
 ---
-import SectionHead from "./SectionHead.astro";
 import { storyNodes, storyEdges, storySteps, storyViewBox } from "../data/story";
 
 const NODE_H = 34;
-const CHAR_W = 7.2;
+const CHAR_W = 7.8;
 const ARROW = 6;
 const width = (label: string) => Math.round(36 + label.length * CHAR_W);
 
@@ -35,229 +34,205 @@ function edgePath(fromId: string, toId: string, l: Layout) {
 
 const kinds = ["req", "event", "store", "dlq"] as const;
 const layouts: Layout[] = ["wide", "narrow"];
-const total = String(storySteps.length).padStart(2, "0");
 ---
 
 <section class="section approach" id="approach" aria-labelledby="approach-title" data-story>
-  <div class="wrap">
-    <SectionHead index="01" label="Approach" title="How one write moves through a system I built." id="approach-title">
-      <p>
-        Each service owns its data, and events, not shared tables, carry state between them. Follow a single post through
-        the reference system, from request to a feed you can rebuild.
+  <div class="wrap story" data-story-pin>
+    <div class="story-copy">
+      <p class="tag" data-reveal><b>02</b> Approach</p>
+      <h2 class="h2 story-heading" id="approach-title" data-split>
+        One write, <span class="tone">end to end.</span>
+      </h2>
+      <p class="story-lede" data-reveal>
+        One post through a system I built. Each service owns its data, and events, not shared tables, carry state
+        between them.
       </p>
-    </SectionHead>
-  </div>
 
-  <div class="story" data-story-pin>
-    <div class="wrap story-grid">
-      <div class="story-copy">
-        <p class="story-count mono" aria-hidden="true"><span data-story-count>01</span> / {total}</p>
-        <ol class="story-steps" data-story-steps>
-          {
-            storySteps.map((s, i) => (
-              <li class="story-step" data-step={i} data-nodes={s.nodes.join(",")} data-edges={s.edges.join(",")}>
-                <button type="button" class="story-step-btn" aria-pressed={i === 0 ? "true" : "false"}>
-                  <span class="story-num mono">{String(i + 1).padStart(2, "0")}</span>
-                  <span class="story-title">{s.title}</span>
-                </button>
-                <p>{s.body}</p>
-              </li>
-            ))
-          }
-        </ol>
-        <div class="story-rail" aria-hidden="true"><span data-story-progress></span></div>
-      </div>
-
-      <figure class="story-fig" data-story-fig>
+      <ol class="story-steps" data-story-steps>
         {
-          layouts.map((l) => (
-            <svg
-              class={`story-svg story-${l}`}
-              viewBox={`0 0 ${storyViewBox[l][0]} ${storyViewBox[l][1]}`}
-              role="img"
-              aria-label="Diagram: client, gateway, posts service and ScyllaDB, Redpanda with a dead-letter topic, four consumers, ClickHouse event store, rebuilder and Valkey feeds"
-            >
-              <defs>
-                {kinds.map((k) => (
-                  <marker id={`sa-${l}-${k}`} class={`sarrow k-${k}`} viewBox="0 0 10 10" refX="4" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-                    <path d="M0,0L10,5L0,10z" />
-                  </marker>
-                ))}
-              </defs>
-              <g class="sedges">
-                {storyEdges.map((e) => (
-                  <path class={`sedge k-${e.kind}`} data-edge={e.id} d={edgePath(e.from, e.to, l)} marker-end={`url(#sa-${l}-${e.kind})`} />
-                ))}
-              </g>
-              <g class="spackets" data-packets />
-              <g class="snodes">
-                {storyNodes.map((n) => {
-                  const label = labelOf(n, l);
-                  const w = width(label);
-                  return (
-                    <g class={`snode g-${n.group}`} data-node={n.id} transform={`translate(${n[l][0]},${n[l][1]})`}>
-                      <rect x={-w / 2} y={-NODE_H / 2} width={w} height={NODE_H} rx={NODE_H / 2} />
-                      <circle cx={-w / 2 + 16} r="4" />
-                      <text x={-w / 2 + 27} dy="0.35em">
-                        {label}
-                      </text>
-                    </g>
-                  );
-                })}
-              </g>
-            </svg>
+          storySteps.map((s, i) => (
+            <li class="story-step" data-step={i} data-nodes={s.nodes.join(",")} data-edges={s.edges.join(",")}>
+              <span class="story-bar" aria-hidden="true">
+                <i />
+              </span>
+              <button type="button" class="story-step-btn" aria-pressed={i === 0 ? "true" : "false"}>
+                <span class="story-num mono">{String(i + 1).padStart(2, "0")}</span>
+                <span class="story-title">{s.title}</span>
+              </button>
+              <div class="story-body">
+                <p>{s.body}</p>
+              </div>
+            </li>
           ))
         }
-        <figcaption class="story-legend">
-          <span><i class="k-req"></i>Request</span>
-          <span><i class="k-event"></i>Event</span>
-          <span><i class="k-store"></i>Data</span>
-          <span><i class="k-dlq"></i>Dead letter</span>
-        </figcaption>
-      </figure>
+      </ol>
     </div>
+
+    <figure class="story-fig dark" data-story-fig>
+      <p class="story-fig-cap mono">dsn / one post, end to end</p>
+      {
+        layouts.map((l) => (
+          <svg
+            class={`story-svg story-${l}`}
+            viewBox={`0 0 ${storyViewBox[l][0]} ${storyViewBox[l][1]}`}
+            role="img"
+            aria-label="Diagram: client, gateway, posts service and ScyllaDB, Redpanda with a dead-letter topic, four consumers, ClickHouse event store, rebuilder and Valkey feeds"
+          >
+            <defs>
+              {kinds.map((k) => (
+                <marker id={`sa-${l}-${k}`} class={`sarrow k-${k}`} viewBox="0 0 10 10" refX="4" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                  <path d="M0,0L10,5L0,10z" />
+                </marker>
+              ))}
+            </defs>
+            <g class="sedges">
+              {storyEdges.map((e) => (
+                <path class={`sedge k-${e.kind}`} data-edge={e.id} d={edgePath(e.from, e.to, l)} marker-end={`url(#sa-${l}-${e.kind})`} />
+              ))}
+            </g>
+            <g class="spackets" data-packets />
+            <g class="snodes">
+              {storyNodes.map((n) => {
+                const label = labelOf(n, l);
+                const w = width(label);
+                return (
+                  <g class={`snode g-${n.group}`} data-node={n.id} transform={`translate(${n[l][0]},${n[l][1]})`}>
+                    <rect x={-w / 2} y={-NODE_H / 2} width={w} height={NODE_H} rx="4" />
+                    <circle cx={-w / 2 + 16} r="4" />
+                    <text x={-w / 2 + 27} dy="0.35em">
+                      {label}
+                    </text>
+                  </g>
+                );
+              })}
+            </g>
+          </svg>
+        ))
+      }
+      <figcaption class="story-legend">
+        <span><i class="k-req"></i>Request</span>
+        <span><i class="k-event"></i>Event</span>
+        <span><i class="k-store"></i>Data</span>
+        <span><i class="k-dlq"></i>Dead letter</span>
+      </figcaption>
+    </figure>
   </div>
 </section>
 
 <style is:global>
-  .approach {
-    padding-bottom: clamp(64px, 8vw, 120px);
-  }
-  .story-grid {
+  .story {
     display: grid;
-    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
-    gap: clamp(32px, 5vw, 80px);
+    grid-template-columns: minmax(0, 4fr) minmax(0, 7fr);
+    gap: clamp(32px, 4vw, 64px);
     align-items: center;
   }
-
-  /* ---------- copy ---------- */
-  .story-count {
-    margin-bottom: 20px;
-    font-size: 0.75rem;
-    letter-spacing: 0.1em;
-    color: var(--muted);
+  .story-heading {
+    font-size: clamp(1.9rem, 1.2rem + 1.8vw, 2.75rem);
   }
-  .story-count span {
-    color: var(--accent);
-  }
-  .story-steps {
+  .story-copy {
     display: grid;
-    gap: 8px;
+    justify-items: start;
+    gap: 18px;
+  }
+  .story-lede {
+    max-width: 440px;
+    font-size: 0.975rem;
+  }
+
+  /* ---------- accordion of steps ---------- */
+  .story-steps {
+    width: 100%;
+    margin-top: 12px;
+    border-top: 1px solid var(--line-strong);
   }
   .story-step {
-    padding: 18px 20px;
-    border: 1px solid transparent;
-    border-radius: var(--radius);
-    transition:
-      background-color var(--dur-md) var(--ease-out),
-      border-color var(--dur-md) var(--ease-out);
+    position: relative;
+    border-bottom: 1px solid var(--line-strong);
   }
-  .story-step.is-active {
-    border-color: var(--line);
-    background: var(--surface);
-    box-shadow: var(--shadow);
+  .story-bar {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -1px;
+    height: 1px;
+    overflow: hidden;
+  }
+  .story-bar i {
+    display: block;
+    height: 100%;
+    background: var(--ink);
+    transform: scaleX(0);
+    transform-origin: left;
   }
   .story-step-btn {
     display: flex;
     align-items: baseline;
     gap: 14px;
     width: 100%;
+    padding: 14px 0;
     text-align: left;
   }
   .story-num {
     flex: none;
-    font-size: 0.75rem;
+    font-size: 0.6875rem;
     letter-spacing: 0.08em;
     color: var(--muted);
+  }
+  .story-title {
+    color: var(--muted);
+    font-size: clamp(1.05rem, 0.95rem + 0.4vw, 1.25rem);
+    font-weight: 500;
+    letter-spacing: -0.015em;
+    transition: color var(--dur-md) var(--ease-out);
+  }
+  .story-step.is-active .story-title,
+  .story-step-btn:hover .story-title {
+    color: var(--ink);
   }
   .story-step.is-active .story-num {
     color: var(--accent);
   }
-  .story-title {
-    color: var(--ink);
-    font-size: clamp(1.15rem, 1rem + 0.5vw, 1.45rem);
-    font-weight: 600;
-    letter-spacing: -0.025em;
-    line-height: 1.25;
+  /* bodies open with a grid-row transition, no height measuring */
+  .story-body {
+    display: grid;
+    grid-template-rows: 1fr;
+    transition: grid-template-rows var(--dur-md) var(--ease-out);
   }
-  .story-step p {
-    margin: 8px 0 0 calc(0.75rem * 2.2 + 14px);
-    font-size: 0.975rem;
+  .story-body p {
+    overflow: hidden;
+    padding-left: calc(0.6875rem * 2.4 + 14px);
+    font-size: 0.9375rem;
     line-height: 1.6;
   }
-  .story-rail {
-    display: none;
+  .story.is-live .story-body {
+    grid-template-rows: 0fr;
+  }
+  .story.is-live .story-step.is-active .story-body {
+    grid-template-rows: 1fr;
+  }
+  .story.is-live .story-step.is-active .story-body p {
+    padding-bottom: 16px;
   }
 
-  /* desktop with motion: the section pins and the steps play in place */
-  .story.is-pinned .story-steps {
-    position: relative;
-    display: block;
-    min-height: 15rem;
-  }
-  .story.is-pinned .story-step {
-    position: absolute;
-    inset: 0 0 auto;
-    padding: 0;
-    border: 0;
-    background: none;
-    box-shadow: none;
-    opacity: 0;
-    visibility: hidden;
-  }
-  .story.is-pinned .story-step.is-active {
-    opacity: 1;
-    visibility: visible;
-  }
-  .story.is-pinned .story-step-btn {
-    display: grid;
-    gap: 14px;
-    pointer-events: none;
-  }
-  .story.is-pinned .story-num {
-    display: none;
-  }
-  .story.is-pinned .story-title {
-    font-size: clamp(1.8rem, 1.2rem + 1.6vw, 2.75rem);
-    letter-spacing: -0.035em;
-    line-height: 1.08;
-  }
-  .story.is-pinned .story-step p {
-    margin: 18px 0 0;
-    max-width: 440px;
-    font-size: 1.0625rem;
-  }
-  .story.is-pinned .story-rail {
-    display: block;
-    height: 2px;
-    margin-top: 32px;
-    max-width: 440px;
-    border-radius: 2px;
-    background: var(--line);
-    overflow: hidden;
-  }
-  .story-rail span {
-    display: block;
-    height: 100%;
-    background: linear-gradient(90deg, var(--g-blue), var(--g-violet), var(--g-magenta));
-    transform: scaleX(0);
-    transform-origin: left;
-  }
-
-  /* ---------- diagram ---------- */
+  /* ---------- dark visual panel ---------- */
   .story-fig {
     --k-req: var(--c-edge);
     --k-event: var(--c-stream);
     --k-store: var(--c-store);
     --k-dlq: var(--c-dlq);
     position: relative;
-    padding: clamp(16px, 2.4vw, 28px);
-    border: 1px solid var(--line);
+    padding: clamp(18px, 2.4vw, 28px);
     border-radius: var(--radius-lg);
     background:
-      radial-gradient(circle at 1px 1px, var(--line) 1px, transparent 0) 0 0 / 22px 22px,
-      var(--surface);
-    box-shadow: var(--shadow);
+      radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.07) 1px, transparent 0) 0 0 / 20px 20px,
+      var(--dk-bg);
+  }
+  .story-fig-cap {
+    margin-bottom: 14px;
+    font-size: 0.6875rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
   }
   .story-svg {
     width: 100%;
@@ -266,18 +241,6 @@ const total = String(storySteps.length).padStart(2, "0");
   }
   .story-narrow {
     display: none;
-  }
-  .sedge {
-    fill: none;
-    stroke: var(--k);
-    stroke-width: 1.4;
-    opacity: 0.75;
-    transition:
-      stroke var(--dur-md) var(--ease-out),
-      opacity var(--dur-md) var(--ease-out);
-  }
-  .sarrow path {
-    fill: var(--k);
   }
   .k-req {
     --k: var(--k-req);
@@ -291,13 +254,28 @@ const total = String(storySteps.length).padStart(2, "0");
   .k-dlq {
     --k: var(--k-dlq);
   }
+  .sedge {
+    fill: none;
+    stroke: var(--k);
+    stroke-width: 1.4;
+    opacity: 0.75;
+    transition:
+      stroke var(--dur-md) var(--ease-out),
+      opacity var(--dur-md) var(--ease-out);
+  }
+  .sarrow path {
+    fill: var(--k);
+  }
   .sedge.k-event,
   .sedge.k-dlq {
     stroke-dasharray: 5 4;
   }
+  .snode {
+    transition: opacity var(--dur-md) var(--ease-out);
+  }
   .snode rect {
-    fill: var(--surface);
-    stroke: var(--line-strong);
+    fill: var(--dk-surface);
+    stroke: var(--dk-line-strong);
     stroke-width: 1;
     transition:
       stroke var(--dur-md) var(--ease-out),
@@ -307,45 +285,25 @@ const total = String(storySteps.length).padStart(2, "0");
     fill: var(--c);
   }
   .snode text {
-    fill: var(--ink);
+    fill: var(--dk-ink);
     font-family: var(--font-mono);
-    font-size: 12px;
-  }
-  .snode {
-    transition: opacity var(--dur-md) var(--ease-out);
-  }
-  .g-edge {
-    --c: var(--c-edge);
-  }
-  .g-service {
-    --c: var(--c-service);
-  }
-  .g-stream {
-    --c: var(--c-stream);
-  }
-  .g-store {
-    --c: var(--c-store);
-  }
-  .g-dlq {
-    --c: var(--c-dlq);
+    font-size: 13px;
   }
   .story-svg .spackets circle {
     fill: var(--k);
   }
-
-  /* once js drives it, only the current step's path is lit */
   .story.is-live .snode {
-    opacity: 0.5;
+    opacity: 0.6;
   }
   .story.is-live .snode.is-on {
     opacity: 1;
   }
   .story.is-live .snode.is-on rect {
     stroke: var(--c);
-    fill: color-mix(in srgb, var(--c) 9%, var(--surface));
+    fill: color-mix(in srgb, var(--c) 12%, var(--dk-surface));
   }
   .story.is-live .sedge {
-    opacity: 0.22;
+    opacity: 0.32;
   }
   .story.is-live .sedge.is-on {
     opacity: 1;
@@ -362,12 +320,11 @@ const total = String(storySteps.length).padStart(2, "0");
       stroke-dashoffset: -18;
     }
   }
-
   .story-legend {
     display: flex;
     flex-wrap: wrap;
     gap: 6px 18px;
-    margin-top: 14px;
+    margin-top: 16px;
     font-family: var(--font-mono);
     font-size: 0.6875rem;
     letter-spacing: 0.06em;
@@ -382,33 +339,35 @@ const total = String(storySteps.length).padStart(2, "0");
   .story-legend i {
     width: 14px;
     height: 2px;
-    border-radius: 2px;
     background: var(--k);
-  }
-  .story-legend {
-    --k-req: var(--c-edge);
-    --k-event: var(--c-stream);
-    --k-store: var(--c-store);
-    --k-dlq: var(--c-dlq);
   }
 
   /* ---------- tablets and phones: diagram first, steps as swipeable cards ---------- */
   @media (max-width: 960px) {
-    .story-grid {
+    .story {
       grid-template-columns: minmax(0, 1fr);
-      gap: 20px;
+      gap: 18px;
+    }
+    /* heading, then the diagram, then the steps */
+    .story-copy {
+      display: contents;
+    }
+    .story .tag {
+      justify-self: start;
     }
     .story-fig {
-      order: -1;
+      order: 1;
+      margin-top: 8px;
     }
-    .story-count {
-      display: none;
+    .story-steps {
+      order: 2;
     }
     .story-steps {
       display: flex;
-      gap: 12px;
+      gap: 10px;
       margin-inline: calc(-1 * var(--gutter));
       padding: 4px var(--gutter) 12px;
+      border: 0;
       overflow-x: auto;
       scroll-snap-type: x mandatory;
       scroll-padding-inline: var(--gutter);
@@ -418,16 +377,25 @@ const total = String(storySteps.length).padStart(2, "0");
       display: none;
     }
     .story-step {
-      flex: 0 0 min(84%, 420px);
+      flex: 0 0 min(84%, 400px);
       scroll-snap-align: start;
-      border-color: var(--line);
+      padding: 4px 16px 0;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
       background: var(--surface);
     }
     .story-step.is-active {
       border-color: var(--line-strong);
     }
-    .story-step p {
-      margin-left: 0;
+    .story-bar {
+      display: none;
+    }
+    .story.is-live .story-body,
+    .story.is-live .story-step .story-body {
+      grid-template-rows: 1fr;
+    }
+    .story-body p {
+      padding: 0 0 16px;
     }
   }
   @media (max-width: 640px) {

@@ -5,32 +5,29 @@ import Icon from "./Icon.astro";
 import { caseStudies } from "../data/projects";
 ---
 
-<section class="section work" id="work" aria-labelledby="work-title">
+<section class="section band work" id="work" aria-labelledby="work-title">
   <div class="wrap">
-    <SectionHead index="02" label="Work" title="Case studies, drawn as the systems they are." id="work-title">
+    <SectionHead index="03" label="Work" title="Case studies," tone="drawn as the systems they are." id="work-title">
       <p>
         Problem, architecture, result. Each diagram is the real service topology: filter by edge type, trace a node's
         dependencies, zoom in.
       </p>
     </SectionHead>
 
-    {caseStudies.map((s, i) => <CaseStudy study={s} flip={i % 2 === 1} />)}
+    {caseStudies.map((s) => <CaseStudy study={s} />)}
 
     <p class="work-more" data-reveal>
-      <a class="btn" href="https://github.com/vahan-sahakyan?tab=repositories" target="_blank" rel="noopener">
-        <Icon name="github" /> More on GitHub <Icon name="arrow" />
+      <a class="act" href="https://github.com/vahan-sahakyan?tab=repositories" target="_blank" rel="noopener">
+        More on GitHub <Icon name="arrow" />
       </a>
     </p>
   </div>
 </section>
 
 <style is:global>
-  .work {
-    background: linear-gradient(180deg, var(--bg), var(--bg-2) 30%, var(--bg-2) 70%, var(--bg));
-  }
   .work-more {
     display: flex;
     justify-content: center;
-    margin-top: clamp(64px, 8vw, 112px);
+    margin-top: clamp(56px, 7vw, 96px);
   }
 </style>

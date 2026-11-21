@@ -1,13 +1,13 @@
 // motion.ts - the motion layer, loaded only when prefers-reduced-motion is off.
-// smooth scroll, text and block reveals, parallax depth, counters, and the pointer micro-interactions.
+// text and block reveals, parallax depth, counters, and the pointer micro-interactions. scrolling stays native,
+// so it responds the instant the wheel or finger moves.
 // every timing comes from src/motion/tokens.ts
 
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
 import { CustomEase } from "gsap/CustomEase";
-import Lenis from "lenis";
-import { duration, ease, stagger, reveal, smoothScroll, interaction, parallax, counter } from "../motion/tokens";
+import { duration, ease, stagger, reveal, interaction, parallax, counter } from "../motion/tokens";
 import { finePointer } from "./env";
 
 gsap.registerPlugin(ScrollTrigger, SplitText, CustomEase);
@@ -18,17 +18,6 @@ const startAt = `top ${Math.round(reveal.start * 100)}%`;
 export type Motion = ReturnType<typeof initMotion>;
 
 export function initMotion() {
-  const lenis = new Lenis({
-    lerp: smoothScroll.lerp,
-    wheelMultiplier: smoothScroll.wheelMultiplier,
-    // anchor offset comes from the css scroll-padding-top
-    anchors: true,
-    autoRaf: false,
-  });
-  lenis.on("scroll", ScrollTrigger.update);
-  gsap.ticker.add((t) => lenis.raf(t * 1000));
-  gsap.ticker.lagSmoothing(0);
-
   splitReveals();
   blockReveals();
   counters();
@@ -44,7 +33,6 @@ export function initMotion() {
   return {
     gsap,
     ScrollTrigger,
-    lenis,
     refresh: () => ScrollTrigger.refresh(),
   };
 }

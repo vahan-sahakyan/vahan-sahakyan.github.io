@@ -27,22 +27,16 @@ export const stagger = {
 
 export const reveal = {
   // px the text travels in from
-  y: 28,
+  y: 20,
   // fraction of the viewport from the top where a reveal starts
   start: 0.85,
-} as const;
-
-export const smoothScroll = {
-  // lenis interpolation, lower is smoother
-  lerp: 0.1,
-  wheelMultiplier: 1,
 } as const;
 
 export const interaction = {
   // px a magnetic button follows the cursor
   magnet: 10,
   // max card tilt in degrees
-  tilt: 6,
+  tilt: 3,
   // px, the cursor glow's diameter
   glow: 560,
   // 0..1 smoothing of the cursor glow per frame
@@ -60,18 +54,19 @@ export const counter = {
   duration: 1.6,
 } as const;
 
-// the hero webgl shape
-export const heroGl = {
-  morphSpeed: 0.16,
-  noiseAmp: 0.28,
-  // how much the shape leans and bulges toward the cursor
-  pointerTilt: 0.35,
-  pointerBulge: 0.18,
-  pointerFollow: 0.06,
-  // extra turn and morph as the hero scrolls away
-  scrollSpin: 1.1,
-  scrollMorph: 0.35,
-  maxDpr: 1.75,
+// the hero particle stream
+export const stream = {
+  // particles on desktop; phones get half
+  count: 1400,
+  // px per second along the band
+  speed: 46,
+  // band thickness as a fraction of the hero height
+  width: 0.16,
+  // px radius the cursor pushes particles away within
+  pointerRadius: 110,
+  pointerForce: 28,
+  // extra drift of the whole band as the hero scrolls away, px
+  scrollShift: 120,
 } as const;
 
 // the pinned approach story: viewport heights of scroll per step on desktop

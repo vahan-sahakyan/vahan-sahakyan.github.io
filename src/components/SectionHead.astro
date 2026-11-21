@@ -1,11 +1,15 @@
 ---
-type Props = { index: string; label: string; title: string; id?: string };
-const { index, label, title, id } = Astro.props;
+// tag, a two-tone heading (title, then a quieter line), and an optional lede on the right
+type Props = { index: string; label: string; title: string; tone?: string; id?: string };
+const { index, label, title, tone, id } = Astro.props;
 ---
 
 <header class="section-head">
-  <p class="eyebrow" data-reveal><b>{index}</b> / {label}</p>
-  <h2 class="h2" id={id} data-split>{title}</h2>
+  <p class="tag" data-reveal><b>{index}</b> {label}</p>
+  <h2 class="h2" id={id} data-split>
+    {title}
+    {tone && <span class="tone">{tone}</span>}
+  </h2>
   {
     Astro.slots.has("default") && (
       <div class="body-lg section-head-lede" data-reveal>
@@ -14,9 +18,3 @@ const { index, label, title, id } = Astro.props;
     )
   }
 </header>
-
-<style is:global>
-  .section-head-lede {
-    color: var(--ink-2);
-  }
-</style>

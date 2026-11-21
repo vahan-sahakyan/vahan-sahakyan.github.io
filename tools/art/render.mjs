@@ -10,10 +10,8 @@ const out = (name) => fileURLToPath(new URL(`../../src/assets/art/${name}.png`, 
 
 // [file, preset, width, height, time]
 const JOBS = [
-  ["hero", "hero", 1400, 1400, 2.4],
   ["ribbon", "ribbon", 1400, 1000, 1.2],
   ["prism", "prism", 1400, 1000, 3.1],
-  ["dusk", "dusk", 1400, 1400, 5.0],
 ];
 
 const server = await createServer({ root, logLevel: "error", server: { port: 5199 } });

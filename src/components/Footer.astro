@@ -1,36 +1,146 @@
 ---
 import Icon from "./Icon.astro";
-import { person } from "../data/profile";
+import { person, contact, socials, nav } from "../data/profile";
+
+// each letter of the wordmark gets its own vertical gradient
+const word = "sahakyan".split("");
+const fills = [
+  ["#efe8dc", "#f2b9a0"],
+  ["#efe8dc", "#ff8a5c"],
+  ["#c3ccff", "#3446f0"],
+  ["#3446f0", "#8e99ff"],
+  ["#efe8dc", "#f6d4bb"],
+  ["#ff8a5c", "#3446f0"],
+  ["#a9b6ff", "#efe8dc"],
+  ["#f6d4bb", "#ff6a3d"],
+];
 ---
 
-<footer class="footer">
+<footer class="footer dark" data-nav-dark>
+  <p class="footer-word" aria-hidden="true">
+    {word.map((ch, i) => <span style={`--a:${fills[i][0]};--b:${fills[i][1]}`}>{ch}</span>)}
+  </p>
+
+  <div class="wrap footer-cols">
+    <nav aria-label="Sections">
+      <p>Sections</p>
+      <ul>
+        {
+          nav.map((l) => (
+            <li>
+              <a class="ulink" href={l.href}>
+                {l.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+    <div>
+      <p>Contact</p>
+      <ul>
+        <li><a class="ulink" href={`mailto:${contact.email}`}>{contact.email}</a></li>
+        <li><a class="ulink" href={contact.phone.href}>{contact.phone.label}</a></li>
+        <li><a class="ulink" href={contact.telegram.href} target="_blank" rel="noopener">{contact.telegram.label}</a></li>
+      </ul>
+    </div>
+    <div>
+      <p>Social</p>
+      <ul>
+        {
+          socials.map((s) => (
+            <li>
+              <a class="ulink" href={s.href} target="_blank" rel="noopener">
+                {s.name}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+    <div>
+      <p>Resume</p>
+      <ul>
+        <li>
+          <a class="ulink" href={person.cv} target="_blank" rel="noopener">Print-ready CV</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
   <div class="wrap footer-bar">
     <p class="mono">&copy; <span data-year>2026</span> {person.name}</p>
-    <a class="ulink footer-top" href="#top">Back to top <Icon name="arrow-up" /></a>
+    <a class="act footer-top" href="#top">Back to top <Icon name="arrow-up" /></a>
   </div>
 </footer>
 
 <style is:global>
   .footer {
+    margin-top: clamp(8px, 1.2vw, 16px);
+    border-radius: clamp(20px, 3vw, 36px) clamp(20px, 3vw, 36px) 0 0;
+    overflow: hidden;
+  }
+  .footer-word {
+    display: flex;
+    justify-content: center;
+    height: clamp(90px, 15vw, 230px);
+    overflow: hidden;
+    padding-top: clamp(28px, 4vw, 56px);
+    font-size: clamp(4.5rem, 0.5rem + 18vw, 18.5rem);
+    font-weight: 500;
+    line-height: 0.78;
+    letter-spacing: -0.06em;
+    user-select: none;
+  }
+  .footer-word span {
+    background: linear-gradient(180deg, var(--a), var(--b));
+    background-size: 100% 160%;
+    background-position: 0 0;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    transition: background-position var(--dur-xl) var(--ease-out);
+  }
+  .footer-word:hover span {
+    background-position: 0 100%;
+  }
+  .footer-cols {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 32px;
+    padding-block: clamp(40px, 5vw, 64px);
     border-top: 1px solid var(--line);
+  }
+  .footer-cols p {
+    margin-bottom: 14px;
+    color: var(--ink);
+    font-weight: 500;
+    font-size: 0.9375rem;
+  }
+  .footer-cols ul {
+    display: grid;
+    gap: 8px;
+    font-size: 0.875rem;
+  }
+  .footer-cols a {
+    color: var(--ink-2);
+  }
+  .footer-cols a:hover {
+    color: var(--ink);
   }
   .footer-bar {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 16px;
-    padding-block: 28px;
+    padding-block: 22px 28px;
+    border-top: 1px solid var(--line);
     font-size: 0.8125rem;
     color: var(--muted);
   }
-  .footer-top {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-weight: 500;
-  }
-  .footer-top svg {
-    width: 14px;
-    height: 14px;
+  @media (max-width: 760px) {
+    .footer-cols {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
   }
 </style>

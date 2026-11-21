@@ -1,7 +1,7 @@
 // main.ts - entry. everything heavy is a dynamic import: the motion layer when motion is allowed,
-// each diagram when it nears the viewport, and the hero webgl once the page is idle
+// each diagram when it nears the viewport, and the hero stream once the page is idle
 
-import { reducedMotion, canRunGl, idle } from "./env";
+import { reducedMotion, idle } from "./env";
 import { initNav } from "./nav";
 import { initDurations } from "./durations";
 
@@ -50,12 +50,10 @@ if (reducedMotion) {
   });
 }
 
-const heroArt = document.querySelector<HTMLElement>("[data-hero-art]");
-if (heroArt) {
-  const start = () =>
-    idle(() => {
-      if (canRunGl()) import("./gl/hero-gl").then((m) => m.mountHeroGl(heroArt));
-    });
+const stream = document.querySelector<HTMLElement>("[data-stream]");
+if (stream) {
+  // after load, so the first paint and the headline never wait on it
+  const start = () => idle(() => import("./hero-stream").then((m) => m.mountHeroStream(stream)), 600);
   if (document.readyState === "complete") start();
   else addEventListener("load", start, { once: true });
 }

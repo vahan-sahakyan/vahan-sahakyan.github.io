@@ -1,0 +1,104 @@
+---
+import SectionHead from "./SectionHead.astro";
+import { lede, stats } from "../data/capabilities";
+import { glance } from "../data/profile";
+
+// experience and shipped-for already show as a counter and in the hero
+const rows = glance.filter(([k]) => k !== "experience" && k !== "shipped for");
+---
+
+<section class="section intro" id="about" aria-labelledby="about-title">
+  <div class="wrap">
+    <SectionHead index="01" label="About" title="Senior backend engineer." tone="Data model to cluster." id="about-title">
+      <p>{lede}</p>
+    </SectionHead>
+
+    <dl class="cells intro-stats">
+      {
+        stats.map((s) => (
+          <div class="intro-stat" data-reveal>
+            <dt class="mono">{s.label}</dt>
+            <dd>
+              <span data-count={s.value}>{s.value}</span>
+              {s.suffix}
+            </dd>
+          </div>
+        ))
+      }
+    </dl>
+
+    <dl class="cells intro-glance" aria-label="At a glance">
+      {
+        rows.map(([k, v]) => (
+          <div data-reveal>
+            <dt class="mono">{k}</dt>
+            <dd>{v}</dd>
+          </div>
+        ))
+      }
+    </dl>
+  </div>
+</section>
+
+<style is:global>
+  .intro-stats {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    border-radius: var(--radius) var(--radius) 0 0;
+    overflow: hidden;
+  }
+  .intro-stat {
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: space-between;
+    gap: 40px;
+    min-height: 220px;
+    padding: clamp(20px, 2.4vw, 28px);
+  }
+  .intro-stat dd {
+    color: var(--ink);
+    font-size: clamp(3rem, 2rem + 3vw, 5rem);
+    font-weight: 300;
+    letter-spacing: -0.05em;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+  .intro-stat dt,
+  .intro-glance dt {
+    font-size: 0.6875rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .intro-glance {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    margin-top: -1px;
+    border-radius: 0 0 var(--radius) var(--radius);
+    overflow: hidden;
+  }
+  .intro-glance > div {
+    display: grid;
+    align-content: start;
+    gap: 8px;
+    padding: 20px clamp(20px, 2.4vw, 28px);
+  }
+  .intro-glance dd {
+    color: var(--ink);
+    font-size: 0.9375rem;
+    line-height: 1.45;
+  }
+
+  @media (max-width: 960px) {
+    .intro-stats {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .intro-glance {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .intro-glance > div:last-child {
+      grid-column: 1 / -1;
+    }
+    .intro-stat {
+      min-height: 170px;
+    }
+  }
+</style>

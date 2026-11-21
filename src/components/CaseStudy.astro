@@ -6,56 +6,52 @@ import type { CaseStudy } from "../data/projects";
 import ribbon from "../assets/art/ribbon.png";
 import prism from "../assets/art/prism.png";
 
-type Props = { study: CaseStudy; flip?: boolean };
-const { study: s, flip } = Astro.props;
+type Props = { study: CaseStudy };
+const { study: s } = Astro.props;
 const art = { ribbon, prism }[s.art];
 ---
 
-<article class:list={["case", { "case-flip": flip }]} id={`case-${s.id}`} aria-labelledby={`case-${s.id}-title`}>
+<article class="case" id={`case-${s.id}`} aria-labelledby={`case-${s.id}-title`}>
   <div class="case-head">
-    <a class="case-cover card" href={s.repo} target="_blank" rel="noopener" data-tilt data-reveal tabindex="-1" aria-hidden="true">
-      <div class="art case-art" data-parallax-inner>
-        <Picture src={art} formats={["avif", "webp"]} fallbackFormat="webp" widths={[480, 800, 1100]} sizes="(max-width: 900px) 100vw, 45vw" alt="" />
+    <a class={`case-cover art art-${s.art}`} href={s.repo} target="_blank" rel="noopener" data-tilt data-reveal tabindex="-1" aria-hidden="true">
+      <div class="case-art" data-parallax-inner>
+        <Picture src={art} formats={["avif", "webp"]} fallbackFormat="webp" widths={[480, 800, 1100]} sizes="(max-width: 900px) 100vw, 50vw" alt="" />
       </div>
-      <span class="chip chip-float case-chip-tl">{s.index}</span>
-      <span class="chip chip-float case-chip-br">Open source <Icon name="arrow-ne" /></span>
+      <span class="chip chip-ink case-chip">{s.index}</span>
       <span class="card-glow" aria-hidden="true"></span>
     </a>
 
     <div class="case-intro">
-      <p class="eyebrow" data-reveal>{s.index}</p>
-      <h3 class="case-title" id={`case-${s.id}-title`} data-reveal>
-        <a class="ulink" href={s.repo} target="_blank" rel="noopener">{s.title}</a>
-      </h3>
+      <h3 class="case-title" id={`case-${s.id}-title`} data-reveal>{s.title}</h3>
       <p class="case-summary" data-reveal>{s.summary}</p>
       <ul class="chips" aria-label="Stack" data-reveal>
         {s.stack.map((t) => <li class="chip">{t}</li>)}
       </ul>
-      <p class="case-links" data-reveal>
-        <a class="ulink" href={s.repo} target="_blank" rel="noopener">
-          View on GitHub <Icon name="arrow-ne" /><span class="visually-hidden">(opens in a new tab)</span>
+      <div class="case-links" data-reveal>
+        <a class="btn btn-sm" href={s.repo} target="_blank" rel="noopener">
+          <Icon name="github" /> View repo<span class="visually-hidden"> (opens in a new tab)</span>
         </a>
         {
           s.links?.map((l) => (
-            <a class="ulink" href={l.href} target="_blank" rel="noopener">
+            <a class="act" href={l.href} target="_blank" rel="noopener">
               {l.label} <Icon name="arrow-ne" />
             </a>
           ))
         }
-      </p>
+      </div>
     </div>
   </div>
 
-  <dl class="case-pra">
-    <div class="case-pra-item" data-reveal>
+  <dl class="cells case-pra">
+    <div data-reveal>
       <dt class="mono"><span>01</span> Problem</dt>
       <dd>{s.problem}</dd>
     </div>
-    <div class="case-pra-item" data-reveal>
+    <div data-reveal>
       <dt class="mono"><span>02</span> Architecture</dt>
       <dd>{s.architecture}</dd>
     </div>
-    <div class="case-pra-item" data-reveal>
+    <div data-reveal>
       <dt class="mono"><span>03</span> Result</dt>
       <dd>
         <ul class="case-result">
@@ -72,21 +68,24 @@ const art = { ribbon, prism }[s.art];
 
 <style is:global>
   .case + .case {
-    margin-top: clamp(96px, 12vw, 176px);
+    margin-top: clamp(88px, 11vw, 160px);
   }
   .case-head {
     display: grid;
-    grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
-    gap: clamp(28px, 5vw, 72px);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: clamp(24px, 4vw, 56px);
     align-items: center;
-  }
-  .case-flip .case-cover {
-    order: 2;
   }
   .case-cover {
     display: block;
     aspect-ratio: 7 / 5;
-    border-radius: var(--radius-lg);
+    border-radius: var(--radius);
+  }
+  .art-ribbon {
+    background: linear-gradient(135deg, #1f2fd0, #4a5cff 55%, #9fb0ff);
+  }
+  .art-prism {
+    background: linear-gradient(135deg, #2a39d8, #8c9cff 55%, #ffb08f);
   }
   .case-art {
     position: absolute;
@@ -94,83 +93,61 @@ const art = { ribbon, prism }[s.art];
   }
   .case-art img {
     object-fit: contain;
-    padding: 4%;
+    padding: 6%;
     transition: transform var(--dur-xl) var(--ease-out);
   }
   .case-cover:hover .case-art img {
-    transform: scale(1.04);
+    transform: scale(1.03);
   }
-  .case-chip-tl,
-  .case-chip-br {
+  .case-chip {
     position: absolute;
     z-index: 1;
+    left: 14px;
+    bottom: 14px;
   }
-  .case-chip-tl {
-    top: 18px;
-    left: 18px;
+  .case-cover .card-glow {
+    z-index: 0;
+    background: radial-gradient(closest-side, rgba(255, 255, 255, 0.22), transparent);
   }
-  .case-chip-br {
-    right: 18px;
-    bottom: 18px;
-  }
-  .case-chip-br svg {
-    width: 11px;
-    height: 11px;
+  .case-cover:hover .card-glow {
+    opacity: 1;
   }
 
   .case-intro {
     display: grid;
-    gap: 20px;
     justify-items: start;
+    gap: 18px;
   }
   .case-title {
-    font-size: clamp(2rem, 1.3rem + 2.6vw, 3.4rem);
-    line-height: 1.02;
-    letter-spacing: -0.04em;
-  }
-  .case-title .ulink::after {
-    height: 2px;
-    bottom: 0;
+    font-size: clamp(1.8rem, 1.2rem + 2vw, 2.75rem);
+    line-height: 1.08;
+    letter-spacing: -0.035em;
   }
   .case-summary {
-    max-width: 560px;
+    max-width: 540px;
   }
   .case-links {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px 24px;
-    font-weight: 500;
-    font-size: 0.9375rem;
-  }
-  .case-links a {
-    display: inline-flex;
     align-items: center;
-    gap: 6px;
-  }
-  .case-links svg {
-    width: 13px;
-    height: 13px;
+    gap: 12px 24px;
+    margin-top: 4px;
   }
 
   .case-pra {
-    display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 1px;
-    margin-block: clamp(40px, 6vw, 72px) clamp(20px, 3vw, 32px);
-    border: 1px solid var(--line);
-    border-radius: var(--radius-lg);
-    background: var(--line);
+    margin-block: clamp(36px, 5vw, 56px) 16px;
+    border-radius: var(--radius);
     overflow: hidden;
   }
-  .case-pra-item {
-    padding: clamp(20px, 2.6vw, 32px);
-    background: var(--surface);
+  .case-pra > div {
+    padding: clamp(20px, 2.4vw, 28px);
   }
   .case-pra dt {
     display: flex;
     gap: 10px;
-    margin-bottom: 14px;
-    font-size: 0.75rem;
+    margin-bottom: 12px;
+    font-size: 0.6875rem;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--ink);
@@ -179,7 +156,7 @@ const art = { ribbon, prism }[s.art];
     color: var(--accent);
   }
   .case-pra dd {
-    font-size: 0.975rem;
+    font-size: 0.9375rem;
     line-height: 1.6;
   }
   .case-result {
@@ -188,25 +165,21 @@ const art = { ribbon, prism }[s.art];
   }
   .case-result li {
     position: relative;
-    padding-left: 18px;
+    padding-left: 16px;
   }
   .case-result li::before {
     content: "";
     position: absolute;
     left: 0;
-    top: 0.62em;
-    width: 8px;
-    height: 2px;
-    border-radius: 2px;
-    background: linear-gradient(90deg, var(--g-blue), var(--g-magenta));
+    top: 0.65em;
+    width: 7px;
+    height: 1px;
+    background: var(--ink);
   }
 
   @media (max-width: 900px) {
     .case-head {
       grid-template-columns: minmax(0, 1fr);
-    }
-    .case-flip .case-cover {
-      order: 0;
     }
     .case-pra {
       grid-template-columns: minmax(0, 1fr);

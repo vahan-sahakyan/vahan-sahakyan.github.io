@@ -1,10 +1,10 @@
 // story.ts - the approach section. one step is current at a time and lights its path through the diagram.
-// desktop with motion: the section pins and scroll scrubs through the steps, with packets running the lit edges.
+// desktop with motion: the section pins, scroll walks the accordion, and packets run the lit edges.
 // phones: steps are swipeable cards. reduced motion on desktop: a list driven by click and focus
 
 import type { Motion } from "./motion";
 import type { ScrollTrigger } from "gsap/ScrollTrigger";
-import { story as tokens, duration } from "../motion/tokens";
+import { story as tokens } from "../motion/tokens";
 
 const SVG_NS = "http://www.w3.org/2000/svg";
 
@@ -13,8 +13,7 @@ export default function mountStory(root: HTMLElement, motion: Motion | null) {
   const list = root.querySelector<HTMLElement>("[data-story-steps]")!;
   const steps = [...list.querySelectorAll<HTMLElement>(".story-step")];
   const svgs = [...root.querySelectorAll<SVGSVGElement>(".story-svg")];
-  const count = root.querySelector<HTMLElement>("[data-story-count]");
-  const bar = root.querySelector<HTMLElement>("[data-story-progress]");
+  const bars = steps.map((s) => s.querySelector<HTMLElement>(".story-bar i"));
   const mobile = matchMedia("(max-width: 960px)");
   const n = steps.length;
 
@@ -62,22 +61,16 @@ export default function mountStory(root: HTMLElement, motion: Motion | null) {
 
   function setStep(i: number) {
     if (i === current) return;
-    const prev = current;
     current = i;
     steps.forEach((s, j) => {
       s.classList.toggle("is-active", j === i);
       s.querySelector("button")!.setAttribute("aria-pressed", String(j === i));
     });
-    if (count) count.textContent = String(i + 1).padStart(2, "0");
     const nodes = new Set(steps[i].dataset.nodes!.split(","));
     const edges = new Set(steps[i].dataset.edges!.split(","));
     for (const svg of svgs) {
       svg.querySelectorAll<SVGElement>("[data-node]").forEach((el) => el.classList.toggle("is-on", nodes.has(el.dataset.node!)));
       svg.querySelectorAll<SVGElement>("[data-edge]").forEach((el) => el.classList.toggle("is-on", edges.has(el.dataset.edge!)));
-    }
-    if (pinned && motion && prev !== -1) {
-      const dir = i > prev ? 1 : -1;
-      motion.gsap.fromTo(steps[i], { y: 18 * dir, opacity: 0 }, { y: 0, opacity: 1, duration: duration.md, ease: "out", overwrite: true });
     }
     runPackets(i);
   }
@@ -121,8 +114,10 @@ export default function mountStory(root: HTMLElement, motion: Motion | null) {
       end: () => `+=${n * tokens.stepLength * innerHeight}`,
       scrub: true,
       onUpdate: (self) => {
-        setStep(Math.min(n - 1, Math.floor(self.progress * n)));
-        if (bar) bar.style.transform = `scaleX(${self.progress})`;
+        const at = Math.min(n - 1, Math.floor(self.progress * n));
+        setStep(at);
+        // the active step's hairline fills as you scroll through it; earlier ones stay full
+        bars.forEach((b, j) => b && (b.style.transform = `scaleX(${j < at ? 1 : j > at ? 0 : self.progress * n - at})`));
       },
     });
     return () => {
@@ -130,7 +125,7 @@ export default function mountStory(root: HTMLElement, motion: Motion | null) {
       trigger?.kill();
       trigger = null;
       pinEl.classList.remove("is-pinned");
-      steps.forEach((s) => motion.gsap.set(s, { clearProps: "transform,opacity" }));
+      bars.forEach((b) => b && (b.style.transform = ""));
     };
   });
 
