@@ -65,7 +65,8 @@ import { nav, person } from "../data/profile";
 <style is:global>
   .nav {
     position: fixed;
-    inset: 12px 0 auto;
+    /* clear of the status bar when the page draws behind it */
+    inset: calc(12px + env(safe-area-inset-top, 0px)) 0 auto;
     z-index: 50;
   }
   .nav-bar {
