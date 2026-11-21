@@ -7,7 +7,7 @@ export type CaseStudy = {
   links?: { label: string; href: string }[];
   summary: string;
   stack: string[];
-  // cover image, see src/assets/art. docker-* are Docker's blog art (not licensed for reuse, local preview only);
+  // cover image, see src/assets/art. docker-* are from docker.com's blog;
   // unsplash-* are free under the Unsplash License: "streaks" by Universtock, "dusk" by Asif Aether
   art: "docker-panels" | "docker-box" | "unsplash-streaks" | "unsplash-dusk";
   graphTitle: string;
