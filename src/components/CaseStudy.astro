@@ -3,21 +3,29 @@ import { Picture } from "astro:assets";
 import Icon from "./Icon.astro";
 import Topology from "./Topology.astro";
 import type { CaseStudy } from "../data/projects";
-import ribbon from "../assets/art/ribbon.png";
-import prism from "../assets/art/prism.png";
+import dockerPanels from "../assets/art/docker-panels.png";
+import dockerBox from "../assets/art/docker-box.png";
+import unsplashStreaks from "../assets/art/unsplash-streaks.jpg";
+import unsplashDusk from "../assets/art/unsplash-dusk.jpg";
 
 type Props = { study: CaseStudy };
 const { study: s } = Astro.props;
-const art = { ribbon, prism }[s.art];
+const art = {
+  "docker-panels": dockerPanels,
+  "docker-box": dockerBox,
+  "unsplash-streaks": unsplashStreaks,
+  "unsplash-dusk": unsplashDusk,
+}[s.art];
 ---
 
 <article class="case" id={`case-${s.id}`} aria-labelledby={`case-${s.id}-title`}>
   <div class="case-head">
-    <a class={`case-cover art art-${s.art}`} href={s.repo} target="_blank" rel="noopener" data-tilt data-reveal tabindex="-1" aria-hidden="true">
+    <a class="case-cover art" href={s.repo} target="_blank" rel="noopener" data-tilt data-reveal tabindex="-1" aria-hidden="true">
       <div class="case-art" data-parallax-inner>
-        <Picture src={art} formats={["avif", "webp"]} fallbackFormat="webp" widths={[480, 800, 1100]} sizes="(max-width: 900px) 100vw, 50vw" alt="" />
+        <Picture src={art} formats={["avif", "webp"]} fallbackFormat="webp" quality={78} widths={[480, 800, 1100]} sizes="(max-width: 900px) 100vw, 50vw" alt="" />
       </div>
       <span class="chip chip-ink case-chip">{s.index}</span>
+      <Icon name="github" class="case-mark" />
       <span class="card-glow" aria-hidden="true"></span>
     </a>
 
@@ -78,26 +86,27 @@ const art = { ribbon, prism }[s.art];
   }
   .case-cover {
     display: block;
-    aspect-ratio: 7 / 5;
+    aspect-ratio: 2 / 1;
     border-radius: var(--radius);
-  }
-  .art-ribbon {
-    background: linear-gradient(135deg, #1f2fd0, #4a5cff 55%, #9fb0ff);
-  }
-  .art-prism {
-    background: linear-gradient(135deg, #2a39d8, #8c9cff 55%, #ffb08f);
   }
   .case-art {
     position: absolute;
-    inset: -6% 0;
+    inset: -5% 0;
   }
   .case-art img {
-    object-fit: contain;
-    padding: 6%;
     transition: transform var(--dur-xl) var(--ease-out);
   }
   .case-cover:hover .case-art img {
     transform: scale(1.03);
+  }
+  .case-mark {
+    position: absolute;
+    z-index: 1;
+    right: 16px;
+    bottom: 16px;
+    width: 22px;
+    height: 22px;
+    color: rgba(255, 255, 255, 0.92);
   }
   .case-chip {
     position: absolute;

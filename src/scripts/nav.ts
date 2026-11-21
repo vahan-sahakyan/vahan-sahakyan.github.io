@@ -1,4 +1,4 @@
-// nav.ts - floating bar that hides on the way down, turns dark over dark sections, shows the name once the hero's
+// nav.ts - floating bar, always on screen: turns dark over dark sections, shows the name once the hero's
 // id scrolls under it, underlines the current section, and runs the mobile sheet
 
 export function initNav() {
@@ -11,30 +11,22 @@ export function initNav() {
   const darks = [...document.querySelectorAll<HTMLElement>("[data-nav-dark]")];
   const links = [...nav.querySelectorAll<HTMLAnchorElement>(".nav-link")];
 
-  let lastY = scrollY;
   let ticking = false;
   const onScroll = () => {
     if (ticking) return;
     ticking = true;
     requestAnimationFrame(() => {
-      const y = scrollY;
       // dark when the bar's middle line is over a dark section
       const line = nav.getBoundingClientRect().top + 38;
       nav.classList.toggle("on-dark", darks.some((d) => {
         const r = d.getBoundingClientRect();
         return r.top <= line && r.bottom >= line;
       }));
-      // hide after scrolling down past the hero fold, show on any scroll up
-      if (Math.abs(y - lastY) > 6) {
-        nav.classList.toggle("is-hidden", y > lastY && y > innerHeight * 0.9);
-        lastY = y;
-      }
       ticking = false;
     });
   };
   addEventListener("scroll", onScroll, { passive: true });
   onScroll();
-  nav.addEventListener("focusin", () => nav.classList.remove("is-hidden"));
 
   if (heroId) {
     new IntersectionObserver(

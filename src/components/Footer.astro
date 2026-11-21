@@ -2,8 +2,7 @@
 import Icon from "./Icon.astro";
 import { person, contact, socials, nav } from "../data/profile";
 
-// each letter of the wordmark gets its own vertical gradient
-const word = "sahakyan".split("");
+// the full name as the wordmark; each letter gets its own vertical gradient, cycling through the palette
 const fills = [
   ["#efe8dc", "#f2b9a0"],
   ["#efe8dc", "#ff8a5c"],
@@ -14,11 +13,12 @@ const fills = [
   ["#a9b6ff", "#efe8dc"],
   ["#f6d4bb", "#ff6a3d"],
 ];
+const word = person.name.toLowerCase().split("");
 ---
 
 <footer class="footer dark" data-nav-dark>
   <p class="footer-word" aria-hidden="true">
-    {word.map((ch, i) => <span style={`--a:${fills[i][0]};--b:${fills[i][1]}`}>{ch}</span>)}
+    {word.map((ch, i) => (ch === " " ? <span class="footer-gap" /> : <span style={`--a:${fills[i % fills.length][0]};--b:${fills[i % fills.length][1]}`}>{ch}</span>))}
   </p>
 
   <div class="wrap footer-cols">
@@ -83,10 +83,11 @@ const fills = [
   .footer-word {
     display: flex;
     justify-content: center;
-    height: clamp(90px, 15vw, 230px);
+    /* em, so the crop line sits at the same point of the letters at every width */
+    height: calc(0.74em + clamp(24px, 3.4vw, 48px));
     overflow: hidden;
-    padding-top: clamp(28px, 4vw, 56px);
-    font-size: clamp(4.5rem, 0.5rem + 18vw, 18.5rem);
+    padding-top: clamp(24px, 3.4vw, 48px);
+    font-size: clamp(2.6rem, 0.4rem + 10.6vw, 10.5rem);
     font-weight: 500;
     line-height: 0.78;
     letter-spacing: -0.06em;
@@ -100,6 +101,9 @@ const fills = [
     background-clip: text;
     color: transparent;
     transition: background-position var(--dur-xl) var(--ease-out);
+  }
+  .footer-word .footer-gap {
+    width: 0.28em;
   }
   .footer-word:hover span {
     background-position: 0 100%;

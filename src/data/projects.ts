@@ -7,7 +7,9 @@ export type CaseStudy = {
   links?: { label: string; href: string }[];
   summary: string;
   stack: string[];
-  art: "ribbon" | "prism";
+  // cover image, see src/assets/art. docker-* are Docker's blog art (not licensed for reuse, local preview only);
+  // unsplash-* are free under the Unsplash License: "streaks" by Universtock, "dusk" by Asif Aether
+  art: "docker-panels" | "docker-box" | "unsplash-streaks" | "unsplash-dusk";
   graphTitle: string;
   graphLabel: string;
   problem: string;
@@ -25,7 +27,7 @@ export const caseStudies: CaseStudy[] = [
     summary:
       "11 Go services over gRPC and Redpanda, with a transactional outbox, a CQRS feed and a ClickHouse event store. OpenTelemetry, Tempo, Loki and Prometheus for observability; deployed to Kubernetes with Helm and Argo CD.",
     stack: ["Go", "Microservices", "Kafka", "CQRS", "PostgreSQL", "ClickHouse", "Kubernetes"],
-    art: "ribbon",
+    art: "docker-panels",
     graphTitle: "11 Go services, one event backbone",
     graphLabel: "Service topology of the distributed social network",
     problem:
@@ -52,7 +54,7 @@ export const caseStudies: CaseStudy[] = [
     summary:
       "Code review platform: assignments are submitted as GitHub branches and tracked through review states. Spring Boot API on MySQL; changes stream through Kafka to a WebSocket server for live updates. Runs on Kubernetes behind an NGINX Ingress.",
     stack: ["Java", "Spring Boot", "MySQL", "Kafka", "WebSockets", "Kubernetes"],
-    art: "prism",
+    art: "docker-box",
     graphTitle: "Spring Boot API, live updates over Kafka and WebSockets",
     graphLabel: "Service topology of Code Inspect",
     problem:
