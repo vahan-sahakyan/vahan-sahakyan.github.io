@@ -35,7 +35,7 @@ const legendLabel = (g: string, text: string) => (g === "service" && id === "dsn
   <div class="topo-stage">
     {
       variants.map((v) => (
-        <svg class={`topo-svg topo-${v.id}`} viewBox={`0 0 ${v.W} ${v.H}`} role="img" aria-label={label} data-variant={v.id}>
+        <svg class={`topo-svg topo-${v.id}`} viewBox={`0 0 ${v.W} ${v.H}`} role="group" aria-label={label} data-variant={v.id}>
           <defs>
             {kinds.map((k) => (
               <marker

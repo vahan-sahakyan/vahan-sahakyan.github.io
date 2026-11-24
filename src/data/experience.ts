@@ -51,7 +51,7 @@ export const commits: Commit[] = [
     role: "datafoundry-2",
   },
   {
-    date: "2022-11",
+    date: "2022-10",
     lane: 1,
     parents: [5],
     msg: "checkout -b wmg",
@@ -59,7 +59,7 @@ export const commits: Commit[] = [
     role: "wmg",
   },
   {
-    date: "2022-11",
+    date: "2022-10",
     lane: 0,
     parents: [6],
     msg: "join NWSLAB",
@@ -184,8 +184,8 @@ export const roles: Role[] = [
     type: "Contract",
     logo: "/images/wmg-logo.jpeg",
     link: "https://www.wmg.com/",
-    period: "Nov 2022 - Sep 2023",
-    duration: "11 mos",
+    period: "Oct 2022 - Sep 2023",
+    duration: "1 yr",
     location: "New York, United States · Remote",
     blocks: [
       { lines: ["ADA (Alternative Distribution Alliance) & DSPs (Spotify, Apple Music, etc.)", "Music Royalty and Publishing Platform"] },
@@ -200,8 +200,8 @@ export const roles: Role[] = [
     logo: "/images/nwslab-logo.png",
     logoClass: "is-wide",
     link: "https://www.nwslab.com/",
-    period: "Nov 2022 - Sep 2023",
-    duration: "11 mos",
+    period: "Oct 2022 - Sep 2023",
+    duration: "1 yr",
     location: "Yerevan, Armenia · Hybrid",
     blocks: [
       {
@@ -224,8 +224,8 @@ export const roles: Role[] = [
     type: "Full-time",
     logo: "/images/df-logo.png",
     link: "https://www.datafoundry.ai/",
-    period: "Mar 2022 - Nov 2022",
-    duration: "9 mos",
+    period: "Mar 2022 - Oct 2022",
+    duration: "8 mos",
     location: "Yerevan, Armenia · Hybrid",
     blocks: [
       {
@@ -243,13 +243,34 @@ export const roles: Role[] = [
   },
 ];
 
-export const education = [
+export type Education = {
+  kind: "Certification" | "Course" | "Mentorship";
+  title: string;
+  detail?: string;
+  year?: string;
+};
+
+// programming-related only, newest first; undated items lead
+export const education: Education[] = [
+  { kind: "Certification", title: "Neo4j Certified Professional", detail: "Graph data modeling and Cypher" },
+  { kind: "Course", title: "Certified Kubernetes Administrator (CKA)", detail: "KodeKloud" },
+  { kind: "Course", title: "MongoDB: Indexing Design Fundamentals" },
   {
+    kind: "Course",
     title: "Anthropic Academy: Claude with Google Cloud's Vertex AI",
     detail: "Tool-calling, Agents, RAG, MCP, Vision, Prompt Caching, Claude Code, Computer Use",
     year: "2025",
   },
+  { kind: "Course", title: "Java Core 11", detail: "John Purcell, Derby, UK", year: "2022-2023" },
+  { kind: "Course", title: "React and Redux", detail: "Zero To Mastery: Andrei Neagoie", year: "2021-2022" },
   {
+    kind: "Course",
+    title: "The Complete JavaScript Course, Node.js and Express Bootcamp",
+    detail: "Udemy: Jonas Schmedtmann",
+    year: "2021-2022",
+  },
+  {
+    kind: "Mentorship",
     title: 'Bootcamp - "BPC Armenia" [C++, Python, Linux, Bash]',
     detail: "Artak Yenokyan - Sr. Engineering Manager at Siemens EDA",
     year: "2018-2019",

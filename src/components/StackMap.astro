@@ -28,7 +28,7 @@ const usage = Object.fromEntries(techs.map((t) => [t, projectsOf(t)]));
         <svg
           class={`stackmap-svg stackmap-${v.id}`}
           viewBox={`${-v.size / 2} ${-v.size / 2} ${v.size} ${v.size}`}
-          role="img"
+          role="group"
           aria-label="Radial map of technologies grouped by category"
         >
           <g>

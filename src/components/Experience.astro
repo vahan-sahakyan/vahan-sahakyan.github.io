@@ -95,9 +95,12 @@ import { formatSince } from "../scripts/durations";
         {
           education.map((e) => (
             <li class="edu-item" data-reveal>
-              <p class="edu-year mono">{e.year}</p>
+              <p class="edu-year mono">
+                <span class="edu-kind">{e.kind}</span>
+                {e.year && <span>{e.year}</span>}
+              </p>
               <h3 class="edu-title">{e.title}</h3>
-              <p class="edu-detail">{e.detail}</p>
+              {e.detail && <p class="edu-detail">{e.detail}</p>}
             </li>
           ))
         }
@@ -357,9 +360,15 @@ import { formatSince } from "../scripts/durations";
     border-top: 1px solid var(--line-strong);
   }
   .edu-year {
+    display: flex;
+    gap: 12px;
     font-size: 0.75rem;
     letter-spacing: 0.08em;
     color: var(--muted);
+  }
+  .edu-kind {
+    color: var(--ink);
+    text-transform: uppercase;
   }
   .edu-title {
     margin-top: 10px;
