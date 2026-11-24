@@ -9,7 +9,8 @@ export function initNav() {
   // the page-level block under a point: a section, the footer, or the page itself. its background, not whatever
   // card or image happens to sit there
   const blocks = "main > section, footer";
-  const pageBg = getComputedStyle(document.body).backgroundColor;
+  // main, not body: body is dark for the mobile status bar
+  const pageBg = getComputedStyle(document.querySelector("main") ?? document.body).backgroundColor;
   const sectionAt = (x: number, y: number) => {
     const el = document
       .elementsFromPoint(x, y)

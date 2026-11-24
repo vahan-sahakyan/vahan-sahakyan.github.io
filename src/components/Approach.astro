@@ -361,8 +361,10 @@ const layouts: Layout[] = ["wide", "narrow"];
     .story-steps {
       order: 2;
     }
+    /* full-bleed: auto width so both negative margins apply, the desktop 100% would stop it a gutter short */
     .story-steps {
       display: flex;
+      width: auto;
       gap: 10px;
       margin-inline: calc(-1 * var(--gutter));
       padding: 4px var(--gutter) 12px;
