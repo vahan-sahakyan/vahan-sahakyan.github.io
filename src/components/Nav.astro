@@ -27,8 +27,8 @@ import { nav, person } from "../data/profile";
       </nav>
 
       <div class="nav-actions">
-        <a class="btn btn-sm nav-cv" href={person.cv} target="_blank" rel="noopener">
-          Resume <Icon name="arrow-ne" /><span class="visually-hidden">(opens in a new tab)</span>
+        <a class="btn btn-sm nav-cv" href={person.cv}>
+          Resume <Icon name="arrow-ne" />
         </a>
         <a class="btn btn-primary btn-sm" href="#contact">Let's talk</a>
       </div>
@@ -52,7 +52,7 @@ import { nav, person } from "../data/profile";
           ))
         }
         <li>
-          <a href={person.cv} target="_blank" rel="noopener">
+          <a href={person.cv}>
             <span class="mono">CV</span>Resume <Icon name="arrow-ne" />
           </a>
         </li>
